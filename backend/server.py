@@ -401,7 +401,8 @@ async def get_current_admin(credentials: HTTPAuthorizationCredentials = Depends(
         token = credentials.credentials
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
         email = payload.get("email")
-        if email is None:
+        role = payload.get("role")
+        if email is None or role != "admin":
             raise HTTPException(status_code=401, detail="Invalid token")
         admin = await db.admins.find_one({"email": email}, {"_id": 0})
         if admin is None:
@@ -411,6 +412,39 @@ async def get_current_admin(credentials: HTTPAuthorizationCredentials = Depends(
         raise HTTPException(status_code=401, detail="Token expired")
     except jwt.JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
+
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    try:
+        token = credentials.credentials
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        email = payload.get("email")
+        role = payload.get("role")
+        if email is None or role != "member":
+            raise HTTPException(status_code=401, detail="Invalid token")
+        user = await db.users.find_one({"email": email}, {"_id": 0})
+        if user is None or not user.get("is_active"):
+            raise HTTPException(status_code=401, detail="User not found or inactive")
+        return user
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expired")
+    except jwt.JWTError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+async def get_optional_user(credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False))):
+    if not credentials:
+        return None
+    try:
+        token = credentials.credentials
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        email = payload.get("email")
+        role = payload.get("role")
+        if role == "member":
+            user = await db.users.find_one({"email": email}, {"_id": 0})
+            if user and user.get("is_active"):
+                return user
+    except:
+        pass
+    return None
 
 # ========== AUTH ROUTES ==========
 
