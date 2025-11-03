@@ -34,20 +34,10 @@ const Header = () => {
   const navLinks = [
     { path: "/", label: "Home" },
     { path: "/about", label: "About" },
-    { 
-      label: "Ministries",
-      dropdown: [
-        { path: "/ministries", label: "All Ministries" },
-        { path: "/events", label: "Events" }
-      ]
-    },
-    {
-      label: "Media",
-      dropdown: [
-        { path: "/watch-live", label: "Watch Live" },
-        { path: "/messages", label: "Sermons" }
-      ]
-    },
+    { path: "/ministries", label: "Ministries" },
+    { path: "/events", label: "Events" },
+    { path: "/watch-live", label: "Watch Live" },
+    { path: "/messages", label: "Sermons" },
     { path: "/giving", label: "Give", highlight: true },
     { path: "/contact", label: "Contact" },
   ];
