@@ -861,71 +861,259 @@ def test_create_live_stream(admin_token, brand_id):
 
 def main():
     """Run all backend API tests"""
-    print("=" * 60)
-    print("🚀 BACKEND API TESTING STARTED")
+    print("=" * 80)
+    print("🚀 BACKEND API TESTING STARTED - MODERNIZED CHURCH PLATFORM")
     print(f"Backend URL: {BACKEND_URL}")
-    print("=" * 60)
+    print("=" * 80)
     
     results = {}
     brand_id = None
+    admin_token = None
+    user_token = None
+    user_id = None
+    category_id = None
+    session_id = None
+    
+    # ========== BASIC SETUP TESTS ==========
+    print("\n🏗️  BASIC SETUP TESTS")
+    print("-" * 40)
     
     # Test 1: GET /api/brands
     success, brand_id = test_get_brands()
     results['brands'] = success
     print()
     
-    # Test 2: GET /api/events (with and without brand_id)
+    # Use a default brand_id if none found
+    if not brand_id:
+        brand_id = "test-brand-id"
+        print(f"⚠️  Using default brand_id: {brand_id}")
+    
+    # Test 2: Admin Login
+    success, admin_token = test_admin_login()
+    results['admin_login'] = success
+    print()
+    
+    # ========== LEGACY API TESTS ==========
+    print("\n📋 LEGACY API TESTS")
+    print("-" * 40)
+    
+    # Test 3: GET /api/events (with and without brand_id)
     results['events_all'] = test_get_events()
     print()
     if brand_id:
         results['events_by_brand'] = test_get_events(brand_id)
         print()
     
-    # Test 3: GET /api/ministries (with and without brand_id)
+    # Test 4: GET /api/ministries (with and without brand_id)
     results['ministries_all'] = test_get_ministries()
     print()
     if brand_id:
         results['ministries_by_brand'] = test_get_ministries(brand_id)
         print()
     
-    # Test 4: GET /api/announcements (with and without brand_id)
+    # Test 5: GET /api/announcements (with and without brand_id)
     results['announcements_all'] = test_get_announcements()
     print()
     if brand_id:
         results['announcements_by_brand'] = test_get_announcements(brand_id)
         print()
     
-    # Test 5: POST /api/contact
+    # Test 6: POST /api/contact
     results['contact_post'] = test_post_contact(brand_id)
     print()
     
-    # Test 6: POST /api/subscribers
+    # Test 7: POST /api/subscribers
     results['subscribers_post'] = test_post_subscribers(brand_id)
     print()
     
-    # Summary
-    print("=" * 60)
+    # ========== NEW MEMBER AUTHENTICATION TESTS ==========
+    print("\n👥 MEMBER AUTHENTICATION TESTS")
+    print("-" * 40)
+    
+    # Test 8: User Registration
+    success, user_token, user_id = test_user_register(brand_id)
+    results['user_register'] = success
+    print()
+    
+    # Test 9: User Login
+    if success:  # Only test login if registration worked
+        success, login_token = test_user_login()
+        results['user_login'] = success
+        if success and login_token:
+            user_token = login_token  # Use login token for subsequent tests
+        print()
+    else:
+        results['user_login'] = False
+        print("⏭️  Skipping user login test (registration failed)")
+        print()
+    
+    # Test 10: Get Current User Info
+    if user_token:
+        results['user_me'] = test_get_current_user(user_token)
+        print()
+    else:
+        results['user_me'] = False
+        print("⏭️  Skipping user/me test (no user token)")
+        print()
+    
+    # Test 11: Get All Users (Admin)
+    if admin_token:
+        results['users_get_all'] = test_get_all_users(admin_token, brand_id)
+        print()
+    else:
+        results['users_get_all'] = False
+        print("⏭️  Skipping get all users test (no admin token)")
+        print()
+    
+    # Test 12: Admin Create User
+    if admin_token:
+        success, created_user_id = test_create_user_by_admin(admin_token, brand_id)
+        results['admin_create_user'] = success
+        print()
+        
+        # Test 13: Toggle User Status
+        if success and created_user_id:
+            results['toggle_user_status'] = test_toggle_user_status(admin_token, created_user_id)
+            print()
+        else:
+            results['toggle_user_status'] = False
+            print("⏭️  Skipping toggle user status test (user creation failed)")
+            print()
+    else:
+        results['admin_create_user'] = False
+        results['toggle_user_status'] = False
+        print("⏭️  Skipping admin user tests (no admin token)")
+        print()
+    
+    # ========== GIVING CATEGORY TESTS ==========
+    print("\n💰 GIVING CATEGORY TESTS")
+    print("-" * 40)
+    
+    # Test 14: Get Giving Categories
+    success, category_id = test_get_giving_categories(brand_id)
+    results['giving_categories_get'] = success
+    print()
+    
+    # Test 15: Create Giving Category (Admin)
+    if admin_token:
+        success, new_category_id = test_create_giving_category(admin_token, brand_id)
+        results['giving_categories_create'] = success
+        if success and new_category_id:
+            category_id = new_category_id  # Use newly created category for payment tests
+        print()
+    else:
+        results['giving_categories_create'] = False
+        print("⏭️  Skipping create giving category test (no admin token)")
+        print()
+    
+    # ========== STRIPE PAYMENT TESTS ==========
+    print("\n💳 STRIPE PAYMENT TESTS")
+    print("-" * 40)
+    
+    # Test 16: Create Checkout Session
+    success, session_id = test_create_checkout_session(brand_id, category_id)
+    results['payments_create_checkout'] = success
+    print()
+    
+    # Test 17: Get Payment Status
+    if session_id:
+        results['payments_get_status'] = test_get_payment_status(session_id)
+        print()
+    else:
+        results['payments_get_status'] = False
+        print("⏭️  Skipping payment status test (no session_id)")
+        print()
+    
+    # Test 18: Get Payment History (User)
+    if user_token:
+        results['payments_history'] = test_get_payment_history(user_token)
+        print()
+    else:
+        results['payments_history'] = False
+        print("⏭️  Skipping payment history test (no user token)")
+        print()
+    
+    # Test 19: Get All Transactions (Admin)
+    if admin_token:
+        results['payments_transactions'] = test_get_all_transactions(admin_token)
+        print()
+    else:
+        results['payments_transactions'] = False
+        print("⏭️  Skipping all transactions test (no admin token)")
+        print()
+    
+    # ========== LIVE STREAM TESTS ==========
+    print("\n📺 LIVE STREAM TESTS")
+    print("-" * 40)
+    
+    # Test 20: Get Live Streams
+    results['live_streams_get'] = test_get_live_streams(brand_id)
+    print()
+    
+    # Test 21: Get Active Stream
+    results['live_streams_active'] = test_get_active_stream(brand_id)
+    print()
+    
+    # Test 22: Create Live Stream (Admin)
+    if admin_token:
+        results['live_streams_create'] = test_create_live_stream(admin_token, brand_id)
+        print()
+    else:
+        results['live_streams_create'] = False
+        print("⏭️  Skipping create live stream test (no admin token)")
+        print()
+    
+    # ========== SUMMARY ==========
+    print("=" * 80)
     print("📊 TEST RESULTS SUMMARY")
-    print("=" * 60)
+    print("=" * 80)
     
     passed = 0
     total = 0
+    failed_tests = []
     
-    for test_name, success in results.items():
-        status = "✅ PASS" if success else "❌ FAIL"
-        print(f"{test_name:25} {status}")
-        if success:
-            passed += 1
-        total += 1
+    # Group results by category
+    categories = {
+        "Basic Setup": ['brands', 'admin_login'],
+        "Legacy APIs": ['events_all', 'events_by_brand', 'ministries_all', 'ministries_by_brand', 
+                       'announcements_all', 'announcements_by_brand', 'contact_post', 'subscribers_post'],
+        "Member Auth": ['user_register', 'user_login', 'user_me', 'users_get_all', 'admin_create_user', 'toggle_user_status'],
+        "Giving": ['giving_categories_get', 'giving_categories_create'],
+        "Payments": ['payments_create_checkout', 'payments_get_status', 'payments_history', 'payments_transactions'],
+        "Live Streams": ['live_streams_get', 'live_streams_active', 'live_streams_create']
+    }
     
-    print("-" * 60)
-    print(f"TOTAL: {passed}/{total} tests passed")
+    for category, test_names in categories.items():
+        print(f"\n{category}:")
+        category_passed = 0
+        category_total = 0
+        
+        for test_name in test_names:
+            if test_name in results:
+                success = results[test_name]
+                status = "✅ PASS" if success else "❌ FAIL"
+                print(f"  {test_name:25} {status}")
+                if success:
+                    passed += 1
+                    category_passed += 1
+                else:
+                    failed_tests.append(test_name)
+                total += 1
+                category_total += 1
+        
+        print(f"  Category Total: {category_passed}/{category_total}")
+    
+    print("-" * 80)
+    print(f"OVERALL TOTAL: {passed}/{total} tests passed")
+    
+    if failed_tests:
+        print(f"\n❌ FAILED TESTS: {', '.join(failed_tests)}")
     
     if passed == total:
-        print("🎉 ALL TESTS PASSED!")
+        print("\n🎉 ALL TESTS PASSED!")
         return 0
     else:
-        print("⚠️  SOME TESTS FAILED!")
+        print(f"\n⚠️  {len(failed_tests)} TESTS FAILED!")
         return 1
 
 if __name__ == "__main__":
