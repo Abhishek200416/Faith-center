@@ -93,7 +93,7 @@ const Header = () => {
                   />
                 ) : (
                   <div 
-                    className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-black whitespace-nowrap truncate max-w-[120px] sm:max-w-[180px] md:max-w-none"
+                    className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white whitespace-nowrap truncate max-w-[120px] sm:max-w-[180px] md:max-w-none"
                   >
                     {currentBrand.name}
                   </div>
