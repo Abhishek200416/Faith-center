@@ -78,6 +78,13 @@ h4 { font-size: clamp(1.1rem, 2.5vw, 1.5rem); }
   animation: fadeInUp 0.8s ease-out;
 }
 
+.hero-content h1,
+.hero-content h2,
+.hero-content h3,
+.hero-content p {
+  color: white !important;
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
