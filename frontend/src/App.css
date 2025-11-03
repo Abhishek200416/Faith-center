@@ -374,8 +374,8 @@ textarea:focus-visible {
 .table-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  margin: 0 -1rem;
-  padding: 0 1rem;
+  margin: 0 -1.25rem;
+  padding: 0 1.25rem;
   border-radius: 12px;
 }
 
@@ -391,7 +391,7 @@ textarea:focus-visible {
 
 .table th,
 .table td {
-  padding: clamp(0.75rem, 2vw, 1rem);
+  padding: clamp(0.875rem, 2.5vw, 1.125rem);
   text-align: left;
   border-bottom: 1px solid #f3f4f6;
 }
@@ -424,6 +424,6 @@ textarea:focus-visible {
   
   .table th,
   .table td {
-    padding: 0.5rem;
+    padding: 0.625rem;
   }
 }
