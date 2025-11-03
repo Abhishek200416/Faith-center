@@ -73,7 +73,19 @@ h4 { font-size: clamp(1.1rem, 2.5vw, 1.5rem); }
   text-align: center;
   color: white;
   max-width: 900px;
-  padding: 2rem;
+  padding: clamp(1rem, 4vw, 2rem);
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Cards */
