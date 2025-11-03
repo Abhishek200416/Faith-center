@@ -169,20 +169,20 @@ async def seed_database():
     
     # Create Faith Centre Brand
     print("\n🏢 Creating Faith Centre Brand...")
-    faith_exists = await db.brands.find_one({"domain": "faithnatural.com"})
+    faith_exists = await db.brands.find_one({"domain": "faithcentre.com"})
     if not faith_exists:
         faith_brand = {
             "id": str(uuid.uuid4()),
             "name": "Faith Centre",
-            "domain": "faithnatural.com",
+            "domain": "faithcentre.com",
             "logo_url": "",
             "primary_color": "#1a472a",
             "secondary_color": "#2ecc71",
-            "tagline": "Impacting Lives & Imparting Faith",
+            "tagline": "Where Faith Meets Community",
             "hero_video_url": "",
-            "hero_image_url": "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=1920",
+            "hero_image_url": "https://images.unsplash.com/photo-1505864681725-48344595127c?w=1920",
             "service_times": "Sunday 9:00 AM & 5:00 PM",
-            "location": "Rajendra Nagar opposite Icon Mall, Guntur, Andhra Pradesh",
+            "location": "123 Faith Street, Guntur, Andhra Pradesh",
             "created_at": datetime.now(timezone.utc).isoformat()
         }
         await db.brands.insert_one(faith_brand)
