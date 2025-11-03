@@ -60,6 +60,13 @@ function App() {
     }
   }, [memberToken]);
 
+  // Update page title when brand changes
+  useEffect(() => {
+    if (currentBrand) {
+      document.title = currentBrand.name;
+    }
+  }, [currentBrand]);
+
   const loadBrands = async () => {
     try {
       const response = await axios.get(`${API}/brands`);
