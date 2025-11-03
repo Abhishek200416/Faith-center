@@ -77,9 +77,9 @@ const Header = () => {
         }`}
       >
         <div className="container mx-auto px-4">
-          <div className="flex items-center h-16 sm:h-20 gap-4">
-            {/* Left Section: Logo */}
-            <div className="flex items-center">
+          <div className="flex items-center justify-between h-16 sm:h-20">
+            {/* Left Section: Logo + Brand Switcher */}
+            <div className="flex items-center gap-3">
               <Link 
                 to="/" 
                 className="flex items-center space-x-3 transition-transform hover:scale-105" 
@@ -99,10 +99,7 @@ const Header = () => {
                   </div>
                 )}
               </Link>
-            </div>
 
-            {/* Center Section: Navigation and Brand Switcher */}
-            <div className="flex-1 flex items-center justify-center gap-4">
               {/* Brand Switcher - Click to toggle */}
               {brands.length > 1 && (
                 <button
@@ -113,26 +110,26 @@ const Header = () => {
                   {currentBrand.name}
                 </button>
               )}
-              
-              {/* Desktop Navigation */}
-              <nav className="hidden lg:flex items-center space-x-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 text-sm whitespace-nowrap ${
-                      link.highlight
-                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-md"
-                        : isActive(link.path)
-                        ? "bg-gray-900 text-white shadow-sm"
-                        : "text-black hover:bg-gray-100"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
             </div>
+
+            {/* Center Section: Navigation */}
+            <nav className="hidden lg:flex items-center space-x-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 text-sm whitespace-nowrap ${
+                    link.highlight
+                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-md"
+                      : isActive(link.path)
+                      ? "bg-gray-900 text-white shadow-sm"
+                      : "text-black hover:bg-gray-100"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
 
             {/* Right Side Actions */}
             <div className="flex items-center space-x-2 sm:space-x-3">
