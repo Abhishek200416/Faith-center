@@ -128,10 +128,10 @@ const Home = () => {
               size="lg" 
               variant="outline" 
               className="rounded-full bg-white/20 backdrop-blur-sm border-white text-white hover:bg-white hover:text-gray-900 w-full sm:w-auto" 
-              onClick={() => navigate("/about")} 
+              onClick={() => navigate("/giving")} 
               data-testid="cta-learn-more"
             >
-              Learn More
+              Give Online
             </Button>
           </div>
         </div>
