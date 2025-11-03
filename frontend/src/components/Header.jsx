@@ -12,7 +12,9 @@ import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const { brands, currentBrand, switchBrand } = useBrand();
+  const { memberUser, memberLogout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
