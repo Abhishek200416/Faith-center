@@ -154,8 +154,8 @@ async def seed_database():
         print("  📢 Adding sample announcement...")
         announcement = {
             "id": str(uuid.uuid4()),
-            "title": "Welcome to Our New Website!",
-            "content": "We're excited to launch our new church website! Here you can find information about our services, events, ministries, and more. Stay connected with us and explore all the ways you can get involved in our community.",
+            "title": "Welcome to Nehemiah David Ministries!",
+            "content": "We're excited to have you visit our new website! Here you can stay connected with our community, watch live services, give online, and find information about our events and ministries. Join us every Sunday for powerful worship and life-changing messages.",
             "is_urgent": False,
             "scheduled_start": None,
             "scheduled_end": None,
