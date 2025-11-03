@@ -238,16 +238,32 @@ async def seed_database():
             {
                 "id": str(uuid.uuid4()),
                 "title": "Prayer Team",
-                "description": "Join our dedicated prayer warriors in interceding for our church, community, and nation.",
-                "image_url": "https://images.unsplash.com/photo-1528459584353-5297db1a9c01?w=800",
+                "description": "Join our dedicated prayer warriors in interceding for our church, community, and nation. Your prayers make a difference.",
+                "image_url": "https://images.unsplash.com/photo-1437603568260-1950d3ca6eab?w=800",
                 "brand_id": faith_id,
                 "created_at": datetime.now(timezone.utc).isoformat()
             },
             {
                 "id": str(uuid.uuid4()),
                 "title": "Hospitality Team",
-                "description": "Be the welcoming face of our church, helping visitors and members feel at home.",
-                "image_url": "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800",
+                "description": "Be the welcoming face of our church, helping visitors and members feel at home. Show God's love through warm hospitality.",
+                "image_url": "https://images.unsplash.com/photo-1522543558187-768b6df7c25c?w=800",
+                "brand_id": faith_id,
+                "created_at": datetime.now(timezone.utc).isoformat()
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "title": "Youth Ministry",
+                "description": "Help disciple the next generation through engaging activities, Bible studies, and mentorship. Invest in young lives for Christ.",
+                "image_url": "https://images.unsplash.com/photo-1530688957198-8570b1819eeb?w=800",
+                "brand_id": faith_id,
+                "created_at": datetime.now(timezone.utc).isoformat()
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "title": "Community Care",
+                "description": "Show God's love through practical service to those in need. Join us in caring for our community with compassion.",
+                "image_url": "https://images.unsplash.com/photo-1505864681725-48344595127c?w=800",
                 "brand_id": faith_id,
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
