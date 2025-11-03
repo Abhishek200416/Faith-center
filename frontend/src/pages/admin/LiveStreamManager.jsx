@@ -45,14 +45,14 @@ const LiveStreamManager = () => {
       if (editingStream) {
         await axios.put(
           `${API}/live-streams/${editingStream.id}`,
-          { ...formData, brand_id: brandId },
+          { ...formData, brand_id: currentBrand.id },
           { headers: { Authorization: `Bearer ${authToken}` } }
         );
         toast.success('Stream updated successfully');
       } else {
         await axios.post(
           `${API}/live-streams`,
-          { ...formData, brand_id: brandId },
+          { ...formData, brand_id: currentBrand.id },
           { headers: { Authorization: `Bearer ${authToken}` } }
         );
         toast.success('Stream created successfully');
