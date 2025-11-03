@@ -270,6 +270,21 @@ async def seed_database():
         ]
         await db.ministries.insert_many(ministries)
         print(f"  ✅ Added {len(ministries)} ministries")
+        
+        # Create sample announcement for Faith Centre
+        print("  📢 Adding sample announcement...")
+        announcement = {
+            "id": str(uuid.uuid4()),
+            "title": "Welcome to Faith Centre!",
+            "content": "Welcome to our church family! We're a community of believers committed to growing in faith and serving with love. Join us for worship, fellowship, and opportunities to make a difference in our community.",
+            "is_urgent": False,
+            "scheduled_start": None,
+            "scheduled_end": None,
+            "brand_id": faith_id,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.announcements.insert_one(announcement)
+        print("  ✅ Added sample announcement")
     else:
         print("ℹ️  Faith Centre Brand already exists")
     
