@@ -883,6 +883,366 @@ async def get_analytics_overview(brand_id: Optional[str] = None, admin = Depends
         }
     }
 
+# ========== MEMBER USER ROUTES ==========
+
+@api_router.post("/users/register", response_model=User)
+async def register_user(user_data: UserCreate):
+    # Check if user already exists
+    existing = await db.users.find_one({"email": user_data.email})
+    if existing:
+        raise HTTPException(status_code=400, detail="User already exists")
+    
+    user = User(
+        email=user_data.email,
+        name=user_data.name,
+        phone=user_data.phone,
+        brand_id=user_data.brand_id
+    )
+    doc = user.model_dump()
+    doc["password_hash"] = hash_password(user_data.password)
+    
+    await db.users.insert_one(doc)
+    
+    token = create_access_token({"email": user.email, "role": "member"})
+    return {"token": token, "user": user}
+
+@api_router.post("/users/login")
+async def login_user(login_data: UserLogin):
+    user = await db.users.find_one({"email": login_data.email}, {"_id": 0})
+    if not user or not verify_password(login_data.password, user["password_hash"]):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    
+    if not user.get("is_active"):
+        raise HTTPException(status_code=403, detail="Account is inactive")
+    
+    token = create_access_token({"email": user["email"], "role": "member"})
+    user_obj = User(**user)
+    return {"token": token, "user": user_obj}
+
+@api_router.get("/users/me", response_model=User)
+async def get_current_user_info(user = Depends(get_current_user)):
+    return User(**user)
+
+@api_router.put("/users/me", response_model=User)
+async def update_current_user(user_data: UserUpdate, user = Depends(get_current_user)):
+    update_dict = {k: v for k, v in user_data.model_dump().items() if v is not None}
+    update_dict["updated_at"] = datetime.now(timezone.utc).isoformat()
+    
+    if update_dict:
+        await db.users.update_one(
+            {"id": user["id"]},
+            {"$set": update_dict}
+        )
+    
+    updated_user = await db.users.find_one({"id": user["id"]}, {"_id": 0})
+    return User(**updated_user)
+
+@api_router.get("/users", response_model=List[User])
+async def get_all_users(brand_id: Optional[str] = None, admin = Depends(get_current_admin)):
+    query = {"brand_id": brand_id} if brand_id else {}
+    users = await db.users.find(query, {"_id": 0, "password_hash": 0}).to_list(1000)
+    return users
+
+@api_router.post("/users", response_model=User)
+async def create_user_by_admin(user_data: UserCreate, admin = Depends(get_current_admin)):
+    # Check if user already exists
+    existing = await db.users.find_one({"email": user_data.email})
+    if existing:
+        raise HTTPException(status_code=400, detail="User already exists")
+    
+    user = User(
+        email=user_data.email,
+        name=user_data.name,
+        phone=user_data.phone,
+        brand_id=user_data.brand_id
+    )
+    doc = user.model_dump()
+    doc["password_hash"] = hash_password(user_data.password)
+    
+    await db.users.insert_one(doc)
+    return user
+
+@api_router.put("/users/{user_id}/status")
+async def toggle_user_status(user_id: str, is_active: bool, admin = Depends(get_current_admin)):
+    result = await db.users.update_one(
+        {"id": user_id},
+        {"$set": {"is_active": is_active, "updated_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {"message": "User status updated"}
+
+@api_router.delete("/users/{user_id}")
+async def delete_user(user_id: str, admin = Depends(get_current_admin)):
+    result = await db.users.delete_one({"id": user_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {"message": "User deleted"}
+
+# ========== GIVING CATEGORY ROUTES ==========
+
+@api_router.get("/giving-categories", response_model=List[GivingCategory])
+async def get_giving_categories(brand_id: Optional[str] = None):
+    query = {"brand_id": brand_id, "is_active": True} if brand_id else {"is_active": True}
+    categories = await db.giving_categories.find(query, {"_id": 0}).to_list(100)
+    return categories
+
+@api_router.post("/giving-categories", response_model=GivingCategory)
+async def create_giving_category(category_data: GivingCategoryCreate, admin = Depends(get_current_admin)):
+    category = GivingCategory(**category_data.model_dump())
+    await db.giving_categories.insert_one(category.model_dump())
+    return category
+
+@api_router.put("/giving-categories/{category_id}", response_model=GivingCategory)
+async def update_giving_category(category_id: str, category_data: GivingCategoryCreate, admin = Depends(get_current_admin)):
+    result = await db.giving_categories.update_one(
+        {"id": category_id},
+        {"$set": category_data.model_dump()}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Category not found")
+    category = await db.giving_categories.find_one({"id": category_id}, {"_id": 0})
+    return category
+
+@api_router.delete("/giving-categories/{category_id}")
+async def delete_giving_category(category_id: str, admin = Depends(get_current_admin)):
+    result = await db.giving_categories.delete_one({"id": category_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Category not found")
+    return {"message": "Category deleted"}
+
+# ========== STRIPE PAYMENT ROUTES ==========
+
+@api_router.post("/payments/create-checkout")
+async def create_checkout_session(
+    request: Request,
+    checkout_data: CreateCheckoutRequest,
+    current_user = Depends(get_optional_user)
+):
+    try:
+        # Get host URL from request
+        host_url = str(request.base_url).rstrip('/')
+        
+        # Initialize Stripe checkout
+        webhook_url = f"{host_url}/api/webhook/stripe"
+        stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url=webhook_url)
+        
+        # Build success and cancel URLs
+        success_url = f"{host_url}/giving/success?session_id={{CHECKOUT_SESSION_ID}}"
+        cancel_url = f"{host_url}/giving"
+        
+        # Prepare metadata
+        metadata = {
+            "category": checkout_data.category,
+            "brand_id": checkout_data.brand_id,
+            "donor_name": checkout_data.donor_name or "Anonymous"
+        }
+        
+        if checkout_data.category_id:
+            metadata["category_id"] = checkout_data.category_id
+        
+        if current_user:
+            metadata["user_id"] = current_user["id"]
+            metadata["user_email"] = current_user["email"]
+        
+        # Create checkout session
+        checkout_request = CheckoutSessionRequest(
+            amount=float(checkout_data.amount),
+            currency="usd",
+            success_url=success_url,
+            cancel_url=cancel_url,
+            metadata=metadata
+        )
+        
+        session = await stripe_checkout.create_checkout_session(checkout_request)
+        
+        # Create payment transaction record
+        transaction = PaymentTransaction(
+            session_id=session.session_id,
+            amount=checkout_data.amount,
+            currency="usd",
+            category=checkout_data.category,
+            category_id=checkout_data.category_id,
+            user_id=current_user["id"] if current_user else None,
+            user_email=current_user["email"] if current_user else None,
+            donor_name=checkout_data.donor_name,
+            payment_status="pending",
+            status="initiated",
+            brand_id=checkout_data.brand_id,
+            metadata=metadata
+        )
+        
+        await db.payment_transactions.insert_one(transaction.model_dump())
+        
+        return {
+            "url": session.url,
+            "session_id": session.session_id
+        }
+        
+    except Exception as e:
+        logger.error(f"Error creating checkout session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to create checkout session: {str(e)}")
+
+@api_router.get("/payments/status/{session_id}")
+async def get_payment_status(session_id: str):
+    try:
+        # Get transaction from database
+        transaction = await db.payment_transactions.find_one({"session_id": session_id}, {"_id": 0})
+        
+        if not transaction:
+            raise HTTPException(status_code=404, detail="Transaction not found")
+        
+        # If already completed, return existing status
+        if transaction.get("payment_status") == "paid":
+            return transaction
+        
+        # Check status with Stripe
+        webhook_url = f"{os.environ.get('BACKEND_URL', 'http://localhost:8001')}/api/webhook/stripe"
+        stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url=webhook_url)
+        
+        checkout_status = await stripe_checkout.get_checkout_status(session_id)
+        
+        # Update transaction in database
+        update_data = {
+            "payment_status": checkout_status.payment_status,
+            "status": "completed" if checkout_status.payment_status == "paid" else checkout_status.status,
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        await db.payment_transactions.update_one(
+            {"session_id": session_id},
+            {"$set": update_data}
+        )
+        
+        # Get updated transaction
+        updated_transaction = await db.payment_transactions.find_one({"session_id": session_id}, {"_id": 0})
+        
+        return updated_transaction
+        
+    except Exception as e:
+        logger.error(f"Error checking payment status: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to check payment status: {str(e)}")
+
+@api_router.post("/webhook/stripe")
+async def stripe_webhook(request: Request):
+    try:
+        body = await request.body()
+        signature = request.headers.get("Stripe-Signature")
+        
+        webhook_url = f"{str(request.base_url).rstrip('/')}/api/webhook/stripe"
+        stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url=webhook_url)
+        
+        webhook_response = await stripe_checkout.handle_webhook(body, signature)
+        
+        # Update transaction based on webhook
+        if webhook_response.session_id:
+            update_data = {
+                "payment_status": webhook_response.payment_status,
+                "status": "completed" if webhook_response.payment_status == "paid" else "failed",
+                "updated_at": datetime.now(timezone.utc).isoformat()
+            }
+            
+            await db.payment_transactions.update_one(
+                {"session_id": webhook_response.session_id},
+                {"$set": update_data}
+            )
+        
+        return {"status": "success"}
+        
+    except Exception as e:
+        logger.error(f"Webhook error: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
+
+@api_router.get("/payments/history")
+async def get_payment_history(
+    brand_id: Optional[str] = None,
+    current_user = Depends(get_current_user)
+):
+    query = {"user_id": current_user["id"]}
+    if brand_id:
+        query["brand_id"] = brand_id
+    
+    transactions = await db.payment_transactions.find(query, {"_id": 0}).sort("created_at", -1).to_list(100)
+    return transactions
+
+@api_router.get("/payments/transactions")
+async def get_all_transactions(
+    brand_id: Optional[str] = None,
+    admin = Depends(get_current_admin)
+):
+    query = {"brand_id": brand_id} if brand_id else {}
+    transactions = await db.payment_transactions.find(query, {"_id": 0}).sort("created_at", -1).to_list(1000)
+    return transactions
+
+@api_router.get("/payments/stats")
+async def get_payment_stats(
+    brand_id: Optional[str] = None,
+    admin = Depends(get_current_admin)
+):
+    query = {"brand_id": brand_id, "payment_status": "paid"} if brand_id else {"payment_status": "paid"}
+    transactions = await db.payment_transactions.find(query, {"_id": 0}).to_list(10000)
+    
+    total = sum(t["amount"] for t in transactions)
+    by_category = {}
+    for t in transactions:
+        cat = t.get("category", "General")
+        by_category[cat] = by_category.get(cat, 0) + t["amount"]
+    
+    return {
+        "total": total,
+        "count": len(transactions),
+        "by_category": by_category,
+        "recent_transactions": transactions[:10]
+    }
+
+# ========== LIVE STREAM ROUTES ==========
+
+@api_router.get("/live-streams", response_model=List[LiveStream])
+async def get_live_streams(brand_id: Optional[str] = None, is_live: Optional[bool] = None):
+    query = {}
+    if brand_id:
+        query["brand_id"] = brand_id
+    if is_live is not None:
+        query["is_live"] = is_live
+    
+    streams = await db.live_streams.find(query, {"_id": 0}).sort("created_at", -1).to_list(100)
+    return streams
+
+@api_router.get("/live-streams/active")
+async def get_active_stream(brand_id: Optional[str] = None):
+    query = {"is_live": True}
+    if brand_id:
+        query["brand_id"] = brand_id
+    
+    stream = await db.live_streams.find_one(query, {"_id": 0})
+    if not stream:
+        return None
+    return stream
+
+@api_router.post("/live-streams", response_model=LiveStream)
+async def create_live_stream(stream_data: LiveStreamCreate, admin = Depends(get_current_admin)):
+    stream = LiveStream(**stream_data.model_dump())
+    await db.live_streams.insert_one(stream.model_dump())
+    return stream
+
+@api_router.put("/live-streams/{stream_id}", response_model=LiveStream)
+async def update_live_stream(stream_id: str, stream_data: LiveStreamCreate, admin = Depends(get_current_admin)):
+    result = await db.live_streams.update_one(
+        {"id": stream_id},
+        {"$set": stream_data.model_dump()}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Live stream not found")
+    stream = await db.live_streams.find_one({"id": stream_id}, {"_id": 0})
+    return stream
+
+@api_router.delete("/live-streams/{stream_id}")
+async def delete_live_stream(stream_id: str, admin = Depends(get_current_admin)):
+    result = await db.live_streams.delete_one({"id": stream_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Live stream not found")
+    return {"message": "Live stream deleted"}
+
 # Include router
 app.include_router(api_router)
 
