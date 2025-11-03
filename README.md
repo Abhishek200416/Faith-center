@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://faith-ministry.preview.emergentagent.com
-- Admin Panel: https://faith-ministry.preview.emergentagent.com/admin/login
+- Public Site: https://scroll-fix-12.preview.emergentagent.com
+- Admin Panel: https://scroll-fix-12.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
