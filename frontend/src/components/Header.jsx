@@ -284,7 +284,7 @@ const Header = () => {
 
           {/* User Actions in Mobile Menu */}
           {!memberUser && (
-            <div className="pt-4 mt-4 border-t border-gray-200">
+            <div className="pt-4 mt-4 border-t border-gray-700">
               <Button 
                 size="lg"
                 variant="outline" 
@@ -292,7 +292,7 @@ const Header = () => {
                   setMobileMenuOpen(false);
                   navigate('/member/login');
                 }}
-                className="w-full gap-2 text-black min-h-[48px]"
+                className="w-full gap-2 text-white border-gray-600 hover:bg-gray-700 min-h-[48px]"
               >
                 <User size={18} />
                 Member Login
