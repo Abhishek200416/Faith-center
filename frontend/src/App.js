@@ -27,6 +27,11 @@ import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import UserLogin from "./pages/UserLogin";
+import UserRegister from "./pages/UserRegister";
+import MemberDashboard from "./pages/MemberDashboard";
+import Giving from "./pages/Giving";
+import WatchLive from "./pages/WatchLive";
 
 function App() {
   const [brands, setBrands] = useState([]);
