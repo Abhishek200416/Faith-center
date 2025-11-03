@@ -117,12 +117,12 @@ def test_get_brands():
         print(f"   ❌ Exception: {str(e)}")
         return False, None, None
 
-def test_get_events(brand_id=None):
+def test_get_events(brand_id=None, brand_name=None, expected_count=None):
     """Test GET /api/events endpoint"""
     url = f"{BACKEND_URL}/events"
     if brand_id:
         url += f"?brand_id={brand_id}"
-        print(f"🔍 Testing GET /api/events?brand_id={brand_id}...")
+        print(f"🔍 Testing GET /api/events?brand_id={brand_id} ({brand_name})...")
     else:
         print("🔍 Testing GET /api/events...")
     
@@ -136,11 +136,23 @@ def test_get_events(brand_id=None):
             print(f"   Events Count: {len(events) if isinstance(events, list) else 'Not a list'}")
             
             if isinstance(events, list):
-                if len(events) > 0:
-                    print(f"   Sample Event: {events[0].get('title', 'No title')}")
+                if expected_count is not None:
+                    if len(events) == expected_count:
+                        print(f"   ✅ Correct number of events ({expected_count})")
+                        if len(events) > 0:
+                            print(f"   Event titles: {[e.get('title') for e in events]}")
+                        return True
+                    else:
+                        print(f"   ❌ Expected {expected_count} events, found {len(events)}")
+                        if len(events) > 0:
+                            print(f"   Found events: {[e.get('title') for e in events]}")
+                        return False
                 else:
-                    print("   ⚠️  Empty events list")
-                return True
+                    if len(events) > 0:
+                        print(f"   Sample Event: {events[0].get('title', 'No title')}")
+                    else:
+                        print("   ⚠️  Empty events list")
+                    return True
             else:
                 print("   ❌ Response is not a list")
                 return False
