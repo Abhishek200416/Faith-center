@@ -154,37 +154,106 @@ const Contact = () => {
 
             {/* Contact Form */}
             <div>
-              <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Send Us a Message</h2>
               <form onSubmit={handleSubmit} className="space-y-4" data-testid="contact-form">
                 <div>
-                  <Label htmlFor="name">Name *</Label>
+                  <Label htmlFor="name" className="text-sm sm:text-base">Name *</Label>
                   <Input
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    required
+                    className={`mt-1 ${errors.name ? 'border-red-500 focus:border-red-500' : ''}`}
+                    placeholder="Enter your full name"
                     data-testid="contact-name-input"
                   />
+                  {errors.name && (
+                    <p className="text-red-500 text-xs sm:text-sm mt-1 flex items-center gap-1">
+                      <AlertCircle size={14} />
+                      {errors.name}
+                    </p>
+                  )}
                 </div>
+                
                 <div>
-                  <Label htmlFor="email">Email *</Label>
+                  <Label htmlFor="email" className="text-sm sm:text-base">Email *</Label>
                   <Input
                     id="email"
                     name="email"
                     type="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    required
+                    className={`mt-1 ${errors.email ? 'border-red-500 focus:border-red-500' : ''}`}
+                    placeholder="your.email@example.com"
                     data-testid="contact-email-input"
                   />
+                  {errors.email && (
+                    <p className="text-red-500 text-xs sm:text-sm mt-1 flex items-center gap-1">
+                      <AlertCircle size={14} />
+                      {errors.email}
+                    </p>
+                  )}
                 </div>
+                
                 <div>
-                  <Label htmlFor="subject">Subject</Label>
+                  <Label htmlFor="subject" className="text-sm sm:text-base">Subject</Label>
                   <Input
                     id="subject"
                     name="subject"
                     value={formData.subject}
+                    onChange={handleInputChange}
+                    className="mt-1"
+                    placeholder="What is this regarding?"
+                    data-testid="contact-subject-input"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="message" className="text-sm sm:text-base">Message *</Label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    rows={5}
+                    className={`mt-1 ${errors.message ? 'border-red-500 focus:border-red-500' : ''}`}
+                    placeholder="Tell us how we can help you..."
+                    data-testid="contact-message-input"
+                  />
+                  {errors.message && (
+                    <p className="text-red-500 text-xs sm:text-sm mt-1 flex items-center gap-1">
+                      <AlertCircle size={14} />
+                      {errors.message}
+                    </p>
+                  )}
+                </div>
+                
+                <Button 
+                  type="submit" 
+                  disabled={submitting} 
+                  className="w-full"
+                  data-testid="contact-submit-btn"
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="animate-spin mr-2" size={18} />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="mr-2" size={18} />
+                      Send Message
+                    </>
+                  )}
+                </Button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
                     onChange={handleInputChange}
                     data-testid="contact-subject-input"
                   />
