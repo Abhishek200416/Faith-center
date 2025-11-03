@@ -58,6 +58,15 @@ const Header = () => {
 
   const isActive = (path) => location.pathname === path;
 
+  // Function to toggle between brands with a single click
+  const handleBrandToggle = () => {
+    if (brands.length > 1) {
+      const currentIndex = brands.findIndex(b => b.id === currentBrand.id);
+      const nextIndex = (currentIndex + 1) % brands.length;
+      switchBrand(brands[nextIndex].id);
+    }
+  };
+
   if (!currentBrand) return null;
 
   return (
@@ -69,80 +78,70 @@ const Header = () => {
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 sm:h-20">
-            {/* Logo */}
-            <Link 
-              to="/" 
-              className="flex items-center space-x-3 transition-transform hover:scale-105" 
-              data-testid="header-logo"
-            >
-              {currentBrand.logo_url ? (
-                <img 
-                  src={currentBrand.logo_url} 
-                  alt={currentBrand.name} 
-                  className="h-10 sm:h-12 w-auto object-contain" 
-                />
-              ) : (
-                <div 
-                  className="text-xl sm:text-2xl font-bold" 
-                  style={{ color: currentBrand.primary_color }}
+            {/* Logo and Brand Name */}
+            <div className="flex items-center space-x-4">
+              <Link 
+                to="/" 
+                className="flex items-center space-x-3 transition-transform hover:scale-105" 
+                data-testid="header-logo"
+              >
+                {currentBrand.logo_url ? (
+                  <img 
+                    src={currentBrand.logo_url} 
+                    alt={currentBrand.name} 
+                    className="h-10 sm:h-12 w-auto object-contain" 
+                  />
+                ) : (
+                  <div 
+                    className="text-xl sm:text-2xl font-bold text-black whitespace-nowrap" 
+                  >
+                    {currentBrand.name}
+                  </div>
+                )}
+              </Link>
+
+              {/* Brand Switcher - Click to toggle */}
+              {brands.length > 1 && (
+                <button
+                  onClick={handleBrandToggle}
+                  data-testid="brand-switcher"
+                  className="hidden md:flex items-center px-3 py-1.5 text-sm font-medium text-black border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
                 >
                   {currentBrand.name}
-                </div>
+                </button>
               )}
-            </Link>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-1">
-              {navLinks.map((link, index) => {
-                if (link.dropdown) {
-                  return (
-                    <DropdownMenu key={index}>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="font-medium">
-                          {link.label}
-                          <ChevronDown size={16} className="ml-1" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        {link.dropdown.map((item) => (
-                          <DropdownMenuItem key={item.path} onClick={() => navigate(item.path)}>
-                            {item.label}
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  );
-                }
-                
-                return (
+              
+              {/* Desktop Navigation - Moved to left */}
+              <nav className="hidden lg:flex items-center space-x-1 ml-4">
+                {navLinks.map((link) => (
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-base whitespace-nowrap ${
+                    className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 text-sm whitespace-nowrap ${
                       link.highlight
                         ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-md"
                         : isActive(link.path)
                         ? "bg-gray-900 text-white shadow-sm"
-                        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                        : "text-black hover:bg-gray-100"
                     }`}
                   >
                     {link.label}
                   </Link>
-                );
-              })}
-            </nav>
+                ))}
+              </nav>
+            </div>
 
             {/* Right Side Actions */}
             <div className="flex items-center space-x-2 sm:space-x-3">
               {/* Social Media Links */}
               <div className="hidden md:flex items-center space-x-2">
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 text-gray-600 hover:text-blue-600 transition">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 text-black hover:text-blue-600 transition">
                   <Facebook size={18} />
                 </a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 text-gray-600 hover:text-pink-600 transition">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 text-black hover:text-pink-600 transition">
                   <Instagram size={18} />
                 </a>
-                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="p-2 text-gray-600 hover:text-red-600 transition">
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="p-2 text-black hover:text-red-600 transition">
                   <Youtube size={18} />
                 </a>
               </div>
@@ -151,7 +150,7 @@ const Header = () => {
               {memberUser ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="gap-2">
+                    <Button variant="outline" size="sm" className="gap-2 text-black">
                       <User size={16} />
                       <span className="hidden sm:inline">{memberUser.name.split(' ')[0]}</span>
                       <ChevronDown size={14} />
@@ -172,43 +171,25 @@ const Header = () => {
                   variant="outline" 
                   size="sm" 
                   onClick={() => navigate('/member/login')}
-                  className="hidden sm:flex gap-1"
+                  className="hidden sm:flex gap-1 text-black"
                 >
                   <User size={16} />
                   Login
                 </Button>
               )}
+
+              {/* Mobile brand switcher */}
               {brands.length > 1 && (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      data-testid="brand-switcher"
-                      className="text-sm sm:text-base gap-1"
-                    >
-                      <span className="max-w-[100px] sm:max-w-none truncate">
-                        {currentBrand.name}
-                      </span>
-                      <ChevronDown size={16} />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    {brands.map((brand) => (
-                      <DropdownMenuItem
-                        key={brand.id}
-                        onClick={() => switchBrand(brand.id)}
-                        data-testid={`brand-option-${brand.name.toLowerCase().replace(/\s/g, '-')}`}
-                      >
-                        {brand.name}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <button
+                  onClick={handleBrandToggle}
+                  className="md:hidden px-2 py-1 text-xs font-medium text-black border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
+                >
+                  {currentBrand.name}
+                </button>
               )}
 
               <button
-                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors text-black"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 data-testid="mobile-menu-toggle"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
