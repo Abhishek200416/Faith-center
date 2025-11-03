@@ -135,9 +135,9 @@ const Header = () => {
             </nav>
 
             {/* Right Side Actions */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 flex-shrink-0">
               {/* Social Media Links - Desktop */}
-              <div className="hidden xl:flex items-center gap-2">
+              <div className="hidden xl:flex items-center gap-1">
                 <a 
                   href="https://facebook.com" 
                   target="_blank" 
@@ -171,9 +171,9 @@ const Header = () => {
               {memberUser ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="hidden sm:flex gap-1.5 text-black text-sm relative z-50">
+                    <Button variant="outline" size="sm" className="hidden sm:flex gap-1 text-black text-xs lg:text-sm relative z-50 flex-shrink-0">
                       <User size={16} />
-                      <span className="hidden md:inline">{memberUser.name.split(' ')[0]}</span>
+                      <span className="hidden md:inline truncate max-w-[80px]">{memberUser.name.split(' ')[0]}</span>
                       <ChevronDown size={14} />
                     </Button>
                   </DropdownMenuTrigger>
@@ -192,18 +192,18 @@ const Header = () => {
                   variant="outline" 
                   size="sm" 
                   onClick={() => navigate('/member/login')}
-                  className="hidden sm:flex gap-1.5 text-black text-sm relative z-50"
+                  className="hidden sm:flex gap-1 text-black text-xs lg:text-sm relative z-50 flex-shrink-0 whitespace-nowrap"
                 >
                   <User size={16} />
                   <span className="hidden md:inline">Login</span>
                 </Button>
               )}
 
-              {/* Mobile brand switcher */}
-              {brands.length > 1 && (
+              {/* Mobile brand switcher - only show if no logo */}
+              {brands.length > 1 && !currentBrand.logo_url && (
                 <button
                   onClick={handleBrandToggle}
-                  className="md:hidden px-2.5 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap max-w-[90px] truncate relative z-50"
+                  className="md:hidden px-2 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap max-w-[70px] truncate relative z-50 flex-shrink-0"
                   title={currentBrand.name}
                 >
                   {currentBrand.name}
@@ -212,7 +212,7 @@ const Header = () => {
 
               {/* Hamburger Menu Button */}
               <button
-                className="lg:hidden p-2.5 sm:p-3 rounded-lg hover:bg-gray-100 transition-colors text-black relative z-50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="lg:hidden p-2 sm:p-2.5 rounded-lg hover:bg-gray-100 transition-colors text-black relative z-50 min-h-[44px] min-w-[44px] flex items-center justify-center flex-shrink-0"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 data-testid="mobile-menu-toggle"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
