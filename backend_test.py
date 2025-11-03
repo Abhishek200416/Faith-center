@@ -13,7 +13,7 @@ from datetime import datetime
 BACKEND_URL = "https://nmd-faith-center.preview.emergentagent.com/api"
 
 def test_get_brands():
-    """Test GET /api/brands endpoint"""
+    """Test GET /api/brands endpoint - Verify 2 brands with specific data"""
     print("🔍 Testing GET /api/brands...")
     try:
         response = requests.get(f"{BACKEND_URL}/brands", timeout=10)
@@ -25,23 +25,97 @@ def test_get_brands():
             print(f"   Brands Count: {len(brands) if isinstance(brands, list) else 'Not a list'}")
             
             if isinstance(brands, list):
-                if len(brands) > 0:
-                    print(f"   Sample Brand: {brands[0].get('name', 'No name')} (ID: {brands[0].get('id', 'No ID')})")
-                    return True, brands[0].get('id')  # Return first brand ID for other tests
+                if len(brands) == 2:
+                    # Find NMD and Faith Centre brands
+                    ndm_brand = None
+                    faith_brand = None
+                    
+                    for brand in brands:
+                        if brand.get('name') == "Nehemiah David Ministries":
+                            ndm_brand = brand
+                        elif brand.get('name') == "Faith Centre":
+                            faith_brand = brand
+                    
+                    # Verify both brands exist
+                    if ndm_brand and faith_brand:
+                        print("   ✅ Found both required brands")
+                        
+                        # Verify NMD brand data
+                        print("   🔍 Verifying Nehemiah David Ministries data...")
+                        ndm_valid = True
+                        
+                        if ndm_brand.get('tagline') != "Imparting Faith, Impacting Lives":
+                            print(f"   ❌ NMD tagline incorrect: {ndm_brand.get('tagline')}")
+                            ndm_valid = False
+                        else:
+                            print("   ✅ NMD tagline correct")
+                        
+                        expected_location = "Amaravathi Rd, above Yousta, Gorantla, Guntur, Andhra Pradesh 522034"
+                        if ndm_brand.get('location') != expected_location:
+                            print(f"   ❌ NMD location incorrect: {ndm_brand.get('location')}")
+                            ndm_valid = False
+                        else:
+                            print("   ✅ NMD location correct")
+                        
+                        if not ndm_brand.get('logo_url') or not ndm_brand.get('logo_url').endswith('.svg'):
+                            print(f"   ❌ NMD logo_url invalid: {ndm_brand.get('logo_url')}")
+                            ndm_valid = False
+                        else:
+                            print("   ✅ NMD logo_url valid (.svg)")
+                        
+                        if not ndm_brand.get('hero_image_url'):
+                            print("   ❌ NMD hero_image_url missing")
+                            ndm_valid = False
+                        else:
+                            print("   ✅ NMD hero_image_url present")
+                        
+                        # Verify Faith Centre brand data
+                        print("   🔍 Verifying Faith Centre data...")
+                        faith_valid = True
+                        
+                        if faith_brand.get('tagline') != "Where Faith Meets Community":
+                            print(f"   ❌ Faith Centre tagline incorrect: {faith_brand.get('tagline')}")
+                            faith_valid = False
+                        else:
+                            print("   ✅ Faith Centre tagline correct")
+                        
+                        if not faith_brand.get('location') or faith_brand.get('location') == expected_location:
+                            print(f"   ❌ Faith Centre location should be different from NMD: {faith_brand.get('location')}")
+                            faith_valid = False
+                        else:
+                            print("   ✅ Faith Centre location different from NMD")
+                        
+                        if not faith_brand.get('hero_image_url') or faith_brand.get('hero_image_url') == ndm_brand.get('hero_image_url'):
+                            print(f"   ❌ Faith Centre hero_image_url should be different from NMD")
+                            faith_valid = False
+                        else:
+                            print("   ✅ Faith Centre hero_image_url different from NMD")
+                        
+                        if ndm_valid and faith_valid:
+                            print("   ✅ All brand data validation passed")
+                            return True, ndm_brand.get('id'), faith_brand.get('id')
+                        else:
+                            print("   ❌ Brand data validation failed")
+                            return False, ndm_brand.get('id'), faith_brand.get('id')
+                    else:
+                        print(f"   ❌ Missing required brands. Found: {[b.get('name') for b in brands]}")
+                        return False, None, None
                 else:
-                    print("   ⚠️  Empty brands list")
-                    return True, None
+                    print(f"   ❌ Expected 2 brands, found {len(brands)}")
+                    if len(brands) > 0:
+                        print(f"   Available brands: {[b.get('name') for b in brands]}")
+                    return False, None, None
             else:
                 print("   ❌ Response is not a list")
-                return False, None
+                return False, None, None
         else:
             print(f"   ❌ Failed with status {response.status_code}")
             print(f"   Response: {response.text}")
-            return False, None
+            return False, None, None
             
     except Exception as e:
         print(f"   ❌ Exception: {str(e)}")
-        return False, None
+        return False, None, None
 
 def test_get_events(brand_id=None):
     """Test GET /api/events endpoint"""
