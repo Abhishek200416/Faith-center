@@ -146,6 +146,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ API endpoint working correctly. Both /api/ministries and /api/ministries?brand_id={id} return 200 status with proper JSON arrays. Query parameter filtering implemented correctly."
+      - working: true
+        agent: "testing"
+        comment: "✅ BRAND-SPECIFIC MINISTRIES TESTING COMPLETE: 1) GET /api/ministries?brand_id={ndm_id} returns exactly 4 ministries for Nehemiah David Ministries: 'Worship Team', 'Children's Ministry', 'Community Outreach', 'Small Groups', 2) GET /api/ministries?brand_id={faith_id} returns exactly 4 different ministries for Faith Centre: 'Prayer Team', 'Hospitality Team', 'Youth Ministry', 'Community Care', 3) Content uniqueness verified - no ministry titles overlap between brands, 4) All ministries are properly filtered by brand_id parameter. Brand-specific ministry content working perfectly."
         
   - task: "GET /api/announcements endpoint with brand filtering"
     implemented: true
