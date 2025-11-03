@@ -117,15 +117,15 @@ async def seed_database():
             {
                 "id": str(uuid.uuid4()),
                 "title": "Worship Team",
-                "description": "Use your musical gifts to lead our congregation in worship. We're looking for singers, instrumentalists, and sound technicians.",
-                "image_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800",
+                "description": "Use your musical gifts to lead our congregation in worship. We're looking for singers, instrumentalists, and sound technicians who love to worship God.",
+                "image_url": "https://images.unsplash.com/photo-1496185524395-81f295f4859e?w=800",
                 "brand_id": ndm_id,
                 "created_at": datetime.now(timezone.utc).isoformat()
             },
             {
                 "id": str(uuid.uuid4()),
                 "title": "Children's Ministry",
-                "description": "Help shape young lives through teaching, activities, and mentorship. Great for those who love working with kids.",
+                "description": "Help shape young lives through teaching, activities, and mentorship. Make a difference in the lives of our children through fun and faith-filled activities.",
                 "image_url": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800",
                 "brand_id": ndm_id,
                 "created_at": datetime.now(timezone.utc).isoformat()
@@ -133,8 +133,16 @@ async def seed_database():
             {
                 "id": str(uuid.uuid4()),
                 "title": "Community Outreach",
-                "description": "Serve our local community through various outreach programs, food drives, and support services.",
-                "image_url": "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800",
+                "description": "Serve our local community through various outreach programs, food drives, and support services. Be the hands and feet of Jesus in our community.",
+                "image_url": "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800",
+                "brand_id": ndm_id,
+                "created_at": datetime.now(timezone.utc).isoformat()
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "title": "Small Groups",
+                "description": "Join or lead a small group for fellowship, Bible study, and community. Grow together with other believers in an intimate setting.",
+                "image_url": "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=800",
                 "brand_id": ndm_id,
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
