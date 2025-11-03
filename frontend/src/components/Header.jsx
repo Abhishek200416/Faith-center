@@ -235,33 +235,33 @@ const Header = () => {
       >
         <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6 max-h-[calc(100vh-4rem)] overflow-y-auto custom-scrollbar">
           {/* Social Media in Mobile Menu */}
-          <div className="flex items-center justify-center gap-5 pb-5 mb-5 border-b border-gray-200 xl:hidden">
+          <div className="flex items-center justify-center gap-4 pb-4 mb-4 border-b border-gray-200 xl:hidden">
             <a 
               href="https://facebook.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="p-3 text-black hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+              className="p-2.5 text-black hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
               aria-label="Facebook"
             >
-              <Facebook size={22} />
+              <Facebook size={20} />
             </a>
             <a 
               href="https://instagram.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="p-3 text-black hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-all"
+              className="p-2.5 text-black hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-all"
               aria-label="Instagram"
             >
-              <Instagram size={22} />
+              <Instagram size={20} />
             </a>
             <a 
               href="https://youtube.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="p-3 text-black hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+              className="p-2.5 text-black hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
               aria-label="YouTube"
             >
-              <Youtube size={22} />
+              <Youtube size={20} />
             </a>
           </div>
 
@@ -272,7 +272,7 @@ const Header = () => {
               to={link.path}
               onClick={() => setMobileMenuOpen(false)}
               style={{ animationDelay: `${index * 30}ms` }}
-              className={`block px-5 py-4 font-medium rounded-lg transition-all duration-200 mb-3 min-h-[52px] flex items-center ${
+              className={`block px-4 py-3.5 font-medium rounded-lg transition-all duration-200 mb-2 min-h-[48px] flex items-center ${
                 isActive(link.path)
                   ? "bg-gray-900 text-white shadow-md"
                   : "text-black hover:bg-gray-100"
@@ -284,7 +284,7 @@ const Header = () => {
 
           {/* User Actions in Mobile Menu */}
           {!memberUser && (
-            <div className="pt-5 mt-5 border-t border-gray-200">
+            <div className="pt-4 mt-4 border-t border-gray-200">
               <Button 
                 size="lg"
                 variant="outline" 
@@ -292,9 +292,9 @@ const Header = () => {
                   setMobileMenuOpen(false);
                   navigate('/member/login');
                 }}
-                className="w-full gap-2 text-black min-h-[52px]"
+                className="w-full gap-2 text-black min-h-[48px]"
               >
-                <User size={20} />
+                <User size={18} />
                 Member Login
               </Button>
             </div>
