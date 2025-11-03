@@ -1025,6 +1025,8 @@ def main():
     
     results = {}
     brand_id = None
+    ndm_id = None
+    faith_id = None
     admin_token = None
     user_token = None
     user_id = None
@@ -1035,13 +1037,17 @@ def main():
     print("\n🏗️  BASIC SETUP TESTS")
     print("-" * 40)
     
-    # Test 1: GET /api/brands
-    success, brand_id = test_get_brands()
+    # Test 1: GET /api/brands - Enhanced brand testing
+    success, ndm_id, faith_id = test_get_brands()
     results['brands'] = success
     print()
     
-    # Use a default brand_id if none found
-    if not brand_id:
+    # Use NMD as default brand_id for other tests
+    if ndm_id:
+        brand_id = ndm_id
+    elif faith_id:
+        brand_id = faith_id
+    else:
         brand_id = "test-brand-id"
         print(f"⚠️  Using default brand_id: {brand_id}")
     
