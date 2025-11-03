@@ -461,7 +461,7 @@ async def register_admin(admin_data: AdminCreate):
     
     await db.admins.insert_one(doc)
     
-    token = create_access_token({"email": admin.email})
+    token = create_access_token({"email": admin.email, "role": "admin"})
     return {"token": token, "admin": admin}
 
 @api_router.post("/auth/login")
@@ -470,7 +470,7 @@ async def login_admin(login_data: AdminLogin):
     if not admin or not verify_password(login_data.password, admin["password_hash"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    token = create_access_token({"email": admin["email"]})
+    token = create_access_token({"email": admin["email"], "role": "admin"})
     admin_obj = Admin(**admin)
     return {"token": token, "admin": admin_obj}
 
