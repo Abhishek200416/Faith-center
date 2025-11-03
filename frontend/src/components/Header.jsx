@@ -72,8 +72,8 @@ const Header = () => {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 bg-white border-b transition-all duration-300 ${
-          scrolled ? 'border-gray-200 shadow-lg' : 'border-gray-100 shadow-sm'
+        className={`fixed top-0 left-0 right-0 z-50 bg-gray-900 border-b transition-all duration-300 ${
+          scrolled ? 'border-gray-700 shadow-lg' : 'border-gray-800 shadow-sm'
         }`}
       >
         <div className="container mx-auto px-3 sm:px-6 lg:px-8">
