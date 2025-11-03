@@ -221,8 +221,14 @@ async def seed_database():
         ndm_brand = await db.brands.find_one({"domain": "nehemiahdavid.com"})
         faith_brand = await db.brands.find_one({"domain": "faithcentre.com"})
         
+        brand_ids = []
+        if ndm_brand:
+            brand_ids.append(ndm_brand["id"])
+        if faith_brand:
+            brand_ids.append(faith_brand["id"])
+        
         categories = []
-        for brand_id in [ndm_brand["id"], faith_brand["id"]]:
+        for brand_id in brand_ids:
             categories.extend([
                 {
                     "id": str(uuid.uuid4()),
@@ -258,8 +264,9 @@ async def seed_database():
                 }
             ])
         
-        await db.giving_categories.insert_many(categories)
-        print(f"  ✅ Added {len(categories)} giving categories")
+        if categories:
+            await db.giving_categories.insert_many(categories)
+            print(f"  ✅ Added {len(categories)} giving categories")
     else:
         print("ℹ️  Giving categories already exist")
     
