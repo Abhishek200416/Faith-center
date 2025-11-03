@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { API } from '@/App';
+import { API, useBrand, useAuth } from '@/App';
 import { Button } from '@/components/ui/button';
 import { Loader2, Plus, Edit, Trash2, Video } from 'lucide-react';
 import { toast } from 'sonner';
 
-const LiveStreamManager = ({ brandId, authToken }) => {
+const LiveStreamManager = () => {
+  const { currentBrand } = useBrand();
+  const { authToken } = useAuth();
   const [streams, setStreams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
