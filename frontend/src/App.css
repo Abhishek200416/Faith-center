@@ -316,11 +316,12 @@ textarea:focus-visible {
 .form-select {
   width: 100%;
   padding: clamp(0.625rem, 2vw, 0.75rem);
-  border: 2px solid #ddd;
-  border-radius: 8px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
   font-size: clamp(0.875rem, 2vw, 1rem);
   transition: all 0.3s ease;
   min-height: 44px; /* Touch-friendly */
+  background: white;
 }
 
 .form-input:focus,
@@ -334,7 +335,7 @@ textarea:focus-visible {
 .form-input:hover,
 .form-textarea:hover,
 .form-select:hover {
-  border-color: #bbb;
+  border-color: #9ca3af;
 }
 
 .form-input.error,
