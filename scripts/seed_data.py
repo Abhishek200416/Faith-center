@@ -52,16 +52,16 @@ async def seed_database():
     if not ndm_exists:
         ndm_brand = {
             "id": str(uuid.uuid4()),
-            "name": "Nehemiah David Ministry",
+            "name": "Nehemiah David Ministries",
             "domain": "nehemiahdavid.com",
-            "logo_url": "",
+            "logo_url": "https://nehemiahdavid.com/assets/img/logo1.png",
             "primary_color": "#2c3e50",
             "secondary_color": "#3498db",
-            "tagline": "Building Lives, Transforming Communities",
+            "tagline": "Imparting Faith, Impacting Lives",
             "hero_video_url": "",
-            "hero_image_url": "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1920",
+            "hero_image_url": "https://images.unsplash.com/photo-1496185524395-81f295f4859e?w=1920",
             "service_times": "Sunday 10:00 AM & 6:00 PM",
-            "location": "Rajendra Nagar opposite Icon Mall, Guntur, Andhra Pradesh",
+            "location": "Amaravathi Rd, above Yousta, Gorantla, Guntur, Andhra Pradesh 522034",
             "created_at": datetime.now(timezone.utc).isoformat()
         }
         ndm_result = await db.brands.insert_one(ndm_brand)
