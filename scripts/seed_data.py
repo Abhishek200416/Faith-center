@@ -73,25 +73,37 @@ async def seed_database():
         events = [
             {
                 "id": str(uuid.uuid4()),
-                "title": "Sunday Service",
-                "description": "Join us for our weekly Sunday worship service with inspiring messages and uplifting music.",
+                "title": "Sunday Worship Service",
+                "description": "Join us for our weekly Sunday worship service with inspiring messages and uplifting music. Experience the presence of God as we worship together.",
                 "date": "2025-02-02",
                 "time": "10:00 AM",
-                "location": "Main Sanctuary, NDM Church",
+                "location": "Amaravathi Rd, above Yousta, Gorantla, Guntur",
                 "is_free": True,
-                "image_url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800",
+                "image_url": "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=800",
                 "brand_id": ndm_id,
                 "created_at": datetime.now(timezone.utc).isoformat()
             },
             {
                 "id": str(uuid.uuid4()),
                 "title": "Youth Night",
-                "description": "An evening dedicated to our youth with games, worship, and powerful teaching.",
+                "description": "An evening dedicated to our youth with games, worship, and powerful teaching. Join us for a night of faith and fellowship.",
                 "date": "2025-02-07",
                 "time": "7:00 PM",
-                "location": "Youth Hall, NDM Church",
+                "location": "Nehemiah David Ministries Youth Hall",
                 "is_free": True,
-                "image_url": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800",
+                "image_url": "https://images.unsplash.com/photo-1496185524395-81f295f4859e?w=800",
+                "brand_id": ndm_id,
+                "created_at": datetime.now(timezone.utc).isoformat()
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "title": "Community Outreach Program",
+                "description": "Join us as we serve our local community. Bring your family and be a blessing to those in need.",
+                "date": "2025-02-14",
+                "time": "9:00 AM",
+                "location": "Various Locations in Guntur",
+                "is_free": True,
+                "image_url": "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800",
                 "brand_id": ndm_id,
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
