@@ -34,8 +34,21 @@ const Header = () => {
   const navLinks = [
     { path: "/", label: "Home" },
     { path: "/about", label: "About" },
-    { path: "/events", label: "Events" },
-    { path: "/ministries", label: "Ministries" },
+    { 
+      label: "Ministries",
+      dropdown: [
+        { path: "/ministries", label: "All Ministries" },
+        { path: "/events", label: "Events" }
+      ]
+    },
+    {
+      label: "Media",
+      dropdown: [
+        { path: "/watch-live", label: "Watch Live" },
+        { path: "/messages", label: "Sermons" }
+      ]
+    },
+    { path: "/giving", label: "Give", highlight: true },
     { path: "/contact", label: "Contact" },
   ];
   
