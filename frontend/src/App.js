@@ -92,6 +92,18 @@ function App() {
     }
   };
 
+  const verifyMemberToken = async () => {
+    try {
+      const response = await axios.get(`${API}/users/me`, {
+        headers: { Authorization: `Bearer ${memberToken}` }
+      });
+      setMemberUser(response.data);
+    } catch (error) {
+      console.error("Member token verification failed:", error);
+      memberLogout();
+    }
+  };
+
   const switchBrand = (brandId) => {
     const brand = brands.find(b => b.id === brandId);
     if (brand) {
