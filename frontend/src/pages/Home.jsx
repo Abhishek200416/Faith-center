@@ -74,10 +74,16 @@ const Home = () => {
     setShowUrgentModal(false);
   };
 
-  if (!currentBrand) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (!currentBrand) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin h-8 w-8 text-gray-600" />
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <div className="fade-in">
       {/* Hero Section */}
       <section className="hero-section" data-testid="hero-section">
         {currentBrand.hero_video_url ? (
@@ -89,31 +95,42 @@ const Home = () => {
         ) : null}
         <div className="hero-overlay" />
         <div className="hero-content">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6" data-testid="hero-title">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6" data-testid="hero-title">
             {currentBrand.tagline || `Welcome to ${currentBrand.name}`}
           </h1>
           {currentBrand.service_times && (
-            <div className="bg-white/90 backdrop-blur-sm text-gray-900 rounded-lg p-6 mb-6 inline-block">
-              <div className="flex items-center justify-center space-x-3">
-                <Clock size={24} />
+            <div className="bg-white/90 backdrop-blur-sm text-gray-900 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 inline-block max-w-full">
+              <div className="flex items-center justify-center space-x-2 sm:space-x-3">
+                <Clock size={20} className="sm:w-6 sm:h-6 flex-shrink-0" />
                 <div className="text-left">
-                  <p className="font-semibold text-lg">Service Times</p>
-                  <p className="text-base">{currentBrand.service_times}</p>
+                  <p className="font-semibold text-base sm:text-lg">Service Times</p>
+                  <p className="text-sm sm:text-base">{currentBrand.service_times}</p>
                 </div>
               </div>
               {currentBrand.location && (
-                <div className="flex items-center justify-center space-x-3 mt-3 pt-3 border-t">
-                  <MapPin size={24} />
-                  <p className="text-sm">{currentBrand.location}</p>
+                <div className="flex items-center justify-center space-x-2 sm:space-x-3 mt-3 pt-3 border-t">
+                  <MapPin size={20} className="sm:w-6 sm:h-6 flex-shrink-0" />
+                  <p className="text-xs sm:text-sm break-words">{currentBrand.location}</p>
                 </div>
               )}
             </div>
           )}
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" className="rounded-full" onClick={() => navigate("/events")} data-testid="cta-join-sunday">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center px-4 sm:px-0">
+            <Button 
+              size="lg" 
+              className="rounded-full w-full sm:w-auto" 
+              onClick={() => navigate("/events")} 
+              data-testid="cta-join-sunday"
+            >
               Join Us This Sunday
             </Button>
-            <Button size="lg" variant="outline" className="rounded-full bg-white/20 backdrop-blur-sm border-white text-white hover:bg-white hover:text-gray-900" onClick={() => navigate("/about")} data-testid="cta-learn-more">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="rounded-full bg-white/20 backdrop-blur-sm border-white text-white hover:bg-white hover:text-gray-900 w-full sm:w-auto" 
+              onClick={() => navigate("/about")} 
+              data-testid="cta-learn-more"
+            >
               Learn More
             </Button>
           </div>
@@ -121,45 +138,70 @@ const Home = () => {
       </section>
 
       {/* Upcoming Events */}
-      {events.length > 0 && (
-        <section className="section bg-white">
-          <div className="container">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl sm:text-4xl font-bold" data-testid="upcoming-events-title">Upcoming Events</h2>
-              <Button variant="ghost" onClick={() => navigate("/events")} data-testid="view-all-events-btn">
-                View All
+      <section className="section bg-white">
+        <div className="container">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold" data-testid="upcoming-events-title">
+              Upcoming Events
+            </h2>
+            {!loading && events.length > 0 && (
+              <Button 
+                variant="ghost" 
+                onClick={() => navigate("/events")} 
+                data-testid="view-all-events-btn"
+                className="self-start sm:self-auto"
+              >
+                View All →
               </Button>
-            </div>
+            )}
+          </div>
+          
+          {loading ? (
             <div className="card-grid">
-              {events.map((event) => (
-                <div key={event.id} className="card" data-testid={`event-card-${event.id}`}>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </div>
+          ) : events.length > 0 ? (
+            <div className="card-grid">
+              {events.map((event, index) => (
+                <div 
+                  key={event.id} 
+                  className="card" 
+                  data-testid={`event-card-${event.id}`}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
                   {event.image_url && (
                     <img src={event.image_url} alt={event.title} className="card-image" />
                   )}
                   <div className="card-content">
-                    <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2 line-clamp-2">{event.title}</h3>
                     <div className="flex items-center text-gray-600 text-sm mb-2">
-                      <Calendar size={16} className="mr-2" />
-                      {new Date(event.date).toLocaleDateString()}
+                      <Calendar size={16} className="mr-2 flex-shrink-0" />
+                      <span className="truncate">{new Date(event.date).toLocaleDateString()}</span>
                     </div>
                     {event.time && (
                       <div className="flex items-center text-gray-600 text-sm mb-2">
-                        <Clock size={16} className="mr-2" />
-                        {event.time}
+                        <Clock size={16} className="mr-2 flex-shrink-0" />
+                        <span className="truncate">{event.time}</span>
                       </div>
                     )}
                     <div className="flex items-center text-gray-600 text-sm mb-3">
-                      <MapPin size={16} className="mr-2" />
-                      {event.location}
+                      <MapPin size={16} className="mr-2 flex-shrink-0" />
+                      <span className="truncate">{event.location}</span>
                     </div>
                     <p className="text-gray-600 text-sm line-clamp-2">{event.description}</p>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          ) : (
+            <div className="text-center py-8 sm:py-12 text-gray-500">
+              <p className="text-sm sm:text-base">No upcoming events at the moment. Check back soon!</p>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* Ministries Preview */}
       {ministries.length > 0 && (
