@@ -1256,6 +1256,7 @@ def main():
     # Group results by category
     categories = {
         "Basic Setup": ['brands', 'admin_login'],
+        "Brand Content": ['ndm_events', 'faith_events', 'ndm_ministries', 'faith_ministries', 'brand_content_uniqueness'],
         "Legacy APIs": ['events_all', 'events_by_brand', 'ministries_all', 'ministries_by_brand', 
                        'announcements_all', 'announcements_by_brand', 'contact_post', 'subscribers_post'],
         "Member Auth": ['user_register', 'user_login', 'user_me', 'users_get_all', 'admin_create_user', 'toggle_user_status'],
