@@ -38,6 +38,8 @@ function App() {
   const [currentBrand, setCurrentBrand] = useState(null);
   const [authToken, setAuthToken] = useState(localStorage.getItem("authToken"));
   const [admin, setAdmin] = useState(null);
+  const [memberToken, setMemberToken] = useState(localStorage.getItem("memberToken"));
+  const [memberUser, setMemberUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -51,6 +53,12 @@ function App() {
       setLoading(false);
     }
   }, [authToken]);
+
+  useEffect(() => {
+    if (memberToken) {
+      verifyMemberToken();
+    }
+  }, [memberToken]);
 
   const loadBrands = async () => {
     try {
