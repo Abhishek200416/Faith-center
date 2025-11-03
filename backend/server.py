@@ -288,6 +288,100 @@ class GalleryCreate(BaseModel):
     event_id: Optional[str] = None
     brand_id: str
 
+# ========== MEMBER USER MODELS ==========
+
+class User(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    email: EmailStr
+    name: str
+    phone: Optional[str] = None
+    role: str = "member"
+    brand_id: str
+    is_active: bool = True
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    updated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str
+    name: str
+    phone: Optional[str] = None
+    brand_id: str
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    phone: Optional[str] = None
+    email: Optional[EmailStr] = None
+
+# ========== GIVING/PAYMENT MODELS ==========
+
+class GivingCategory(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    description: Optional[str] = None
+    brand_id: str
+    is_active: bool = True
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+class GivingCategoryCreate(BaseModel):
+    name: str
+    description: Optional[str] = None
+    brand_id: str
+
+class PaymentTransaction(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    amount: float
+    currency: str = "usd"
+    category: str
+    category_id: Optional[str] = None
+    user_id: Optional[str] = None
+    user_email: Optional[str] = None
+    donor_name: Optional[str] = None
+    payment_status: str = "pending"  # pending, paid, failed, expired
+    status: str = "initiated"  # initiated, completed, failed
+    brand_id: str
+    metadata: Optional[Dict] = None
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    updated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+class CreateCheckoutRequest(BaseModel):
+    amount: float
+    category: str
+    category_id: Optional[str] = None
+    donor_name: Optional[str] = None
+    brand_id: str
+
+# ========== LIVE STREAM MODELS ==========
+
+class LiveStream(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    description: Optional[str] = None
+    stream_url: str  # YouTube live URL, Vimeo, etc.
+    thumbnail_url: Optional[str] = None
+    is_live: bool = True
+    scheduled_time: Optional[str] = None
+    brand_id: str
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+class LiveStreamCreate(BaseModel):
+    title: str
+    description: Optional[str] = None
+    stream_url: str
+    thumbnail_url: Optional[str] = None
+    is_live: bool = True
+    scheduled_time: Optional[str] = None
+    brand_id: str
+
 # ========== AUTH UTILITIES ==========
 
 def hash_password(password: str) -> str:
