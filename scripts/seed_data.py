@@ -54,7 +54,7 @@ async def seed_database():
             "id": str(uuid.uuid4()),
             "name": "Nehemiah David Ministries",
             "domain": "nehemiahdavid.com",
-            "logo_url": "https://nehemiahdavid.com/assets/img/logo1.png",
+            "logo_url": "https://nehemiahdavid.com/ndm-logo-white.svg",
             "primary_color": "#2c3e50",
             "secondary_color": "#3498db",
             "tagline": "Imparting Faith, Impacting Lives",
