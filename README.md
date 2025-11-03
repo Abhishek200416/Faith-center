@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://revise-advancly.preview.emergentagent.com
-- Admin Panel: https://revise-advancly.preview.emergentagent.com/admin/login
+- Public Site: https://spiritual-home-5.preview.emergentagent.com
+- Admin Panel: https://spiritual-home-5.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
