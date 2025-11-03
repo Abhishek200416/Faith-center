@@ -1112,17 +1112,12 @@ def main():
     print("-" * 40)
     
     # Test 8: User Registration
-    success, user_token, user_id = test_user_register(brand_id)
+    success, user_token, user_id, test_email = test_user_register(brand_id)
     results['user_register'] = success
-    
-    # Store email for login test
-    import time
-    timestamp = int(time.time())
-    test_email = f"john.smith.{timestamp}@gracechurch.org"
     print()
     
     # Test 9: User Login
-    if success and user_id:  # Only test login if registration worked
+    if success and user_id and test_email:  # Only test login if registration worked
         success, login_token = test_user_login(test_email)
         results['user_login'] = success
         if success and login_token:
