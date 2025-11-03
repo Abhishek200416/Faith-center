@@ -227,13 +227,13 @@ const Header = () => {
 
       {/* Mobile Menu */}
       <nav
-        className={`fixed top-16 sm:top-20 left-0 right-0 bg-white z-[48] lg:hidden border-b border-gray-200 shadow-2xl transition-all duration-300 ease-out ${
+        className={`fixed top-14 sm:top-16 lg:top-20 left-0 right-0 bg-white z-[48] lg:hidden border-b border-gray-200 shadow-2xl transition-all duration-300 ease-out ${
           mobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
         }`}
         data-testid="mobile-menu"
         aria-label="Mobile navigation"
       >
-        <div className="container mx-auto px-6 sm:px-8 py-6 max-h-[calc(100vh-5rem)] overflow-y-auto custom-scrollbar">
+        <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6 max-h-[calc(100vh-4rem)] overflow-y-auto custom-scrollbar">
           {/* Social Media in Mobile Menu */}
           <div className="flex items-center justify-center gap-5 pb-5 mb-5 border-b border-gray-200 xl:hidden">
             <a 
