@@ -22,12 +22,14 @@ const LiveStreamManager = () => {
   });
 
   useEffect(() => {
-    loadStreams();
-  }, [brandId]);
+    if (currentBrand) {
+      loadStreams();
+    }
+  }, [currentBrand]);
 
   const loadStreams = async () => {
     try {
-      const response = await axios.get(`${API}/live-streams?brand_id=${brandId}`);
+      const response = await axios.get(`${API}/live-streams?brand_id=${currentBrand.id}`);
       setStreams(response.data);
     } catch (error) {
       console.error('Error loading streams:', error);
