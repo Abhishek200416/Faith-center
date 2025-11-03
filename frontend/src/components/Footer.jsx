@@ -34,29 +34,29 @@ const Footer = () => {
   if (!currentBrand) return null;
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
-      <div className="container mx-auto px-4 py-8 sm:py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
+    <footer className="bg-gray-900 text-gray-300 mt-auto">
+      <div className="container mx-auto px-4 py-10 sm:py-14 lg:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 mb-8 sm:mb-10">
           {/* Brand Info */}
           <div className="text-center sm:text-left">
-            <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4" data-testid="footer-brand-name">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-4" data-testid="footer-brand-name">
               {currentBrand.name}
             </h3>
             {currentBrand.tagline && (
-              <p className="text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">{currentBrand.tagline}</p>
+              <p className="text-gray-400 mb-4 text-sm sm:text-base leading-relaxed">{currentBrand.tagline}</p>
             )}
             {currentBrand.location && (
-              <div className="flex items-start space-x-2 mb-2 justify-center sm:justify-start">
-                <MapPin size={18} className="mt-1 flex-shrink-0" />
-                <span className="text-sm">{currentBrand.location}</span>
+              <div className="flex items-start space-x-3 mb-2 justify-center sm:justify-start">
+                <MapPin size={18} className="mt-1 flex-shrink-0 text-gray-400" />
+                <span className="text-sm leading-relaxed">{currentBrand.location}</span>
               </div>
             )}
           </div>
 
           {/* Quick Links */}
           <div className="text-center sm:text-left">
-            <h4 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Quick Links</h4>
-            <ul className="space-y-2">
+            <h4 className="text-base sm:text-lg font-semibold text-white mb-4 sm:mb-5">Quick Links</h4>
+            <ul className="space-y-3">
               <li>
                 <Link 
                   to="/about" 
@@ -102,9 +102,9 @@ const Footer = () => {
 
           {/* Newsletter */}
           <div className="text-center sm:text-left sm:col-span-2 lg:col-span-1">
-            <h4 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Stay Connected</h4>
-            <p className="text-xs sm:text-sm mb-3 sm:mb-4 text-gray-400">Subscribe to receive updates and announcements</p>
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2" data-testid="newsletter-form">
+            <h4 className="text-base sm:text-lg font-semibold text-white mb-4 sm:mb-5">Stay Connected</h4>
+            <p className="text-xs sm:text-sm mb-4 text-gray-400 leading-relaxed">Subscribe to receive updates and announcements</p>
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 mb-6" data-testid="newsletter-form">
               <Input
                 type="email"
                 placeholder="Your email"
@@ -123,27 +123,27 @@ const Footer = () => {
                 {loading ? "Subscribing..." : "Subscribe"}
               </Button>
             </form>
-            <div className="flex space-x-4 mt-4 sm:mt-6 justify-center sm:justify-start">
+            <div className="flex space-x-5 justify-center sm:justify-start">
               <a 
                 href="#" 
                 className="hover:text-white transition-all hover:scale-110" 
                 aria-label="Facebook"
               >
-                <Facebook size={20} />
+                <Facebook size={22} />
               </a>
               <a 
                 href="#" 
                 className="hover:text-white transition-all hover:scale-110" 
                 aria-label="Instagram"
               >
-                <Instagram size={20} />
+                <Instagram size={22} />
               </a>
               <a 
                 href="#" 
                 className="hover:text-white transition-all hover:scale-110" 
                 aria-label="YouTube"
               >
-                <Youtube size={20} />
+                <Youtube size={22} />
               </a>
             </div>
           </div>
