@@ -254,32 +254,5 @@ const Contact = () => {
     </div>
   );
 };
-                    onChange={handleInputChange}
-                    data-testid="contact-subject-input"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="message">Message *</Label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    rows={6}
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                    data-testid="contact-message-input"
-                  />
-                </div>
-                <Button type="submit" disabled={submitting} className="w-full" data-testid="contact-submit-btn">
-                  {submitting ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-};
 
 export default Contact;
