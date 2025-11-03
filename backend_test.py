@@ -458,18 +458,18 @@ def test_user_register(brand_id):
                 print(f"   User Token: {result['token'][:20]}...")
                 print(f"   User Name: {result.get('user', {}).get('name', 'No name')}")
                 print(f"   User Email: {result.get('user', {}).get('email', 'No email')}")
-                return True, result["token"], result.get('user', {}).get('id')
+                return True, result["token"], result.get('user', {}).get('id'), user_data["email"]
             else:
                 print("   ❌ Response missing token or user")
-                return False, None, None
+                return False, None, None, None
         else:
             print(f"   ❌ Failed with status {response.status_code}")
             print(f"   Response: {response.text}")
-            return False, None, None
+            return False, None, None, None
             
     except Exception as e:
         print(f"   ❌ Exception: {str(e)}")
-        return False, None, None
+        return False, None, None, None
 
 def test_user_login(email):
     """Test POST /api/users/login - Login member"""
