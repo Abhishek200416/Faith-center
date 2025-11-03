@@ -204,49 +204,100 @@ const Home = () => {
       </section>
 
       {/* Ministries Preview */}
-      {ministries.length > 0 && (
-        <section className="section bg-gray-50">
-          <div className="container">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl sm:text-4xl font-bold" data-testid="ministries-title">Get Involved</h2>
-              <Button variant="ghost" onClick={() => navigate("/ministries")} data-testid="view-all-ministries-btn">
-                View All
+      <section className="section bg-gray-50">
+        <div className="container">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold" data-testid="ministries-title">
+              Get Involved
+            </h2>
+            {!loading && ministries.length > 0 && (
+              <Button 
+                variant="ghost" 
+                onClick={() => navigate("/ministries")} 
+                data-testid="view-all-ministries-btn"
+                className="self-start sm:self-auto"
+              >
+                View All →
               </Button>
-            </div>
+            )}
+          </div>
+          
+          {loading ? (
             <div className="card-grid">
-              {ministries.map((ministry) => (
-                <div key={ministry.id} className="card" data-testid={`ministry-card-${ministry.id}`}>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </div>
+          ) : ministries.length > 0 ? (
+            <div className="card-grid">
+              {ministries.map((ministry, index) => (
+                <div 
+                  key={ministry.id} 
+                  className="card" 
+                  data-testid={`ministry-card-${ministry.id}`}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
                   {ministry.image_url && (
                     <img src={ministry.image_url} alt={ministry.title} className="card-image" />
                   )}
                   <div className="card-content">
-                    <h3 className="text-xl font-semibold mb-2">{ministry.title}</h3>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2 line-clamp-2">{ministry.title}</h3>
                     <p className="text-gray-600 text-sm line-clamp-3 mb-4">{ministry.description}</p>
-                    <Button size="sm" onClick={() => navigate("/ministries")} data-testid={`join-ministry-btn-${ministry.id}`}>
+                    <Button 
+                      size="sm" 
+                      onClick={() => navigate("/ministries")} 
+                      data-testid={`join-ministry-btn-${ministry.id}`}
+                      className="w-full sm:w-auto"
+                    >
                       Learn More
                     </Button>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          ) : (
+            <div className="text-center py-8 sm:py-12 text-gray-500">
+              <p className="text-sm sm:text-base">No ministries available at the moment.</p>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* Announcements Preview */}
-      {announcements.length > 0 && (
-        <section className="section bg-white">
-          <div className="container">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl sm:text-4xl font-bold" data-testid="announcements-title">Latest Announcements</h2>
-              <Button variant="ghost" onClick={() => navigate("/announcements")} data-testid="view-all-announcements-btn">
-                View All
+      <section className="section bg-white">
+        <div className="container">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold" data-testid="announcements-title">
+              Latest Announcements
+            </h2>
+            {!loading && announcements.length > 0 && (
+              <Button 
+                variant="ghost" 
+                onClick={() => navigate("/announcements")} 
+                data-testid="view-all-announcements-btn"
+                className="self-start sm:self-auto"
+              >
+                View All →
               </Button>
-            </div>
+            )}
+          </div>
+          
+          {loading ? (
             <div className="space-y-4">
-              {announcements.map((announcement) => (
-                <div key={announcement.id} className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors cursor-pointer" onClick={() => navigate("/announcements")} data-testid={`announcement-preview-${announcement.id}`}>
-                  <h3 className="text-xl font-semibold mb-2">{announcement.title}</h3>
+              <div className="skeleton h-24 rounded-lg" />
+              <div className="skeleton h-24 rounded-lg" />
+            </div>
+          ) : announcements.length > 0 ? (
+            <div className="space-y-4">
+              {announcements.map((announcement, index) => (
+                <div 
+                  key={announcement.id} 
+                  className="bg-gray-50 rounded-lg p-4 sm:p-6 hover:bg-gray-100 hover:shadow-md transition-all cursor-pointer transform hover:-translate-y-1" 
+                  onClick={() => navigate("/announcements")} 
+                  data-testid={`announcement-preview-${announcement.id}`}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 line-clamp-2">{announcement.title}</h3>
                   <p className="text-gray-600 text-sm line-clamp-2">{announcement.content}</p>
                   <p className="text-xs text-gray-500 mt-2">
                     {new Date(announcement.created_at).toLocaleDateString()}
@@ -254,22 +305,69 @@ const Home = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          ) : (
+            <div className="text-center py-8 sm:py-12 text-gray-500">
+              <p className="text-sm sm:text-base">No announcements at the moment.</p>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* Urgent Announcement Modal */}
       {showUrgentModal && urgentAnnouncement && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" data-testid="urgent-announcement-modal">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
-            <h3 className="text-2xl font-bold mb-4">Important Announcement</h3>
-            <h4 className="text-lg font-semibold mb-2">{urgentAnnouncement.title}</h4>
-            <p className="text-gray-700 mb-6 whitespace-pre-wrap">{urgentAnnouncement.content}</p>
-            <Button onClick={closeUrgentModal} className="w-full" data-testid="close-urgent-modal-btn">
-              Got it
-            </Button>
+        <>
+          <div 
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm animate-fadeIn" 
+            onClick={closeUrgentModal}
+          />
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none" 
+            data-testid="urgent-announcement-modal"
+          >
+            <div className="bg-white rounded-lg max-w-md w-full p-4 sm:p-6 pointer-events-auto animate-slideUp shadow-2xl">
+              <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-red-600">
+                ⚠️ Important Announcement
+              </h3>
+              <h4 className="text-base sm:text-lg font-semibold mb-2">{urgentAnnouncement.title}</h4>
+              <p className="text-gray-700 text-sm sm:text-base mb-4 sm:mb-6 whitespace-pre-wrap max-h-64 overflow-y-auto">
+                {urgentAnnouncement.content}
+              </p>
+              <Button 
+                onClick={closeUrgentModal} 
+                className="w-full" 
+                data-testid="close-urgent-modal-btn"
+              >
+                Got it
+              </Button>
+            </div>
           </div>
-        </div>
+          
+          <style jsx>{`
+            @keyframes fadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            
+            @keyframes slideUp {
+              from {
+                opacity: 0;
+                transform: translateY(20px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+            
+            .animate-fadeIn {
+              animation: fadeIn 0.3s ease-out;
+            }
+            
+            .animate-slideUp {
+              animation: slideUp 0.3s ease-out;
+            }
+          `}</style>
+        </>
       )}
     </div>
   );
