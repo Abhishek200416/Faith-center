@@ -165,12 +165,12 @@ def test_get_events(brand_id=None, brand_name=None, expected_count=None):
         print(f"   ❌ Exception: {str(e)}")
         return False
 
-def test_get_ministries(brand_id=None):
+def test_get_ministries(brand_id=None, brand_name=None, expected_count=None):
     """Test GET /api/ministries endpoint"""
     url = f"{BACKEND_URL}/ministries"
     if brand_id:
         url += f"?brand_id={brand_id}"
-        print(f"🔍 Testing GET /api/ministries?brand_id={brand_id}...")
+        print(f"🔍 Testing GET /api/ministries?brand_id={brand_id} ({brand_name})...")
     else:
         print("🔍 Testing GET /api/ministries...")
     
@@ -184,11 +184,23 @@ def test_get_ministries(brand_id=None):
             print(f"   Ministries Count: {len(ministries) if isinstance(ministries, list) else 'Not a list'}")
             
             if isinstance(ministries, list):
-                if len(ministries) > 0:
-                    print(f"   Sample Ministry: {ministries[0].get('title', 'No title')}")
+                if expected_count is not None:
+                    if len(ministries) == expected_count:
+                        print(f"   ✅ Correct number of ministries ({expected_count})")
+                        if len(ministries) > 0:
+                            print(f"   Ministry titles: {[m.get('title') for m in ministries]}")
+                        return True
+                    else:
+                        print(f"   ❌ Expected {expected_count} ministries, found {len(ministries)}")
+                        if len(ministries) > 0:
+                            print(f"   Found ministries: {[m.get('title') for m in ministries]}")
+                        return False
                 else:
-                    print("   ⚠️  Empty ministries list")
-                return True
+                    if len(ministries) > 0:
+                        print(f"   Sample Ministry: {ministries[0].get('title', 'No title')}")
+                    else:
+                        print("   ⚠️  Empty ministries list")
+                    return True
             else:
                 print("   ❌ Response is not a list")
                 return False
