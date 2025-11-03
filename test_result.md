@@ -131,6 +131,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ API endpoint working correctly. Both /api/events and /api/events?brand_id={id} return 200 status with proper JSON arrays. Query parameter filtering implemented correctly."
+      - working: true
+        agent: "testing"
+        comment: "✅ BRAND-SPECIFIC EVENTS TESTING COMPLETE: 1) GET /api/events?brand_id={ndm_id} returns exactly 3 events for Nehemiah David Ministries: 'Sunday Worship Service', 'Youth Night', 'Community Outreach Program', 2) GET /api/events?brand_id={faith_id} returns exactly 3 different events for Faith Centre: 'Sunday Worship', 'Prayer Meeting', 'Community Service Day', 3) Content uniqueness verified - no event titles overlap between brands, 4) All events are properly filtered by brand_id parameter. Brand-specific event content working perfectly."
         
   - task: "GET /api/ministries endpoint with brand filtering"
     implemented: true
