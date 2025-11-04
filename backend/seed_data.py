@@ -23,7 +23,7 @@ ndm_brand = {
     "domain": "nehemiahdavid.com",
     "tagline": "Imparting Faith, Impacting Lives",
     "logo_url": "https://nehemiahdavid.com/images/logo.svg",
-    "hero_image_url": "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1920&q=80",
+    "hero_image_url": "https://images.unsplash.com/photo-1551634979-443bd43773cf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwzfHxjaHVyY2glMjBpbnRlcmlvcnxlbnwwfHx8fDE3NjIyNTQ0MzF8MA&ixlib=rb-4.1.0&q=85",
     "hero_video_url": "",
     "location": "Amaravathi Rd, above Yousta, Gorantla, Guntur, Andhra Pradesh 522034",
     "service_times": "Morning: 7:00 AM - 9:00 AM | Service: 10:00 AM - 12:00 PM | Evening (Online): 6:30 PM - 8:30 PM | Friday: 7:00 PM - 9:00 PM",
