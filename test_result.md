@@ -403,6 +403,18 @@ frontend:
         
   - task: "Contact form with validation and error states"
 
+  - task: "Brand-based Messages page with Live Stream countdown"
+    implemented: true
+    working: "NA"
+    file: "src/pages/MessagesEnhanced.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Completely overhauled Messages page to: 1) Auto-display current brand's channel only (removed dual-tab switcher), 2) Added Live Stream tab with real-time countdown to next service (7 AM, 10 AM, 6:30 PM, Friday 7 PM), 3) Updated backend with real YouTube video IDs for proper thumbnail loading, 4) Implemented brand-specific color theming (red for Faith Centre, blue for Nehemiah David), 5) Added search and category filters, 6) Real YouTube thumbnails via YouTube CDN"
+
   - task: "Event registration modal and functionality"
     implemented: true
     working: "NA"
