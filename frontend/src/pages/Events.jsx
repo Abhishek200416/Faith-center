@@ -55,6 +55,27 @@ const Events = () => {
   const upcomingEvents = events.filter(event => new Date(event.date) >= new Date());
   const pastEvents = events.filter(event => new Date(event.date) < new Date());
 
+  const handleRegisterClick = (event) => {
+    setSelectedEvent(event);
+    setShowRegistrationModal(true);
+  };
+
+  const handleRegistrationSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${API}/events/${selectedEvent.id}/register`, {
+        ...registrationData,
+        event_id: selectedEvent.id,
+        brand_id: currentBrand.id
+      });
+      toast.success("Successfully registered for the event!");
+      setShowRegistrationModal(false);
+      setRegistrationData({ name: "", email: "", phone: "", guests: 1, notes: "" });
+    } catch (error) {
+      toast.error("Failed to register. Please try again.");
+    }
+  };
+
   if (!currentBrand) {
     return (
       <div className="min-h-screen flex items-center justify-center">
