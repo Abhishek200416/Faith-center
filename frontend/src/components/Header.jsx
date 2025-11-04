@@ -31,32 +31,58 @@ const Header = () => {
     setMobileMenuOpen(false);
   }, [location]);
 
-  const navLinks = [
-    { path: "/", label: "Home" },
-    { path: "/about", label: "About" },
-    { path: "/ministries", label: "Ministries" },
-    { path: "/events", label: "Events" },
-    { path: "/foundations", label: "Foundations" },
-    { path: "/watch-live", label: "Watch Live" },
-    { path: "/messages", label: "Sermons" },
-    { path: "/giving", label: "Give", highlight: true },
-    { path: "/contact", label: "Contact" },
-  ];
-  
-  const mobileNavLinks = [
-    { path: "/", label: "Home" },
-    { path: "/about", label: "About" },
-    { path: "/ministries", label: "Ministries" },
-    { path: "/events", label: "Events" },
-    { path: "/foundations", label: "Foundations" },
-    { path: "/watch-live", label: "Watch Live" },
-    { path: "/messages", label: "Sermons" },
-    { path: "/giving", label: "Give" },
-    { path: "/testimonials", label: "Testimonials" },
-    { path: "/prayer-wall", label: "Prayer" },
-    { path: "/gallery", label: "Gallery" },
-    { path: "/contact", label: "Contact" },
-  ];
+  // Filter navigation links based on brand
+  const getNavLinks = () => {
+    const baseLinks = [
+      { path: "/", label: "Home" },
+      { path: "/about", label: "About" },
+      { path: "/ministries", label: "Ministries" },
+      { path: "/events", label: "Events" },
+    ];
+
+    // Only show Foundations for Nehemiah David Ministries
+    if (currentBrand?.name === "Nehemiah David Ministries") {
+      baseLinks.push({ path: "/foundations", label: "Foundations" });
+    }
+
+    baseLinks.push(
+      { path: "/watch-live", label: "Watch Live" },
+      { path: "/messages", label: "Sermons" },
+      { path: "/giving", label: "Give", highlight: true },
+      { path: "/contact", label: "Contact" }
+    );
+
+    return baseLinks;
+  };
+
+  const getMobileNavLinks = () => {
+    const baseLinks = [
+      { path: "/", label: "Home" },
+      { path: "/about", label: "About" },
+      { path: "/ministries", label: "Ministries" },
+      { path: "/events", label: "Events" },
+    ];
+
+    // Only show Foundations for Nehemiah David Ministries
+    if (currentBrand?.name === "Nehemiah David Ministries") {
+      baseLinks.push({ path: "/foundations", label: "Foundations" });
+    }
+
+    baseLinks.push(
+      { path: "/watch-live", label: "Watch Live" },
+      { path: "/messages", label: "Sermons" },
+      { path: "/giving", label: "Give" },
+      { path: "/testimonials", label: "Testimonials" },
+      { path: "/prayer-wall", label: "Prayer" },
+      { path: "/gallery", label: "Gallery" },
+      { path: "/contact", label: "Contact" }
+    );
+
+    return baseLinks;
+  };
+
+  const navLinks = getNavLinks();
+  const mobileNavLinks = getMobileNavLinks();
 
   const isActive = (path) => location.pathname === path;
 
@@ -74,8 +100,8 @@ const Header = () => {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 bg-gray-900 border-b transition-all duration-300 ${
-          scrolled ? 'border-gray-700 shadow-lg' : 'border-gray-800 shadow-sm'
+        className={`fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 border-b transition-all duration-300 ${
+          scrolled ? 'border-purple-700/50 shadow-xl shadow-purple-500/20' : 'border-purple-800/30 shadow-lg'
         }`}
       >
         <div className="container mx-auto px-3 sm:px-6 lg:px-8">
@@ -84,10 +110,10 @@ const Header = () => {
             <div className="flex items-center gap-2 sm:gap-4 lg:gap-8 flex-1 min-w-0">
               <Link 
                 to="/" 
-                className="flex items-center space-x-1 sm:space-x-2 transition-transform hover:scale-105 relative z-50 flex-shrink-0" 
+                className="flex items-center space-x-1 sm:space-x-2 transition-all hover:scale-105 relative z-50 flex-shrink-0 group" 
                 data-testid="header-logo"
               >
-                <div className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white whitespace-nowrap truncate max-w-[150px] sm:max-w-[200px] md:max-w-none">
+                <div className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white whitespace-nowrap truncate max-w-[150px] sm:max-w-[200px] md:max-w-none group-hover:text-purple-300 transition-colors">
                   {currentBrand.name}
                 </div>
               </Link>
@@ -100,10 +126,10 @@ const Header = () => {
                     to={link.path}
                     className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 text-sm whitespace-nowrap relative z-50 ${
                       link.highlight
-                        ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white hover:from-amber-700 hover:to-orange-700 shadow-md hover:shadow-lg"
+                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-purple-500/50 hover:scale-105"
                         : isActive(link.path)
-                        ? "bg-amber-600 text-white shadow-sm"
-                        : "text-gray-200 hover:bg-gray-800 hover:text-white"
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-500/30"
+                        : "text-gray-200 hover:bg-white/10 hover:text-white"
                     }`}
                   >
                     {link.label}
@@ -119,7 +145,7 @@ const Header = () => {
                 <button
                   onClick={handleBrandToggle}
                   data-testid="brand-switcher"
-                  className="hidden lg:flex items-center gap-1.5 px-3 py-2 text-xs lg:text-sm font-medium text-white bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all shadow-md hover:shadow-lg whitespace-nowrap relative z-50"
+                  className="hidden lg:flex items-center gap-1.5 px-3 py-2 text-xs lg:text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-purple-500/50 hover:scale-105 whitespace-nowrap relative z-50"
                   title={`Switch brand`}
                 >
                   <span className="max-w-[100px] truncate">{currentBrand.name}</span>
@@ -133,7 +159,7 @@ const Header = () => {
                   href="https://facebook.com" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-1.5 text-gray-300 hover:text-blue-400 hover:bg-gray-800 rounded-lg transition-all relative z-50"
+                  className="p-1.5 text-gray-300 hover:text-blue-400 hover:bg-white/10 rounded-lg transition-all hover:scale-110 relative z-50"
                   aria-label="Facebook"
                 >
                   <Facebook size={16} />
@@ -142,7 +168,7 @@ const Header = () => {
                   href="https://instagram.com" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-1.5 text-gray-300 hover:text-pink-400 hover:bg-gray-800 rounded-lg transition-all relative z-50"
+                  className="p-1.5 text-gray-300 hover:text-pink-400 hover:bg-white/10 rounded-lg transition-all hover:scale-110 relative z-50"
                   aria-label="Instagram"
                 >
                   <Instagram size={16} />
@@ -151,7 +177,7 @@ const Header = () => {
                   href="https://youtube.com" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-1.5 text-gray-300 hover:text-red-400 hover:bg-gray-800 rounded-lg transition-all relative z-50"
+                  className="p-1.5 text-gray-300 hover:text-red-400 hover:bg-white/10 rounded-lg transition-all hover:scale-110 relative z-50"
                   aria-label="YouTube"
                 >
                   <Youtube size={16} />
@@ -162,7 +188,7 @@ const Header = () => {
               {memberUser ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="hidden sm:flex gap-1.5 text-white border-gray-700 hover:bg-gray-800 text-xs relative z-50 px-2 sm:px-3">
+                    <Button variant="outline" size="sm" className="hidden sm:flex gap-1.5 text-white border-purple-700 hover:bg-white/10 text-xs relative z-50 px-2 sm:px-3 hover:scale-105 transition-transform">
                       <User size={14} />
                       <span className="hidden md:inline">{memberUser.name.split(' ')[0]}</span>
                       <ChevronDown size={12} />
@@ -183,7 +209,7 @@ const Header = () => {
                   variant="outline" 
                   size="sm" 
                   onClick={() => navigate('/member/login')}
-                  className="hidden sm:flex gap-1.5 text-white border-gray-700 hover:bg-gray-800 text-xs relative z-50 whitespace-nowrap px-2 sm:px-3"
+                  className="hidden sm:flex gap-1.5 text-white border-purple-700 hover:bg-white/10 text-xs relative z-50 whitespace-nowrap px-2 sm:px-3 hover:scale-105 transition-transform"
                 >
                   <User size={14} />
                   <span className="hidden md:inline">Login</span>
@@ -192,7 +218,7 @@ const Header = () => {
 
               {/* Hamburger Menu Button */}
               <button
-                className="lg:hidden p-2 rounded-lg hover:bg-gray-800 transition-colors text-white relative z-50 min-h-[40px] min-w-[40px] flex items-center justify-center flex-shrink-0"
+                className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-all text-white relative z-50 min-h-[40px] min-w-[40px] flex items-center justify-center flex-shrink-0 hover:scale-110"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 data-testid="mobile-menu-toggle"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -210,7 +236,7 @@ const Header = () => {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[45] lg:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/70 backdrop-blur-sm z-[45] lg:hidden transition-opacity duration-300 ${
           mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setMobileMenuOpen(false)}
@@ -219,7 +245,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       <nav
-        className={`fixed top-14 sm:top-16 lg:top-20 left-0 right-0 bg-gray-800 z-[48] lg:hidden border-b border-gray-700 shadow-2xl transition-all duration-300 ease-out ${
+        className={`fixed top-14 sm:top-16 lg:top-20 left-0 right-0 bg-gradient-to-b from-slate-900 to-purple-900 z-[48] lg:hidden border-b border-purple-700/50 shadow-2xl transition-all duration-300 ease-out ${
           mobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
         }`}
         data-testid="mobile-menu"
@@ -228,10 +254,10 @@ const Header = () => {
         <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6 max-h-[calc(100vh-4rem)] overflow-y-auto custom-scrollbar">
           {/* Brand Switcher in Mobile Menu */}
           {brands.length > 1 && (
-            <div className="mb-4 pb-4 border-b border-gray-700">
+            <div className="mb-4 pb-4 border-b border-purple-700/50">
               <button
                 onClick={handleBrandToggle}
-                className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all shadow-md"
+                className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
               >
                 <span className="truncate">Switch to {brands.find(b => b.id !== currentBrand.id)?.name}</span>
                 <ChevronDown size={16} className="flex-shrink-0 ml-2" />
@@ -240,12 +266,12 @@ const Header = () => {
           )}
 
           {/* Social Media in Mobile Menu */}
-          <div className="flex items-center justify-center gap-4 pb-4 mb-4 border-b border-gray-700 xl:hidden">
+          <div className="flex items-center justify-center gap-4 pb-4 mb-4 border-b border-purple-700/50 xl:hidden">
             <a 
               href="https://facebook.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="p-2.5 text-gray-300 hover:text-blue-400 hover:bg-gray-700 rounded-lg transition-all"
+              className="p-2.5 text-gray-300 hover:text-blue-400 hover:bg-white/10 rounded-lg transition-all hover:scale-110"
               aria-label="Facebook"
             >
               <Facebook size={20} />
@@ -254,7 +280,7 @@ const Header = () => {
               href="https://instagram.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="p-2.5 text-gray-300 hover:text-pink-400 hover:bg-gray-700 rounded-lg transition-all"
+              className="p-2.5 text-gray-300 hover:text-pink-400 hover:bg-white/10 rounded-lg transition-all hover:scale-110"
               aria-label="Instagram"
             >
               <Instagram size={20} />
@@ -263,7 +289,7 @@ const Header = () => {
               href="https://youtube.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="p-2.5 text-gray-300 hover:text-red-400 hover:bg-gray-700 rounded-lg transition-all"
+              className="p-2.5 text-gray-300 hover:text-red-400 hover:bg-white/10 rounded-lg transition-all hover:scale-110"
               aria-label="YouTube"
             >
               <Youtube size={20} />
@@ -279,8 +305,8 @@ const Header = () => {
               style={{ animationDelay: `${index * 30}ms` }}
               className={`block px-4 py-3.5 font-medium rounded-lg transition-all duration-200 mb-2 min-h-[48px] flex items-center ${
                 isActive(link.path)
-                  ? "bg-amber-600 text-white shadow-md"
-                  : "text-gray-200 hover:bg-gray-700 hover:text-white"
+                  ? "bg-purple-600 text-white shadow-lg shadow-purple-500/30"
+                  : "text-gray-200 hover:bg-white/10 hover:text-white"
               } ${mobileMenuOpen ? 'animate-slideIn' : ''}`}
             >
               {link.label}
@@ -289,7 +315,7 @@ const Header = () => {
 
           {/* User Actions in Mobile Menu */}
           {!memberUser && (
-            <div className="pt-4 mt-4 border-t border-gray-700">
+            <div className="pt-4 mt-4 border-t border-purple-700/50">
               <Button 
                 size="lg"
                 variant="outline" 
@@ -297,7 +323,7 @@ const Header = () => {
                   setMobileMenuOpen(false);
                   navigate('/member/login');
                 }}
-                className="w-full gap-2 text-white border-gray-600 hover:bg-gray-700 min-h-[48px]"
+                className="w-full gap-2 text-white border-purple-600 hover:bg-white/10 min-h-[48px]"
               >
                 <User size={18} />
                 Member Login
