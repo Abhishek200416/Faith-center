@@ -321,7 +321,7 @@ const EnhancedHome = () => {
           <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center px-4 sm:px-0" style={{animation: 'fadeInUp 0.8s ease-out 1s backwards'}}>
             <Button 
               size="lg" 
-              className="rounded-full w-full sm:w-auto text-lg px-8 py-6 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all" 
+              className="rounded-full w-full sm:w-auto text-lg px-8 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all" 
               onClick={() => navigate("/watch-live")}
             >
               <Play className="mr-2" size={20} />
@@ -341,7 +341,7 @@ const EnhancedHome = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="section bg-gradient-to-br from-amber-600 to-orange-600 text-white">
+      <section className="section bg-gradient-to-br from-blue-600 to-purple-600 text-white">
         <div className="container">
           <div 
             ref={statsRef} 
@@ -608,7 +608,7 @@ const EnhancedHome = () => {
       </section>
 
       {/* Call to Action Section */}
-      <section className="section bg-gradient-to-r from-amber-600 to-orange-600 text-white">
+      <section className="section bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container text-center max-w-4xl">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
             Ready to Take the Next Step?
