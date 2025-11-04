@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import "@/App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
@@ -21,7 +22,7 @@ import About from "./pages/About";
 import Events from "./pages/Events";
 import Ministries from "./pages/Ministries";
 import Announcements from "./pages/Announcements";
-import Messages from "./pages/Messages";
+import MessagesEnhanced from "./pages/MessagesEnhanced";
 import Testimonials from "./pages/Testimonials";
 import PrayerWall from "./pages/PrayerWall";
 import Gallery from "./pages/Gallery";
