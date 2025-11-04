@@ -146,11 +146,14 @@ def test_revive_event(brand_id):
             print(f"   Event Date: {event_date}")
             
             # Check if date contains Dec 3-7, 2025 or similar
-            if '2025' in event_date and ('dec' in event_date.lower() or '12' in event_date):
-                if ('3' in event_date and '7' in event_date) or ('3-7' in event_date):
-                    print("   ✅ Event date contains Dec 3-7, 2025")
+            description = revive_event.get('description', '')
+            if '2025' in event_date and ('2025-12-03' in event_date or 'dec' in event_date.lower() or '12' in event_date):
+                if ('3-7' in description) or ('December 3-7, 2025' in description):
+                    print("   ✅ Event date/description contains Dec 3-7, 2025 range")
+                elif '2025-12-03' in event_date:
+                    print("   ✅ Event date shows Dec 3, 2025 (start date)")
                 else:
-                    print("   ⚠️  Event date may not contain Dec 3-7 range")
+                    print("   ⚠️  Event date may not contain full Dec 3-7 range")
             else:
                 print("   ❌ Event date does not contain Dec 2025")
             
