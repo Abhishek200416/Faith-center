@@ -194,15 +194,18 @@ backend:
 
   - task: "POST /api/events/{event_id}/register endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created event registration endpoint to allow users to register for events with name, email, phone, guests count, and notes"
+      - working: true
+        agent: "testing"
+        comment: "✅ EVENT REGISTRATION API WORKING: 1) POST /api/events/{event_id}/register successfully accepts registration data with test payload: {name: 'John Doe', email: 'john@test.com', phone: '+1234567890', guests: 2, notes: 'Looking forward!', event_id: '{event_id}', brand_id: '{brand_id}'}, 2) Returns 200 status with created attendee object including generated UUID, 3) Registration works without authentication as expected, 4) All required fields properly validated and stored. Event registration functionality fully operational."
         
   - task: "GET /api/events/{event_id}/attendees endpoint"
     implemented: true
