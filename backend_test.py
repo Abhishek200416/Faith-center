@@ -1600,61 +1600,39 @@ def main():
     video_id_validation_success = test_video_id_format_validation()
     results.append(("Video ID Format Validation", video_id_validation_success))
     
-    # ========== SUMMARY ==========
-    print("=" * 80)
-    print("📊 TEST RESULTS SUMMARY")
+    # Print final results
+    print("\n" + "=" * 80)
+    print("📊 YOUTUBE INTEGRATION TEST RESULTS")
     print("=" * 80)
     
     passed = 0
-    total = 0
-    failed_tests = []
+    failed = 0
     
-    # Group results by category
-    categories = {
-        "Basic Setup": ['brands', 'admin_login'],
-        "Brand Content": ['ndm_events', 'faith_events', 'ndm_ministries', 'faith_ministries', 'brand_content_uniqueness'],
-        "Legacy APIs": ['events_all', 'events_by_brand', 'ministries_all', 'ministries_by_brand', 
-                       'announcements_all', 'announcements_by_brand', 'contact_post', 'subscribers_post'],
-        "Member Auth": ['user_register', 'user_login', 'user_me', 'users_get_all', 'admin_create_user', 'toggle_user_status'],
-        "Giving": ['giving_categories_get', 'giving_categories_create'],
-        "Payments": ['payments_create_checkout', 'payments_get_status', 'payments_history', 'payments_transactions'],
-        "Foundations": ['foundations_get', 'foundation_get_by_id', 'foundation_donate'],
-        "YouTube Integration": ['youtube_faith_center', 'youtube_nehemiah_david', 'youtube_channels_uniqueness'],
-        "Live Streams": ['live_streams_get', 'live_streams_active', 'live_streams_create']
-    }
+    for test_name, success in results:
+        status = "✅ PASS" if success else "❌ FAIL"
+        print(f"{status:<10} {test_name}")
+        if success:
+            passed += 1
+        else:
+            failed += 1
     
-    for category, test_names in categories.items():
-        print(f"\n{category}:")
-        category_passed = 0
-        category_total = 0
-        
-        for test_name in test_names:
-            if test_name in results:
-                success = results[test_name]
-                status = "✅ PASS" if success else "❌ FAIL"
-                print(f"  {test_name:25} {status}")
-                if success:
-                    passed += 1
-                    category_passed += 1
-                else:
-                    failed_tests.append(test_name)
-                total += 1
-                category_total += 1
-        
-        print(f"  Category Total: {category_passed}/{category_total}")
+    print("=" * 80)
+    print(f"📈 SUMMARY: {passed} passed, {failed} failed, {passed + failed} total")
     
-    print("-" * 80)
-    print(f"OVERALL TOTAL: {passed}/{total} tests passed")
-    
-    if failed_tests:
-        print(f"\n❌ FAILED TESTS: {', '.join(failed_tests)}")
-    
-    if passed == total:
-        print("\n🎉 ALL TESTS PASSED!")
+    if failed == 0:
+        print("🎉 ALL YOUTUBE INTEGRATION TESTS PASSED!")
+        print("✅ Both channels return correct number of videos with all required fields")
+        print("✅ Video IDs are in valid YouTube format (11 characters)")
+        print("✅ Thumbnail URLs are valid YouTube CDN URLs")
+        print("✅ Categories are properly set for both channels")
+        print("✅ Both channels have unique video content")
         return 0
     else:
-        print(f"\n⚠️  {len(failed_tests)} TESTS FAILED!")
+        print(f"⚠️  {failed} YOUTUBE INTEGRATION TESTS FAILED")
+        print("❌ Some validation checks did not pass - see details above")
         return 1
+    
+    print("=" * 80)
 
 if __name__ == "__main__":
     exit_code = main()
