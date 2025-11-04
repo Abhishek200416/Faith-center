@@ -425,11 +425,13 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Test responsive design on mobile devices"
-    - "Test header navigation and mobile menu"
-    - "Test form validation on Contact page"
-    - "Test loading states and skeleton screens"
-  stuck_tasks: []
+    - "GET /api/foundations endpoint with brand filtering"
+    - "GET /api/foundations/{foundation_id} endpoint"
+    - "POST /api/foundations/donate endpoint"
+  stuck_tasks:
+    - "GET /api/foundations endpoint with brand filtering"
+    - "GET /api/foundations/{foundation_id} endpoint"
+    - "POST /api/foundations/donate endpoint"
   test_all: false
   test_priority: "high_first"
 
