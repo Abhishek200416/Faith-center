@@ -608,7 +608,7 @@ const EnhancedHome = () => {
       </section>
 
       {/* Call to Action Section */}
-      <section className="section bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+      <section className="section bg-gradient-to-r from-amber-600 to-orange-600 text-white">
         <div className="container text-center max-w-4xl">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
             Ready to Take the Next Step?
