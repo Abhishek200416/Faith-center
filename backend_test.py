@@ -1763,15 +1763,15 @@ def main():
     print("\n📺 LIVE STREAM TESTS")
     print("-" * 40)
     
-    # Test 24: Get Live Streams
+    # Test 26: Get Live Streams
     results['live_streams_get'] = test_get_live_streams(brand_id)
     print()
     
-    # Test 25: Get Active Stream
+    # Test 27: Get Active Stream
     results['live_streams_active'] = test_get_active_stream(brand_id)
     print()
     
-    # Test 26: Create Live Stream (Admin)
+    # Test 28: Create Live Stream (Admin)
     if admin_token:
         results['live_streams_create'] = test_create_live_stream(admin_token, brand_id)
         print()
