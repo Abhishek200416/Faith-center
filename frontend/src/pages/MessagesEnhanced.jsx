@@ -571,11 +571,7 @@ const MessagesEnhanced = () => {
             <div className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
-                  <div className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 ${
-                    activeChannelTab === "faithcenter" 
-                      ? "bg-red-100 text-red-700" 
-                      : "bg-blue-100 text-blue-700"
-                  }`}>
+                  <div className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 bg-${brandColor}-100 text-${brandColor}-700`}>
                     {selectedVideo.category}
                   </div>
                   <h2 className="text-2xl sm:text-3xl font-bold mb-2">{selectedVideo.title}</h2>
@@ -616,11 +612,7 @@ const MessagesEnhanced = () => {
                 <Button
                   size="lg"
                   onClick={() => openYoutubeVideo(selectedVideo.videoId)}
-                  className={`flex-1 transition-all duration-300 hover:scale-105 ${
-                    activeChannelTab === "faithcenter" 
-                      ? "bg-red-600 hover:bg-red-700" 
-                      : "bg-blue-600 hover:bg-blue-700"
-                  }`}
+                  className={`flex-1 bg-${brandColor}-600 hover:bg-${brandColor}-700 transition-all duration-300 hover:scale-105`}
                 >
                   <Youtube size={20} className="mr-2" />
                   Watch on YouTube
@@ -628,7 +620,7 @@ const MessagesEnhanced = () => {
                 <Button
                   size="lg"
                   variant="outline"
-                  onClick={() => openYoutubeChannel(activeChannelTab)}
+                  onClick={openYoutubeChannel}
                   className="transition-all duration-300 hover:scale-105"
                 >
                   <ExternalLink size={20} className="mr-2" />
