@@ -291,7 +291,7 @@ const EnhancedHome = () => {
           </h1>
           
           <p 
-            className="text-base sm:text-lg md:text-xl mb-6 max-w-3xl mx-auto text-white transition-all duration-500" 
+            className="text-base sm:text-lg md:text-xl mb-6 max-w-3xl mx-auto text-white transition-all duration-500 line-clamp-2" 
             style={{
               animation: 'fadeInUp 0.8s ease-out 0.4s backwards', 
               textShadow: '1px 1px 2px rgba(0,0,0,0.4)', 
