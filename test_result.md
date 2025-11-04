@@ -434,13 +434,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "GET /api/foundations endpoint with brand filtering"
-    - "GET /api/foundations/{foundation_id} endpoint"
-    - "POST /api/foundations/donate endpoint"
+    - "Brand data validation issues"
+    - "Admin authentication setup"
   stuck_tasks:
-    - "GET /api/foundations endpoint with brand filtering"
-    - "GET /api/foundations/{foundation_id} endpoint"
-    - "POST /api/foundations/donate endpoint"
+    - "Brand data validation issues"
   test_all: false
   test_priority: "high_first"
 
