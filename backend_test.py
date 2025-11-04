@@ -900,6 +900,203 @@ def test_get_all_transactions(admin_token):
         print(f"   ❌ Exception: {str(e)}")
         return False
 
+# ========== FOUNDATIONS TESTS ==========
+
+def test_get_foundations(brand_id):
+    """Test GET /api/foundations?brand_id={id} - Should return 4 foundations for Nehemiah David Ministries"""
+    print("🔍 Testing GET /api/foundations...")
+    
+    try:
+        url = f"{BACKEND_URL}/foundations"
+        if brand_id:
+            url += f"?brand_id={brand_id}"
+        
+        response = requests.get(url, timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            foundations = response.json()
+            print(f"   Response Type: {type(foundations)}")
+            if isinstance(foundations, list):
+                print(f"   Foundations Count: {len(foundations)}")
+                
+                # For Nehemiah David Ministries, expect 4 foundations
+                if len(foundations) == 4:
+                    print("   ✅ Found expected 4 foundations")
+                    
+                    # Verify each foundation has required fields
+                    all_valid = True
+                    for i, foundation in enumerate(foundations):
+                        print(f"   🔍 Verifying Foundation {i+1}: {foundation.get('title', 'No title')}")
+                        
+                        # Check required fields
+                        required_fields = ['title', 'description', 'image_url', 'gallery_images', 'goal_amount', 'raised_amount', 'is_active']
+                        for field in required_fields:
+                            if field not in foundation:
+                                print(f"   ❌ Missing field '{field}' in foundation {i+1}")
+                                all_valid = False
+                            elif field == 'gallery_images':
+                                if not isinstance(foundation[field], list) or len(foundation[field]) != 6:
+                                    print(f"   ❌ gallery_images should be array with 6 images, got {len(foundation[field]) if isinstance(foundation[field], list) else 'not array'}")
+                                    all_valid = False
+                                else:
+                                    print(f"   ✅ gallery_images has 6 images")
+                            elif field == 'is_active':
+                                if foundation[field] != True:
+                                    print(f"   ❌ is_active should be true, got {foundation[field]}")
+                                    all_valid = False
+                                else:
+                                    print(f"   ✅ is_active is true")
+                            elif field in ['goal_amount', 'raised_amount']:
+                                if not isinstance(foundation[field], (int, float)) or foundation[field] < 0:
+                                    print(f"   ❌ {field} should be positive number, got {foundation[field]}")
+                                    all_valid = False
+                                else:
+                                    print(f"   ✅ {field}: ${foundation[field]:,}")
+                    
+                    if all_valid:
+                        print("   ✅ All foundations have valid structure")
+                        return True, foundations
+                    else:
+                        print("   ❌ Some foundations have invalid structure")
+                        return False, foundations
+                else:
+                    print(f"   ❌ Expected 4 foundations, found {len(foundations)}")
+                    if len(foundations) > 0:
+                        print(f"   Found foundations: {[f.get('title') for f in foundations]}")
+                    return False, foundations
+            else:
+                print("   ❌ Response is not a list")
+                return False, None
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False, None
+
+def test_get_foundation_by_id(foundation_id):
+    """Test GET /api/foundations/{foundation_id} - Test retrieving a specific foundation"""
+    print(f"🔍 Testing GET /api/foundations/{foundation_id}...")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/foundations/{foundation_id}", timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            foundation = response.json()
+            print(f"   Response Type: {type(foundation)}")
+            if isinstance(foundation, dict):
+                print(f"   Foundation Title: {foundation.get('title', 'No title')}")
+                print(f"   Foundation ID: {foundation.get('id', 'No ID')}")
+                
+                # Verify required fields
+                required_fields = ['id', 'title', 'description', 'image_url', 'gallery_images', 'goal_amount', 'raised_amount', 'is_active']
+                all_present = all(field in foundation for field in required_fields)
+                
+                if all_present:
+                    print("   ✅ Foundation has all required fields")
+                    return True, foundation
+                else:
+                    missing = [field for field in required_fields if field not in foundation]
+                    print(f"   ❌ Missing fields: {missing}")
+                    return False, foundation
+            else:
+                print("   ❌ Response is not a dict")
+                return False, None
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False, None
+
+def test_foundation_donate(foundation_id, brand_id):
+    """Test POST /api/foundations/donate - Test donation creation and foundation update"""
+    print("🔍 Testing POST /api/foundations/donate...")
+    
+    # First get current raised_amount
+    try:
+        get_response = requests.get(f"{BACKEND_URL}/foundations/{foundation_id}", timeout=10)
+        if get_response.status_code != 200:
+            print("   ❌ Could not get foundation details for donation test")
+            return False
+        
+        foundation_before = get_response.json()
+        initial_raised = foundation_before.get('raised_amount', 0)
+        print(f"   Initial raised amount: ${initial_raised:,}")
+        
+    except Exception as e:
+        print(f"   ❌ Exception getting foundation: {str(e)}")
+        return False
+    
+    # Create donation
+    donation_data = {
+        "foundation_id": foundation_id,
+        "donor_name": "Sarah Thompson",
+        "donor_email": "sarah.thompson@email.com",
+        "amount": 250.00,
+        "message": "Blessed to support this wonderful cause. May God multiply this gift!",
+        "brand_id": brand_id
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/foundations/donate",
+            json=donation_data,
+            headers={"Content-Type": "application/json"},
+            timeout=10
+        )
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            print(f"   Response Type: {type(result)}")
+            if isinstance(result, dict):
+                print(f"   Donation ID: {result.get('id', 'No ID')}")
+                print(f"   Donor Name: {result.get('donor_name', 'No name')}")
+                print(f"   Amount: ${result.get('amount', 0)}")
+                
+                # Verify foundation raised_amount was updated
+                try:
+                    updated_response = requests.get(f"{BACKEND_URL}/foundations/{foundation_id}", timeout=10)
+                    if updated_response.status_code == 200:
+                        foundation_after = updated_response.json()
+                        new_raised = foundation_after.get('raised_amount', 0)
+                        expected_raised = initial_raised + donation_data['amount']
+                        
+                        print(f"   Updated raised amount: ${new_raised:,}")
+                        print(f"   Expected raised amount: ${expected_raised:,}")
+                        
+                        if abs(new_raised - expected_raised) < 0.01:  # Allow for floating point precision
+                            print("   ✅ Foundation raised_amount updated correctly")
+                            return True
+                        else:
+                            print("   ❌ Foundation raised_amount not updated correctly")
+                            return False
+                    else:
+                        print("   ❌ Could not verify foundation update")
+                        return False
+                        
+                except Exception as e:
+                    print(f"   ❌ Exception verifying foundation update: {str(e)}")
+                    return False
+            else:
+                print("   ❌ Response is not a dict")
+                return False
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False
+
 # ========== LIVE STREAM TESTS ==========
 
 def test_get_live_streams(brand_id):
