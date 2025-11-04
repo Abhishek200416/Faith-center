@@ -38,10 +38,10 @@ const MessagesEnhanced = () => {
     
     // Service times in minutes from midnight
     const services = [
-      { name: "Morning Service", time: 7 * 60, days: [0, 1, 2, 3, 4, 5, 6] }, // 7 AM daily
+      { name: "Morning Service", time: 7 * 60, days: [0] }, // 7 AM Sunday
       { name: "Main Service", time: 10 * 60, days: [0] }, // 10 AM Sunday
-      { name: "Evening Service", time: 18 * 60 + 30, days: [1, 2, 3, 4, 5, 6] }, // 6:30 PM Mon-Sat
-      { name: "Friday Service", time: 19 * 60, days: [5] } // 7 PM Friday
+      { name: "Evening Service", time: 18 * 60, days: [0] }, // 6 PM Sunday
+      { name: "Friday Service", time: 18 * 60 + 30, days: [5] } // 6:30 PM Friday
     ];
     
     let nextService = null;
