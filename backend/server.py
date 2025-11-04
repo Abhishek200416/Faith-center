@@ -841,83 +841,83 @@ async def get_youtube_videos(channel_handle: str):
             videos = [
                 {
                     "id": "fc1",
-                    "videoId": "RN7iFJXUMdA",
-                    "title": "Sunday Worship - Living with Purpose",
-                    "publishedAt": "2025-01-25T10:00:00Z",
-                    "description": "Join Faith Center for an inspiring message about living with purpose and intention in Christ.",
-                    "category": "Sunday Services",
-                    "duration": "45:30",
-                    "views": "2.5K"
-                },
-                {
-                    "id": "fc2",
-                    "videoId": "lpVOYLgHKi4",
-                    "title": "Wednesday Bible Study - Fruits of the Spirit",
-                    "publishedAt": "2025-01-22T19:00:00Z",
-                    "description": "Deep dive into Galatians 5:22-23, exploring the fruits of the Spirit in our daily lives.",
+                    "videoId": "j7Cj8FhyPQI",
+                    "title": "Bible Study w/ Ps. Nehemiah David",
+                    "publishedAt": "2025-10-24T19:00:00Z",
+                    "description": "Bible study session led by Pastor Nehemiah David. Deep dive into God's Word with practical application for daily living.",
                     "category": "Bible Study",
-                    "duration": "38:15",
-                    "views": "1.8K"
-                },
-                {
-                    "id": "fc3",
-                    "videoId": "OZfkboW-SOY",
-                    "title": "Youth Night - Identity in Christ",
-                    "publishedAt": "2025-01-20T18:00:00Z",
-                    "description": "A powerful message for our youth about finding their true identity in Christ.",
-                    "category": "Youth Services",
-                    "duration": "42:00",
+                    "duration": "55:30",
                     "views": "3.2K"
                 },
                 {
+                    "id": "fc2",
+                    "videoId": "c61bjEJgjXA",
+                    "title": "God's Hand Brings Miracles | Full Sermon",
+                    "publishedAt": "2025-09-07T10:00:00Z",
+                    "description": "Full sermon by Pastor Nehemiah David on the miraculous hand of God working in our lives today.",
+                    "category": "Sunday Services",
+                    "duration": "62:15",
+                    "views": "8.5K"
+                },
+                {
+                    "id": "fc3",
+                    "videoId": "4rV2K5S76qc",
+                    "title": "Favour and Grace of God | Full Sermon",
+                    "publishedAt": "2025-04-28T10:00:00Z",
+                    "description": "Full sermon on God's favour and grace. Understanding how to walk in divine favour and experience God's unmerited grace.",
+                    "category": "Sunday Services",
+                    "duration": "58:45",
+                    "views": "6.7K"
+                },
+                {
                     "id": "fc4",
-                    "videoId": "JGwWNGJdvx8",
-                    "title": "Prayer & Worship Evening - Seek His Face",
-                    "publishedAt": "2025-01-18T19:30:00Z",
-                    "description": "An evening of powerful worship and intercession. Seeking God's presence together.",
+                    "videoId": "x5CvVMJj2Tg",
+                    "title": "Annual Faith Conference 2025 | Day 1",
+                    "publishedAt": "2025-03-15T09:00:00Z",
+                    "description": "Conference sessions featuring various speakers and teachings. A powerful gathering of faith and inspiration.",
                     "category": "Special Events",
-                    "duration": "52:20",
-                    "views": "1.5K"
+                    "duration": "120:00",
+                    "views": "12.3K"
                 },
                 {
                     "id": "fc5",
-                    "videoId": "v_4KHXowAnQ",
-                    "title": "Sunday Service - Walk by Faith",
-                    "publishedAt": "2025-01-13T10:00:00Z",
-                    "description": "Learn to walk by faith and not by sight. Trusting God in every circumstance.",
+                    "videoId": "FqI3wT57qzk",
+                    "title": "Sunday Worship - Walking in Victory",
+                    "publishedAt": "2025-02-16T10:00:00Z",
+                    "description": "Join us for an inspiring Sunday worship service about living victoriously through Christ.",
                     "category": "Sunday Services",
-                    "duration": "48:45",
-                    "views": "2.9K"
+                    "duration": "52:30",
+                    "views": "4.8K"
                 },
                 {
                     "id": "fc6",
-                    "videoId": "Z99IdPmutxI",
-                    "title": "Healing Service - By His Stripes We Are Healed",
-                    "publishedAt": "2025-01-10T19:00:00Z",
-                    "description": "A special healing service focusing on God's healing power and promises from Isaiah 53:5.",
+                    "videoId": "G3jgHbDB4TU",
+                    "title": "Prayer Meeting - Seeking His Presence",
+                    "publishedAt": "2025-01-22T18:30:00Z",
+                    "description": "A powerful prayer meeting focused on seeking God's presence and interceding for our community.",
                     "category": "Special Events",
-                    "duration": "55:10",
-                    "views": "4.1K"
+                    "duration": "45:20",
+                    "views": "2.9K"
                 },
                 {
                     "id": "fc7",
-                    "videoId": "bjoSu2IwY_g",
-                    "title": "Community Outreach - Serving with Love",
-                    "publishedAt": "2025-01-08T14:00:00Z",
-                    "description": "Highlights from our community outreach program. Serving our neighbors with Christ's love.",
-                    "category": "Community",
-                    "duration": "25:30",
-                    "views": "1.2K"
+                    "videoId": "ZxLpEQ_4tqY",
+                    "title": "Youth Service - Purpose in Christ",
+                    "publishedAt": "2025-01-12T18:00:00Z",
+                    "description": "A powerful message for our youth about discovering their God-given purpose and calling.",
+                    "category": "Youth Services",
+                    "duration": "48:15",
+                    "views": "5.4K"
                 },
                 {
                     "id": "fc8",
-                    "videoId": "mWRsgZuwf_8",
-                    "title": "Sunday Service - The Power of Prayer",
-                    "publishedAt": "2025-01-06T10:00:00Z",
-                    "description": "Understanding the power and importance of prayer in the believer's life.",
-                    "category": "Sunday Services",
-                    "duration": "46:20",
-                    "views": "3.5K"
+                    "videoId": "FNVf6cLYR0s",
+                    "title": "Community Outreach - Love in Action",
+                    "publishedAt": "2025-01-08T14:00:00Z",
+                    "description": "Highlights from our community outreach program. Serving our neighbors with the love of Christ.",
+                    "category": "Community",
+                    "duration": "32:45",
+                    "views": "3.1K"
                 }
             ]
         elif channel_handle == "nehemiahdavid":
