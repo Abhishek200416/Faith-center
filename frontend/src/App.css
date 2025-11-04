@@ -403,7 +403,7 @@ h4 { font-size: clamp(1.1rem, 2.5vw, 1.5rem); }
 }
 
 .section {
-  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  padding: clamp(2rem, 4vw, 3rem) 0;
 }
 
 /* Buttons */
