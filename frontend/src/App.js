@@ -155,49 +155,51 @@ function App() {
   };
 
   return (
-    <AuthContext.Provider value={{ authToken, admin, login, logout, memberToken, memberUser, memberLogin, memberLogout }}>
-      <BrandContext.Provider value={{ brands, currentBrand, switchBrand }}>
-        <div className="App">
-          <BrowserRouter>
-            <Routes>
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin/*" element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              } />
-              <Route path="/member/login" element={<UserLogin />} />
-              <Route path="/member/register" element={<UserRegister />} />
-              <Route path="/member/dashboard" element={<MemberDashboard />} />
-              <Route path="/*" element={
-                <>
-                  <Header />
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/events" element={<Events />} />
-                    <Route path="/ministries" element={<Ministries />} />
-                    <Route path="/announcements" element={<Announcements />} />
-                    <Route path="/messages" element={<Messages />} />
-                    <Route path="/testimonials" element={<Testimonials />} />
-                    <Route path="/prayer-wall" element={<PrayerWall />} />
-                    <Route path="/gallery" element={<Gallery />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/giving" element={<Giving />} />
-                    <Route path="/giving/success" element={<Giving />} />
-                    <Route path="/watch-live" element={<WatchLive />} />
-                    <Route path="/foundations" element={<Foundations />} />
-                  </Routes>
-                  <Footer />
-                  <WhatsAppButton phoneNumber="+919876543210" message="Hello! I'd like to know more about your church." />
-                </>
-              } />
-            </Routes>
-          </BrowserRouter>
-          <Toaster position="top-right" richColors />
-        </div>
-      </BrandContext.Provider>
-    </AuthContext.Provider>
+    <HelmetProvider>
+      <AuthContext.Provider value={{ authToken, admin, login, logout, memberToken, memberUser, memberLogin, memberLogout }}>
+        <BrandContext.Provider value={{ brands, currentBrand, switchBrand }}>
+          <div className="App">
+            <BrowserRouter>
+              <Routes>
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/*" element={
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/member/login" element={<UserLogin />} />
+                <Route path="/member/register" element={<UserRegister />} />
+                <Route path="/member/dashboard" element={<MemberDashboard />} />
+                <Route path="/*" element={
+                  <>
+                    <Header />
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/about" element={<About />} />
+                      <Route path="/events" element={<Events />} />
+                      <Route path="/ministries" element={<Ministries />} />
+                      <Route path="/announcements" element={<Announcements />} />
+                      <Route path="/messages" element={<MessagesEnhanced />} />
+                      <Route path="/testimonials" element={<Testimonials />} />
+                      <Route path="/prayer-wall" element={<PrayerWall />} />
+                      <Route path="/gallery" element={<Gallery />} />
+                      <Route path="/contact" element={<Contact />} />
+                      <Route path="/giving" element={<Giving />} />
+                      <Route path="/giving/success" element={<Giving />} />
+                      <Route path="/watch-live" element={<WatchLive />} />
+                      <Route path="/foundations" element={<Foundations />} />
+                    </Routes>
+                    <Footer />
+                    <WhatsAppButton phoneNumber="+919876543210" message="Hello! I'd like to know more about your church." />
+                  </>
+                } />
+              </Routes>
+            </BrowserRouter>
+            <Toaster position="top-right" richColors />
+          </div>
+        </BrandContext.Provider>
+      </AuthContext.Provider>
+    </HelmetProvider>
   );
 }
 
