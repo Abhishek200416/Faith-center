@@ -100,9 +100,9 @@ const Header = () => {
                     to={link.path}
                     className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 text-sm whitespace-nowrap relative z-50 ${
                       link.highlight
-                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-md hover:shadow-lg"
+                        ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white hover:from-amber-700 hover:to-orange-700 shadow-md hover:shadow-lg"
                         : isActive(link.path)
-                        ? "bg-blue-600 text-white shadow-sm"
+                        ? "bg-amber-600 text-white shadow-sm"
                         : "text-gray-200 hover:bg-gray-800 hover:text-white"
                     }`}
                   >
