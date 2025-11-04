@@ -286,16 +286,16 @@ const EnhancedHome = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
         
         <div className="relative z-10 text-center text-white max-w-5xl px-4 sm:px-6">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-on-scroll" style={{animationDelay: '0.2s'}}>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6" style={{animation: 'fadeInUp 0.8s ease-out 0.2s backwards'}}>
             {currentBrand.tagline || `Welcome to ${currentBrand.name}`}
           </h1>
           
-          <p className="text-lg sm:text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto animate-on-scroll" style={{animationDelay: '0.4s'}}>
+          <p className="text-lg sm:text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto" style={{animation: 'fadeInUp 0.8s ease-out 0.4s backwards'}}>
             Join us as we grow together in faith, love, and community
           </p>
 
           {/* Countdown to Next Service */}
-          <div className="mb-8 animate-on-scroll" style={{animationDelay: '0.6s'}}>
+          <div className="mb-8" style={{animation: 'fadeInUp 0.8s ease-out 0.6s backwards'}}>
             <h3 className="text-xl sm:text-2xl font-semibold mb-4">Next Service Begins In</h3>
             <CountdownTimer targetDate={getNextServiceDate()} />
           </div>
