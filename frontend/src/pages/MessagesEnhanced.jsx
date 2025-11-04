@@ -610,7 +610,10 @@ const MessagesEnhanced = () => {
             <div className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
-                  <div className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 bg-${brandColor}-100 text-${brandColor}-700`}>
+                  <div className={brandColor === "red"
+                    ? "inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 bg-red-100 text-red-700"
+                    : "inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 bg-blue-100 text-blue-700"
+                  }>
                     {selectedVideo.category}
                   </div>
                   <h2 className="text-2xl sm:text-3xl font-bold mb-2">{selectedVideo.title}</h2>
