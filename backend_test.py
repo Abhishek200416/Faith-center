@@ -1406,17 +1406,10 @@ def test_video_id_format_validation():
                     print(f"   ❌ Video {i+1}: Invalid video ID format: '{video_id}' (should be alphanumeric with - or _)")
                     all_valid = False
                 
-                # Check that thumbnail URLs are NOT in the response (should be loaded from YouTube CDN)
-                if 'thumbnail' in video and video['thumbnail']:
-                    # This is actually expected based on the current implementation
-                    # The requirement says "No thumbnail URLs in response" but the current API returns them
-                    # Let's verify they are valid YouTube thumbnail URLs
-                    thumbnail_url = video['thumbnail']
-                    if not thumbnail_url.startswith('https://img.youtube.com/vi/'):
-                        print(f"   ❌ Video {i+1}: Invalid thumbnail URL format: {thumbnail_url}")
-                        all_valid = False
-                    else:
-                        print(f"   ✅ Video {i+1}: Valid YouTube thumbnail URL: {thumbnail_url}")
+                # Check that thumbnail URLs are NOT in the response (as per requirement)
+                if 'thumbnail' in video:
+                    print(f"   ❌ Video {i+1}: Unexpected thumbnail field found: {video['thumbnail']}")
+                    all_valid = False
             
             if all_valid:
                 print("   ✅ All video IDs are in valid YouTube format (11 characters)")
