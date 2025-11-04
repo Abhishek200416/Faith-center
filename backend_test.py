@@ -1799,7 +1799,7 @@ def main():
         "Giving": ['giving_categories_get', 'giving_categories_create'],
         "Payments": ['payments_create_checkout', 'payments_get_status', 'payments_history', 'payments_transactions'],
         "Foundations": ['foundations_get', 'foundation_get_by_id', 'foundation_donate'],
-        "YouTube Integration": ['youtube_channel'],
+        "YouTube Integration": ['youtube_faith_center', 'youtube_nehemiah_david', 'youtube_channels_uniqueness'],
         "Live Streams": ['live_streams_get', 'live_streams_active', 'live_streams_create']
     }
     
