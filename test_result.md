@@ -137,6 +137,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ BRAND-SPECIFIC EVENTS TESTING COMPLETE: 1) GET /api/events?brand_id={ndm_id} returns exactly 3 events for Nehemiah David Ministries: 'Sunday Worship Service', 'Youth Night', 'Community Outreach Program', 2) GET /api/events?brand_id={faith_id} returns exactly 3 different events for Faith Centre: 'Sunday Worship', 'Prayer Meeting', 'Community Service Day', 3) Content uniqueness verified - no event titles overlap between brands, 4) All events are properly filtered by brand_id parameter. Brand-specific event content working perfectly."
+      - working: true
+        agent: "testing"
+        comment: "✅ REVIVE EVENT VERIFICATION COMPLETE: 1) Found 'REVIVE - 5 Day Revival Conference' event in Nehemiah David Ministries events, 2) Event date confirmed as 2025-12-03 (December 3, 2025), 3) Event description contains 'December 3-7, 2025' confirming full 5-day conference range, 4) Description properly mentions '5-day revival experience', 5) All events have updated Unsplash image URLs (4/4 events verified). REVIVE event requirements from review request fully satisfied."
         
   - task: "GET /api/ministries endpoint with brand filtering"
     implemented: true
