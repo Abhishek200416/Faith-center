@@ -1550,10 +1550,12 @@ def test_create_live_stream(admin_token, brand_id):
         return False
 
 def main():
-    """Run all backend API tests"""
+    """Run YouTube integration backend tests as requested"""
     print("=" * 80)
-    print("🚀 BACKEND API TESTING STARTED - MODERNIZED CHURCH PLATFORM")
+    print("🎬 YOUTUBE INTEGRATION BACKEND TESTING")
+    print("=" * 80)
     print(f"Backend URL: {BACKEND_URL}")
+    print(f"Test Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 80)
     
     results = {}
