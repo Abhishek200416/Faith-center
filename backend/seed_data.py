@@ -20,14 +20,16 @@ ndm_id = str(uuid.uuid4())
 ndm_brand = {
     "id": ndm_id,
     "name": "Nehemiah David Ministries",
+    "domain": "nehemiahdavid.com",
     "tagline": "Imparting Faith, Impacting Lives",
     "logo_url": "https://nehemiahdavid.com/assets/images/logo.svg",
     "hero_image_url": "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1920",
     "hero_video_url": "",
     "location": "Amaravathi Rd, above Yousta, Gorantla, Guntur, Andhra Pradesh 522034",
     "service_times": "Sunday 10:00 AM & Wednesday 7:00 PM",
-    "created_at": datetime.utcnow().isoformat(),
-    "updated_at": datetime.utcnow().isoformat()
+    "primary_color": "#1a1a1a",
+    "secondary_color": "#4a90e2",
+    "created_at": datetime.utcnow().isoformat()
 }
 
 # Create Faith Centre Brand
@@ -35,14 +37,16 @@ fc_id = str(uuid.uuid4())
 fc_brand = {
     "id": fc_id,
     "name": "Faith Centre",
+    "domain": "faithcentre.com",
     "tagline": "Where Faith Meets Community",
     "logo_url": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200",
     "hero_image_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920",
     "hero_video_url": "",
     "location": "123 Faith Street, Community City, CC 12345",
     "service_times": "Sunday 9:00 AM & 11:00 AM",
-    "created_at": datetime.utcnow().isoformat(),
-    "updated_at": datetime.utcnow().isoformat()
+    "primary_color": "#1a1a1a",
+    "secondary_color": "#4a90e2",
+    "created_at": datetime.utcnow().isoformat()
 }
 
 print("Creating brands...")
