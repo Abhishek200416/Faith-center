@@ -85,19 +85,9 @@ const Header = () => {
                 className="flex items-center space-x-1 sm:space-x-2 transition-transform hover:scale-105 relative z-50 flex-shrink-0" 
                 data-testid="header-logo"
               >
-                {currentBrand.logo_url ? (
-                  <img 
-                    src={currentBrand.logo_url} 
-                    alt={currentBrand.name} 
-                    className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" 
-                  />
-                ) : (
-                  <div 
-                    className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white whitespace-nowrap truncate max-w-[120px] sm:max-w-[180px] md:max-w-none"
-                  >
-                    {currentBrand.name}
-                  </div>
-                )}
+                <div className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white whitespace-nowrap truncate max-w-[150px] sm:max-w-[200px] md:max-w-none">
+                  {currentBrand.name}
+                </div>
               </Link>
 
               {/* Desktop Navigation - Moved to left side */}
