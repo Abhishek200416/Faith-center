@@ -1,38 +1,110 @@
 import { useState, useEffect, useMemo } from "react";
 import { useBrand, API } from "@/App";
 import axios from "axios";
-import { Play, Calendar, ExternalLink, Youtube, Loader2, Search, X, Eye, Filter } from "lucide-react";
+import { Play, Calendar, ExternalLink, Youtube, Loader2, Search, X, Eye, Filter, Radio, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 
 const MessagesEnhanced = () => {
   const { currentBrand } = useBrand();
-  const [faithCenterVideos, setFaithCenterVideos] = useState([]);
-  const [nehemiahVideos, setNehemiahVideos] = useState([]);
+  const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [activeChannelTab, setActiveChannelTab] = useState("faithcenter");
+  const [activeTab, setActiveTab] = useState("sermons"); // "sermons" or "live"
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, nextService: "" });
 
   useEffect(() => {
-    loadAllYoutubeVideos();
+    if (currentBrand) {
+      loadChannelVideos();
+    }
+  }, [currentBrand]);
+
+  useEffect(() => {
+    // Update countdown every second
+    const timer = setInterval(() => {
+      updateCountdown();
+    }, 1000);
+    
+    updateCountdown();
+    return () => clearInterval(timer);
   }, []);
 
-  const loadAllYoutubeVideos = async () => {
+  const updateCountdown = () => {
+    const now = new Date();
+    const currentDay = now.getDay(); // 0 = Sunday, 5 = Friday
+    const currentTime = now.getHours() * 60 + now.getMinutes();
+    
+    // Service times in minutes from midnight
+    const services = [
+      { name: "Morning Service", time: 7 * 60, days: [0, 1, 2, 3, 4, 5, 6] }, // 7 AM daily
+      { name: "Main Service", time: 10 * 60, days: [0] }, // 10 AM Sunday
+      { name: "Evening Service", time: 18 * 60 + 30, days: [1, 2, 3, 4, 5, 6] }, // 6:30 PM Mon-Sat
+      { name: "Friday Service", time: 19 * 60, days: [5] } // 7 PM Friday
+    ];
+    
+    let nextService = null;
+    let minDiff = Infinity;
+    
+    // Find next service
+    for (let daysAhead = 0; daysAhead < 7; daysAhead++) {
+      const checkDay = (currentDay + daysAhead) % 7;
+      
+      for (const service of services) {
+        if (service.days.includes(checkDay)) {
+          const serviceTime = service.time;
+          let diff;
+          
+          if (daysAhead === 0 && currentTime < serviceTime) {
+            diff = serviceTime - currentTime;
+          } else if (daysAhead > 0) {
+            diff = (daysAhead * 24 * 60) + serviceTime - currentTime;
+          } else {
+            continue;
+          }
+          
+          if (diff < minDiff && diff > 0) {
+            minDiff = diff;
+            nextService = {
+              name: service.name,
+              diff: diff
+            };
+          }
+        }
+      }
+    }
+    
+    if (nextService) {
+      const totalMinutes = nextService.diff;
+      const days = Math.floor(totalMinutes / (24 * 60));
+      const hours = Math.floor((totalMinutes % (24 * 60)) / 60);
+      const minutes = Math.floor(totalMinutes % 60);
+      const seconds = Math.floor((totalMinutes * 60) % 60);
+      
+      setCountdown({
+        days,
+        hours,
+        minutes,
+        seconds,
+        nextService: nextService.name
+      });
+    }
+  };
+
+  const loadChannelVideos = async () => {
     setLoading(true);
     try {
-      const [faithResponse, nehemiahResponse] = await Promise.all([
-        axios.get(`${API}/youtube/channel/@faithcenter_in`),
-        axios.get(`${API}/youtube/channel/@nehemiahdavid`)
-      ]);
+      // Determine which channel to load based on current brand
+      const channelHandle = currentBrand.name.toLowerCase().includes("nehemiah") 
+        ? "@nehemiahdavid"
+        : "@faithcenter_in";
       
-      setFaithCenterVideos(faithResponse.data);
-      setNehemiahVideos(nehemiahResponse.data);
+      const response = await axios.get(`${API}/youtube/channel/${channelHandle}`);
+      setVideos(response.data);
     } catch (error) {
       console.error("Error loading YouTube videos:", error);
-      setFaithCenterVideos([]);
-      setNehemiahVideos([]);
+      setVideos([]);
     } finally {
       setLoading(false);
     }
@@ -42,14 +114,14 @@ const MessagesEnhanced = () => {
     window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
   };
 
-  const openYoutubeChannel = (channel) => {
-    const channelUrl = channel === "faithcenter" 
-      ? "https://youtube.com/@faithcenter_in"
-      : "https://youtube.com/@nehemiahdavid";
+  const openYoutubeChannel = () => {
+    const channelUrl = currentBrand.name.toLowerCase().includes("nehemiah")
+      ? "https://youtube.com/@nehemiahdavid"
+      : "https://youtube.com/@faithcenter_in";
     window.open(channelUrl, '_blank');
   };
 
-  const currentVideos = activeChannelTab === "faithcenter" ? faithCenterVideos : nehemiahVideos;
+  const currentVideos = videos;
   
   const filteredVideos = useMemo(() => {
     let videos = currentVideos;
