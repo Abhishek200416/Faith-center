@@ -191,7 +191,7 @@ const Giving = () => {
                         onClick={() => setSelectedCategory(cat)}
                         className={`p-4 rounded-lg border-2 transition-all ${
                           selectedCategory === cat
-                            ? 'border-blue-600 bg-blue-50 text-blue-900'
+                            ? 'border-amber-600 bg-amber-50 text-amber-900'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                       >
