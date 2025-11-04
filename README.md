@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://nmd-faith-center.preview.emergentagent.com
-- Admin Panel: https://nmd-faith-center.preview.emergentagent.com/admin/login
+- Public Site: https://image-events.preview.emergentagent.com
+- Admin Panel: https://image-events.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
