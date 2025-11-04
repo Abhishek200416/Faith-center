@@ -12,6 +12,7 @@ import VolunteersManager from "./admin/VolunteersManager";
 import BrandsManager from "./admin/BrandsManager";
 import MembersManager from "./admin/MembersManager";
 import LiveStreamManager from "./admin/LiveStreamManager";
+import AttendeesManager from "./admin/AttendeesManager";
 
 const AdminDashboard = () => {
   const location = useLocation();
