@@ -148,19 +148,20 @@ const MessagesEnhanced = () => {
 
   if (!currentBrand) return null;
 
-  const channelName = activeChannelTab === "faithcenter" ? "Faith Center" : "Nehemiah David Ministries";
-  const channelHandle = activeChannelTab === "faithcenter" ? "@faithcenter_in" : "@nehemiahdavid";
+  const channelName = currentBrand.name;
+  const channelHandle = currentBrand.name.toLowerCase().includes("nehemiah") ? "@nehemiahdavid" : "@faithcenter_in";
+  const brandColor = currentBrand.name.toLowerCase().includes("nehemiah") ? "blue" : "red";
 
   return (
     <div className="transition-all duration-500">
       <SEO 
-        title="Messages & Sermons - Watch Online"
-        description="Watch inspiring sermons and messages from Faith Center and Nehemiah David Ministries. Life-changing biblical teaching available online."
+        title={`Messages & Sermons - ${channelName}`}
+        description={`Watch inspiring sermons and messages from ${channelName}. Life-changing biblical teaching available online.`}
         image="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1200"
         schema={{
           "@context": "https://schema.org",
           "@type": "VideoGallery",
-          "name": "Church Messages & Sermons",
+          "name": `${channelName} - Messages & Sermons`,
           "description": "Watch inspiring sermons and messages online",
           "url": window.location.href
         }}
@@ -197,77 +198,47 @@ const MessagesEnhanced = () => {
               color: '#FFFFFF'
             }}
           >
-            Watch and listen to inspiring messages from Faith Center & Nehemiah David Ministries
+            Watch and listen to inspiring messages from {channelName}
           </p>
           <div className="flex gap-4 justify-center" style={{ animation: 'fadeInUp 0.8s ease-out 0.6s backwards' }}>
             <Button 
               size="lg"
-              onClick={() => openYoutubeChannel("faithcenter")}
-              className="bg-red-600 hover:bg-red-700 transition-all duration-300 hover:scale-105"
+              onClick={openYoutubeChannel}
+              className={`bg-${brandColor}-600 hover:bg-${brandColor}-700 transition-all duration-300 hover:scale-105`}
             >
               <Youtube size={20} className="mr-2" />
-              Faith Center Channel
-            </Button>
-            <Button 
-              size="lg"
-              onClick={() => openYoutubeChannel("nehemiah")}
-              className="bg-blue-600 hover:bg-blue-700 transition-all duration-300 hover:scale-105"
-            >
-              <Youtube size={20} className="mr-2" />
-              NMD Channel
+              Visit YouTube Channel
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Channel Tab Navigation */}
+      {/* Tab Navigation - Sermons vs Live */}
       <section className="bg-white border-b border-gray-200 sticky top-16 z-40 shadow-sm">
         <div className="container">
           <div className="flex flex-wrap gap-3 py-4">
             <button
-              onClick={() => {
-                setActiveChannelTab("faithcenter");
-                setSearchQuery("");
-                setSelectedCategory("all");
-              }}
+              onClick={() => setActiveTab("sermons")}
               className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform ${
-                activeChannelTab === "faithcenter"
-                  ? "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg scale-105"
+                activeTab === "sermons"
+                  ? `bg-gradient-to-r from-${brandColor}-600 to-${brandColor}-700 text-white shadow-lg scale-105`
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105"
               }`}
             >
               <Youtube className="inline mr-2" size={20} />
-              Faith Center
+              Sermons
             </button>
             <button
-              onClick={() => {
-                setActiveChannelTab("nehemiah");
-                setSearchQuery("");
-                setSelectedCategory("all");
-              }}
+              onClick={() => setActiveTab("live")}
               className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform ${
-                activeChannelTab === "nehemiah"
-                  ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg scale-105"
+                activeTab === "live"
+                  ? `bg-gradient-to-r from-${brandColor}-600 to-${brandColor}-700 text-white shadow-lg scale-105`
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105"
               }`}
             >
-              <Youtube className="inline mr-2" size={20} />
-              Nehemiah David
+              <Radio className="inline mr-2" size={20} />
+              Live Stream
             </button>
-            <div className="ml-auto">
-              <Button
-                size="lg"
-                onClick={() => openYoutubeChannel(activeChannelTab)}
-                className={`transition-all duration-300 hover:scale-105 ${
-                  activeChannelTab === "faithcenter" 
-                    ? "bg-red-600 hover:bg-red-700" 
-                    : "bg-blue-600 hover:bg-blue-700"
-                }`}
-              >
-                <ExternalLink size={18} className="mr-2" />
-                Visit {channelName} on YouTube
-              </Button>
-            </div>
           </div>
         </div>
       </section>
