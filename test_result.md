@@ -294,6 +294,18 @@ backend:
         agent: "testing"
         comment: "✅ YOUTUBE INTEGRATION WORKING PERFECTLY: GET /api/youtube/channel/@faithcenter_in returns array of 6 sermon videos with proper categorization. Video structure includes all required fields: id, videoId, title, thumbnail, publishedAt, description, category. Categories include: Sunday Services, Bible Study, Youth Services, Special Events. Fixed feedparser dependency issue by removing unused import. Endpoint returns curated sermon videos as expected for Faith Center application."
 
+  - task: "GET /api/youtube/channel/@nehemiahdavid endpoint"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ ENHANCED YOUTUBE INTEGRATION TESTING COMPLETE - ALL REQUIREMENTS VERIFIED: 1) ✅ Faith Center Channel (@faithcenter_in): Returns exactly 8 videos with all required fields (id, videoId, title, thumbnail, publishedAt, description, category, duration, views). Categories include Sunday Services, Bible Study, Youth Services, Special Events, Community. All video IDs unique, thumbnail URLs valid, dates in ISO format. 2) ✅ Nehemiah David Channel (@nehemiahdavid): Returns exactly 10 videos with all required fields. Categories include Sunday Services, Bible Study, Youth Services, Special Events, Ministry Training, Prayer & Worship. All validation checks passed. 3) ✅ Content Uniqueness: Both channels have completely unique video IDs and titles. Nehemiah David has unique categories (Ministry Training, Prayer & Worship) not found in Faith Center. 4) ✅ Existing Endpoints: All legacy APIs (brands, events, ministries, announcements, contact, subscribers) working correctly with no regressions. Enhanced YouTube integration fully operational and meets all specified requirements."
+
   - task: "Admin authentication with updated credentials"
     implemented: true
     working: true
