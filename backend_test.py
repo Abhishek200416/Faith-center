@@ -1502,6 +1502,7 @@ def main():
         "Member Auth": ['user_register', 'user_login', 'user_me', 'users_get_all', 'admin_create_user', 'toggle_user_status'],
         "Giving": ['giving_categories_get', 'giving_categories_create'],
         "Payments": ['payments_create_checkout', 'payments_get_status', 'payments_history', 'payments_transactions'],
+        "Foundations": ['foundations_get', 'foundation_get_by_id', 'foundation_donate'],
         "Live Streams": ['live_streams_get', 'live_streams_active', 'live_streams_create']
     }
     
