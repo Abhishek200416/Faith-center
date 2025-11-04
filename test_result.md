@@ -224,15 +224,18 @@ backend:
         
   - task: "GET /api/attendees endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created endpoint for admins to view all attendees across all events with optional brand filtering"
+      - working: true
+        agent: "testing"
+        comment: "✅ ALL ATTENDEES API WORKING: 1) GET /api/attendees?brand_id={brand_id} requires admin authentication and returns 200 status, 2) Successfully retrieves all attendees for the specified brand (tested with 3 total attendees), 3) Returns proper JSON array with complete attendee information across all events, 4) Brand filtering works correctly with brand_id parameter, 5) Admin authentication properly enforced. All attendees viewing functionality fully operational for admins."
 
 
 frontend:
