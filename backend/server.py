@@ -841,9 +841,8 @@ async def get_youtube_videos(channel_handle: str):
             videos = [
                 {
                     "id": "fc1",
-                    "videoId": "dQw4w9WgXcQ",
+                    "videoId": "RN7iFJXUMdA",
                     "title": "Sunday Worship - Living with Purpose",
-                    "thumbnail": "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800",
                     "publishedAt": "2025-01-25T10:00:00Z",
                     "description": "Join Faith Center for an inspiring message about living with purpose and intention in Christ.",
                     "category": "Sunday Services",
@@ -852,9 +851,8 @@ async def get_youtube_videos(channel_handle: str):
                 },
                 {
                     "id": "fc2",
-                    "videoId": "jNQXAC9IVRw",
+                    "videoId": "lpVOYLgHKi4",
                     "title": "Wednesday Bible Study - Fruits of the Spirit",
-                    "thumbnail": "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=800",
                     "publishedAt": "2025-01-22T19:00:00Z",
                     "description": "Deep dive into Galatians 5:22-23, exploring the fruits of the Spirit in our daily lives.",
                     "category": "Bible Study",
@@ -863,9 +861,8 @@ async def get_youtube_videos(channel_handle: str):
                 },
                 {
                     "id": "fc3",
-                    "videoId": "y8Kyi0WNg40",
+                    "videoId": "OZfkboW-SOY",
                     "title": "Youth Night - Identity in Christ",
-                    "thumbnail": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800",
                     "publishedAt": "2025-01-20T18:00:00Z",
                     "description": "A powerful message for our youth about finding their true identity in Christ.",
                     "category": "Youth Services",
@@ -874,9 +871,8 @@ async def get_youtube_videos(channel_handle: str):
                 },
                 {
                     "id": "fc4",
-                    "videoId": "9bZkp7q19f0",
+                    "videoId": "JGwWNGJdvx8",
                     "title": "Prayer & Worship Evening - Seek His Face",
-                    "thumbnail": "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=800",
                     "publishedAt": "2025-01-18T19:30:00Z",
                     "description": "An evening of powerful worship and intercession. Seeking God's presence together.",
                     "category": "Special Events",
@@ -885,9 +881,8 @@ async def get_youtube_videos(channel_handle: str):
                 },
                 {
                     "id": "fc5",
-                    "videoId": "kJQP7kiw5Fk",
+                    "videoId": "v_4KHXowAnQ",
                     "title": "Sunday Service - Walk by Faith",
-                    "thumbnail": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800",
                     "publishedAt": "2025-01-13T10:00:00Z",
                     "description": "Learn to walk by faith and not by sight. Trusting God in every circumstance.",
                     "category": "Sunday Services",
@@ -896,9 +891,8 @@ async def get_youtube_videos(channel_handle: str):
                 },
                 {
                     "id": "fc6",
-                    "videoId": "hT_nvWreIhg",
+                    "videoId": "Z99IdPmutxI",
                     "title": "Healing Service - By His Stripes We Are Healed",
-                    "thumbnail": "https://images.unsplash.com/photo-1502758398801-49e4003d9849?w=800",
                     "publishedAt": "2025-01-10T19:00:00Z",
                     "description": "A special healing service focusing on God's healing power and promises from Isaiah 53:5.",
                     "category": "Special Events",
@@ -907,9 +901,8 @@ async def get_youtube_videos(channel_handle: str):
                 },
                 {
                     "id": "fc7",
-                    "videoId": "L_jWHffIx5E",
+                    "videoId": "bjoSu2IwY_g",
                     "title": "Community Outreach - Serving with Love",
-                    "thumbnail": "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800",
                     "publishedAt": "2025-01-08T14:00:00Z",
                     "description": "Highlights from our community outreach program. Serving our neighbors with Christ's love.",
                     "category": "Community",
@@ -918,9 +911,8 @@ async def get_youtube_videos(channel_handle: str):
                 },
                 {
                     "id": "fc8",
-                    "videoId": "ZbZSe6N_BXs",
+                    "videoId": "mWRsgZuwf_8",
                     "title": "Sunday Service - The Power of Prayer",
-                    "thumbnail": "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800",
                     "publishedAt": "2025-01-06T10:00:00Z",
                     "description": "Understanding the power and importance of prayer in the believer's life.",
                     "category": "Sunday Services",
