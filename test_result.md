@@ -237,6 +237,42 @@ backend:
         agent: "testing"
         comment: "✅ ALL ATTENDEES API WORKING: 1) GET /api/attendees?brand_id={brand_id} requires admin authentication and returns 200 status, 2) Successfully retrieves all attendees for the specified brand (tested with 3 total attendees), 3) Returns proper JSON array with complete attendee information across all events, 4) Brand filtering works correctly with brand_id parameter, 5) Admin authentication properly enforced. All attendees viewing functionality fully operational for admins."
 
+  - task: "GET /api/foundations endpoint with brand filtering"
+    implemented: false
+    working: false
+    file: "backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL: Foundation API endpoints are completely missing from backend/server.py. GET /api/foundations?brand_id={ndm_brand_id} returns 404 Not Found. The Foundation models, routes, and endpoints are not implemented in the backend despite being mentioned in agent communications and having seed data in seed_data.py. Frontend expects these APIs but backend doesn't provide them."
+
+  - task: "GET /api/foundations/{foundation_id} endpoint"
+    implemented: false
+    working: false
+    file: "backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL: Foundation by ID endpoint missing. GET /api/foundations/{foundation_id} not implemented in backend/server.py. Cannot test individual foundation retrieval."
+
+  - task: "POST /api/foundations/donate endpoint"
+    implemented: false
+    working: false
+    file: "backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL: Foundation donation endpoint missing. POST /api/foundations/donate not implemented in backend/server.py. Cannot test donation creation or foundation raised_amount updates."
+
 
 frontend:
   - task: "Enhanced CSS with fluid typography and responsive design"
