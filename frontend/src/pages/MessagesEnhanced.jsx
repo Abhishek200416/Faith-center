@@ -444,7 +444,7 @@ const MessagesEnhanced = () => {
                       onClick={() => setSelectedVideo(video)}
                     >
                       <img 
-                        src={video.thumbnail || `https://img.youtube.com/vi/${video.videoId}/maxresdefault.jpg`} 
+                        src={`https://img.youtube.com/vi/${video.videoId}/maxresdefault.jpg`}
                         alt={video.title} 
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         onError={(e) => {
@@ -454,7 +454,7 @@ const MessagesEnhanced = () => {
                       
                       {/* Play button overlay */}
                       <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-all duration-300">
-                        <div className={`w-20 h-20 ${activeChannelTab === "faithcenter" ? "bg-red-600" : "bg-blue-600"} rounded-full flex items-center justify-center group-hover:scale-125 transition-transform duration-300 shadow-2xl`}>
+                        <div className={`w-20 h-20 bg-${brandColor}-600 rounded-full flex items-center justify-center group-hover:scale-125 transition-transform duration-300 shadow-2xl`}>
                           <Play size={32} className="text-white ml-1" fill="white" />
                         </div>
                       </div>
