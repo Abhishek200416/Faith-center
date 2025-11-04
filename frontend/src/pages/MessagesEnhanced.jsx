@@ -478,7 +478,10 @@ const MessagesEnhanced = () => {
                       
                       {/* Play button overlay */}
                       <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-all duration-300">
-                        <div className={`w-20 h-20 bg-${brandColor}-600 rounded-full flex items-center justify-center group-hover:scale-125 transition-transform duration-300 shadow-2xl`}>
+                        <div className={brandColor === "red" 
+                          ? "w-20 h-20 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-125 transition-transform duration-300 shadow-2xl"
+                          : "w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center group-hover:scale-125 transition-transform duration-300 shadow-2xl"
+                        }>
                           <Play size={32} className="text-white ml-1" fill="white" />
                         </div>
                       </div>
