@@ -1420,19 +1420,62 @@ def main():
         print("⏭️  Skipping all transactions test (no admin token)")
         print()
     
+    # ========== FOUNDATIONS TESTS ==========
+    print("\n🏛️  FOUNDATIONS TESTS")
+    print("-" * 40)
+    
+    # Test 20: Get Foundations for Nehemiah David Ministries
+    if ndm_id:
+        success, foundations_data = test_get_foundations(ndm_id)
+        results['foundations_get'] = success
+        print()
+        
+        # Test 21: Get specific foundation by ID
+        if success and foundations_data and len(foundations_data) > 0:
+            foundation_id = foundations_data[0].get('id')
+            if foundation_id:
+                success, foundation_detail = test_get_foundation_by_id(foundation_id)
+                results['foundation_get_by_id'] = success
+                print()
+                
+                # Test 22: Foundation donation
+                if success:
+                    results['foundation_donate'] = test_foundation_donate(foundation_id, ndm_id)
+                    print()
+                else:
+                    results['foundation_donate'] = False
+                    print("⏭️  Skipping foundation donation test (get by ID failed)")
+                    print()
+            else:
+                results['foundation_get_by_id'] = False
+                results['foundation_donate'] = False
+                print("⏭️  Skipping foundation by ID and donation tests (no foundation ID)")
+                print()
+        else:
+            results['foundation_get_by_id'] = False
+            results['foundation_donate'] = False
+            print("⏭️  Skipping foundation by ID and donation tests (get foundations failed)")
+            print()
+    else:
+        results['foundations_get'] = False
+        results['foundation_get_by_id'] = False
+        results['foundation_donate'] = False
+        print("⏭️  Skipping all foundation tests (no Nehemiah David Ministries brand ID)")
+        print()
+    
     # ========== LIVE STREAM TESTS ==========
     print("\n📺 LIVE STREAM TESTS")
     print("-" * 40)
     
-    # Test 20: Get Live Streams
+    # Test 23: Get Live Streams
     results['live_streams_get'] = test_get_live_streams(brand_id)
     print()
     
-    # Test 21: Get Active Stream
+    # Test 24: Get Active Stream
     results['live_streams_active'] = test_get_active_stream(brand_id)
     print()
     
-    # Test 22: Create Live Stream (Admin)
+    # Test 25: Create Live Stream (Admin)
     if admin_token:
         results['live_streams_create'] = test_create_live_stream(admin_token, brand_id)
         print()
