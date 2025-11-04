@@ -111,7 +111,7 @@ ndm_ministries = [
         "brand_id": ndm_id,
         "title": "Worship Team",
         "description": "Use your musical talents to lead our congregation in powerful worship.",
-        "image_url": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800",
+        "image_url": "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=800&q=80",
         "created_at": datetime.utcnow().isoformat()
     },
     {
@@ -119,7 +119,7 @@ ndm_ministries = [
         "brand_id": ndm_id,
         "title": "Children's Ministry",
         "description": "Nurturing the next generation with biblical foundations and fun activities.",
-        "image_url": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800",
+        "image_url": "https://images.unsplash.com/photo-1517456793572-1d8efd6dc135?w=800&q=80",
         "created_at": datetime.utcnow().isoformat()
     },
     {
@@ -127,7 +127,7 @@ ndm_ministries = [
         "brand_id": ndm_id,
         "title": "Community Outreach",
         "description": "Making a difference in our local community through acts of service and love.",
-        "image_url": "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=800",
+        "image_url": "https://images.unsplash.com/photo-1621112904887-419379ce6824?w=800&q=80",
         "created_at": datetime.utcnow().isoformat()
     },
     {
@@ -135,7 +135,7 @@ ndm_ministries = [
         "brand_id": ndm_id,
         "title": "Small Groups",
         "description": "Build meaningful relationships and grow spiritually in a small group setting.",
-        "image_url": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800",
+        "image_url": "https://images.unsplash.com/photo-1610070835951-156b6921281d?w=800&q=80",
         "created_at": datetime.utcnow().isoformat()
     }
 ]
