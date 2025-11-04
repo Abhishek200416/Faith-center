@@ -577,6 +577,30 @@ async def delete_event(event_id: str, admin = Depends(get_current_admin)):
         raise HTTPException(status_code=404, detail="Event not found")
     return {"message": "Event deleted"}
 
+# ========== EVENT ATTENDEE ROUTES ==========
+
+@api_router.post("/events/{event_id}/register", response_model=EventAttendee)
+async def register_for_event(event_id: str, attendee_data: EventAttendeeCreate):
+    # Check if event exists
+    event = await db.events.find_one({"id": event_id}, {"_id": 0})
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+    
+    attendee = EventAttendee(**attendee_data.model_dump())
+    await db.event_attendees.insert_one(attendee.model_dump())
+    return attendee
+
+@api_router.get("/events/{event_id}/attendees", response_model=List[EventAttendee])
+async def get_event_attendees(event_id: str, admin = Depends(get_current_admin)):
+    attendees = await db.event_attendees.find({"event_id": event_id}, {"_id": 0}).to_list(1000)
+    return attendees
+
+@api_router.get("/attendees", response_model=List[EventAttendee])
+async def get_all_attendees(brand_id: Optional[str] = None, admin = Depends(get_current_admin)):
+    query = {"brand_id": brand_id} if brand_id else {}
+    attendees = await db.event_attendees.find(query, {"_id": 0}).to_list(1000)
+    return attendees
+
 # ========== MINISTRY ROUTES ==========
 
 @api_router.get("/ministries", response_model=List[Ministry])
