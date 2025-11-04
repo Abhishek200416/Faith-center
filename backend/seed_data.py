@@ -160,14 +160,122 @@ ndm_announcements = [
     }
 ]
 
+# Create events for Faith Centre (same structure, different images)
+fc_events = [
+    {
+        "id": str(uuid.uuid4()),
+        "brand_id": fc_id,
+        "title": "REVIVE - 5 Day Revival Conference",
+        "description": "Join us for a powerful 5-day revival experience! Experience renewed faith, powerful worship, and life-changing messages. December 3-7, 2025. Don't miss this transformative event!",
+        "date": "2025-12-03",
+        "time": "6:00 PM - 9:00 PM Daily",
+        "location": "Main Sanctuary",
+        "image_url": "https://images.unsplash.com/photo-1517456793572-1d8efd6dc135?w=800&q=80",
+        "is_free": True,
+        "created_at": datetime.utcnow().isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "brand_id": fc_id,
+        "title": "Sunday Worship Service",
+        "description": "Join us for an uplifting worship experience with powerful praise and teaching from God's Word.",
+        "date": (datetime.utcnow() + timedelta(days=7)).isoformat(),
+        "time": "10:00 AM - 12:00 PM",
+        "location": "Main Sanctuary",
+        "image_url": "https://images.pexels.com/photos/696218/pexels-photo-696218.jpeg?w=800&q=80",
+        "is_free": True,
+        "created_at": datetime.utcnow().isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "brand_id": fc_id,
+        "title": "Youth Night",
+        "description": "A special gathering for youth to connect, worship, and grow together in faith.",
+        "date": (datetime.utcnow() + timedelta(days=12)).isoformat(),
+        "time": "6:00 PM - 8:00 PM",
+        "location": "Youth Center",
+        "image_url": "https://images.unsplash.com/photo-1621112904887-419379ce6824?w=800&q=80",
+        "is_free": True,
+        "created_at": datetime.utcnow().isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "brand_id": fc_id,
+        "title": "Community Outreach Program",
+        "description": "Serve our community with love and compassion. All volunteers welcome!",
+        "date": (datetime.utcnow() + timedelta(days=20)).isoformat(),
+        "time": "9:00 AM - 2:00 PM",
+        "location": "Community Center",
+        "image_url": "https://images.pexels.com/photos/31717532/pexels-photo-31717532.jpeg?w=800&q=80",
+        "is_free": True,
+        "created_at": datetime.utcnow().isoformat()
+    }
+]
+
+# Create ministries for Faith Centre (same structure, different images)
+fc_ministries = [
+    {
+        "id": str(uuid.uuid4()),
+        "brand_id": fc_id,
+        "title": "Worship Team",
+        "description": "Use your musical talents to lead our congregation in powerful worship.",
+        "image_url": "https://images.unsplash.com/photo-1517456793572-1d8efd6dc135?w=800&q=80",
+        "created_at": datetime.utcnow().isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "brand_id": fc_id,
+        "title": "Children's Ministry",
+        "description": "Nurturing the next generation with biblical foundations and fun activities.",
+        "image_url": "https://images.unsplash.com/photo-1621112904887-419379ce6824?w=800&q=80",
+        "created_at": datetime.utcnow().isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "brand_id": fc_id,
+        "title": "Community Outreach",
+        "description": "Making a difference in our local community through acts of service and love.",
+        "image_url": "https://images.pexels.com/photos/696218/pexels-photo-696218.jpeg?w=800&q=80",
+        "created_at": datetime.utcnow().isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "brand_id": fc_id,
+        "title": "Small Groups",
+        "description": "Build meaningful relationships and grow spiritually in a small group setting.",
+        "image_url": "https://images.unsplash.com/photo-1610070835951-156b6921281d?w=800&q=80",
+        "created_at": datetime.utcnow().isoformat()
+    }
+]
+
+# Create announcements for Faith Centre
+fc_announcements = [
+    {
+        "id": str(uuid.uuid4()),
+        "brand_id": fc_id,
+        "title": "Welcome to Our Community!",
+        "content": "We're excited to have you join us. Whether you're new to faith or looking for a church home, you'll find a warm welcome here.",
+        "is_urgent": False,
+        "created_at": datetime.utcnow().isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "brand_id": fc_id,
+        "title": "Prayer Meeting This Wednesday",
+        "content": "Join us for our weekly prayer meeting at 7:00 PM. Come together as we lift up our community, nation, and world in prayer.",
+        "is_urgent": False,
+        "created_at": datetime.utcnow().isoformat()
+    }
+]
+
 print("Creating events...")
-db.events.insert_many(ndm_events)
+db.events.insert_many(ndm_events + fc_events)
 
 print("Creating ministries...")
-db.ministries.insert_many(ndm_ministries)
+db.ministries.insert_many(ndm_ministries + fc_ministries)
 
 print("Creating announcements...")
-db.announcements.insert_many(ndm_announcements)
+db.announcements.insert_many(ndm_announcements + fc_announcements)
 
 # Verify
 print("\n=== Database Seeded Successfully! ===")
