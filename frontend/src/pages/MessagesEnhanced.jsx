@@ -330,7 +330,7 @@ const MessagesEnhanced = () => {
                   <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                     <div>
                       <div className="font-semibold text-lg">Morning Service</div>
-                      <div className="text-gray-600">Daily</div>
+                      <div className="text-gray-600">Sunday</div>
                     </div>
                     <div className={brandColor === "red" ? "text-2xl font-bold text-red-600" : "text-2xl font-bold text-blue-600"}>7:00 AM</div>
                   </div>
@@ -344,16 +344,16 @@ const MessagesEnhanced = () => {
                   <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                     <div>
                       <div className="font-semibold text-lg">Evening Service</div>
-                      <div className="text-gray-600">Monday - Saturday</div>
+                      <div className="text-gray-600">Sunday</div>
                     </div>
-                    <div className={brandColor === "red" ? "text-2xl font-bold text-red-600" : "text-2xl font-bold text-blue-600"}>6:30 PM</div>
+                    <div className={brandColor === "red" ? "text-2xl font-bold text-red-600" : "text-2xl font-bold text-blue-600"}>6:00 PM</div>
                   </div>
                   <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                     <div>
                       <div className="font-semibold text-lg">Friday Service</div>
                       <div className="text-gray-600">Friday</div>
                     </div>
-                    <div className={brandColor === "red" ? "text-2xl font-bold text-red-600" : "text-2xl font-bold text-blue-600"}>7:00 PM</div>
+                    <div className={brandColor === "red" ? "text-2xl font-bold text-red-600" : "text-2xl font-bold text-blue-600"}>6:30 PM</div>
                   </div>
                 </div>
               </div>
