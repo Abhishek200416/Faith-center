@@ -32,6 +32,7 @@ import UserRegister from "./pages/UserRegister";
 import MemberDashboard from "./pages/MemberDashboard";
 import Giving from "./pages/Giving";
 import WatchLive from "./pages/WatchLive";
+import Foundations from "./pages/Foundations";
 
 function App() {
   const [brands, setBrands] = useState([]);
