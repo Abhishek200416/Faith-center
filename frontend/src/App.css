@@ -399,7 +399,7 @@ h4 { font-size: clamp(1.1rem, 2.5vw, 1.5rem); }
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 clamp(1rem, 3vw, 2.5rem);
+  padding: 0 clamp(1rem, 3vw, 0.5rem);
 }
 
 .section {
