@@ -170,6 +170,7 @@ const Events = () => {
                           <p className="text-gray-700 text-sm sm:text-base mb-4">{event.description}</p>
                           {event.is_free && (
                             <Button 
+                              onClick={() => handleRegisterClick(event)}
                               data-testid={`register-event-btn-${event.id}`}
                               className="w-full sm:w-auto"
                             >
