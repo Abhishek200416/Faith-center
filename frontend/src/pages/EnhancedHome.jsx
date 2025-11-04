@@ -301,7 +301,7 @@ const EnhancedHome = () => {
           </div>
 
           {currentBrand.service_times && (
-            <div className="bg-white/10 backdrop-blur-md text-white rounded-2xl p-6 sm:p-8 mb-8 inline-block max-w-full border border-white/20 animate-on-scroll" style={{animationDelay: '0.8s'}}>
+            <div className="bg-white/10 backdrop-blur-md text-white rounded-2xl p-6 sm:p-8 mb-8 inline-block max-w-full border border-white/20" style={{animation: 'fadeInUp 0.8s ease-out 0.8s backwards'}}>
               <div className="flex items-center justify-center space-x-3 mb-4">
                 <Clock size={24} />
                 <div className="text-left">
@@ -318,7 +318,7 @@ const EnhancedHome = () => {
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center px-4 sm:px-0 animate-on-scroll" style={{animationDelay: '1s'}}>
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center px-4 sm:px-0" style={{animation: 'fadeInUp 0.8s ease-out 1s backwards'}}>
             <Button 
               size="lg" 
               className="rounded-full w-full sm:w-auto text-lg px-8 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all" 
