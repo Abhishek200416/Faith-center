@@ -411,6 +411,50 @@ class LiveStreamCreate(BaseModel):
     scheduled_time: Optional[str] = None
     brand_id: str
 
+
+# ========== FOUNDATION MODELS ==========
+
+class Foundation(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    description: str
+    image_url: str
+    gallery_images: List[str] = []
+    goal_amount: Optional[float] = None
+    raised_amount: float = 0.0
+    is_active: bool = True
+    brand_id: str
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+class FoundationCreate(BaseModel):
+    title: str
+    description: str
+    image_url: str
+    gallery_images: List[str] = []
+    goal_amount: Optional[float] = None
+    brand_id: str
+
+class FoundationDonation(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    foundation_id: str
+    donor_name: str
+    donor_email: EmailStr
+    amount: float
+    message: Optional[str] = None
+    payment_status: str = "pending"
+    brand_id: str
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+class FoundationDonationCreate(BaseModel):
+    foundation_id: str
+    donor_name: str
+    donor_email: EmailStr
+    amount: float
+    message: Optional[str] = None
+    brand_id: str
+
 # ========== AUTH UTILITIES ==========
 
 def hash_password(password: str) -> str:
