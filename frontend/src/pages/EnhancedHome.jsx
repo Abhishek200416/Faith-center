@@ -108,11 +108,11 @@ const EnhancedHome = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  // Scroll animation hooks
-  const [statsRef, statsVisible] = useScrollAnimation();
-  const [missionRef, missionVisible] = useScrollAnimation();
-  const [testimonialsRef, testimonialsVisible] = useScrollAnimation();
-  const [galleryRef, galleryVisible] = useScrollAnimation();
+  // Scroll animation hooks - removed IntersectionObserver to show content immediately
+  const [statsRef, statsVisible] = [useRef(null), true];
+  const [missionRef, missionVisible] = [useRef(null), true];
+  const [testimonialsRef, testimonialsVisible] = [useRef(null), true];
+  const [galleryRef, galleryVisible] = [useRef(null), true];
 
   // Sample gallery images - replace with real images
   const galleryImages = [
