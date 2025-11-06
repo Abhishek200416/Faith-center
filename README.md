@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://youtube-testing.preview.emergentagent.com
-- Admin Panel: https://youtube-testing.preview.emergentagent.com/admin/login
+- Public Site: https://site-load-enhancer.preview.emergentagent.com
+- Admin Panel: https://site-load-enhancer.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
