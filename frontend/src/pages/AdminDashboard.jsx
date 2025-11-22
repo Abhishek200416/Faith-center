@@ -32,6 +32,7 @@ const AdminDashboard = () => {
     { path: "/admin/events", icon: Calendar, label: "Events" },
     { path: "/admin/attendees", icon: Users, label: "Attendees" },
     { path: "/admin/ministries", icon: Users, label: "Ministries" },
+    { path: "/admin/blogs", icon: BookOpen, label: "Blogs" },
     { path: "/admin/live-streams", icon: Video, label: "Live Streams" },
     { path: "/admin/announcements", icon: Megaphone, label: "Announcements" },
     { path: "/admin/volunteers", icon: Mail, label: "Volunteers" },
