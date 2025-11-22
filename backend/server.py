@@ -455,6 +455,38 @@ class FoundationDonationCreate(BaseModel):
     message: Optional[str] = None
     brand_id: str
 
+# ========== BLOG MODELS ==========
+
+class Blog(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    content: str
+    excerpt: Optional[str] = None
+    author: str = "Admin"
+    image_url: Optional[str] = None
+    brand_id: str
+    published: bool = True
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    updated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+class BlogCreate(BaseModel):
+    title: str
+    content: str
+    excerpt: Optional[str] = None
+    author: str = "Admin"
+    image_url: Optional[str] = None
+    brand_id: str
+    published: bool = True
+
+class BlogUpdate(BaseModel):
+    title: Optional[str] = None
+    content: Optional[str] = None
+    excerpt: Optional[str] = None
+    author: Optional[str] = None
+    image_url: Optional[str] = None
+    published: Optional[bool] = None
+
 # ========== AUTH UTILITIES ==========
 
 def hash_password(password: str) -> str:
