@@ -127,7 +127,7 @@ function App() {
             <BrowserRouter>
               <Routes>
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/Adminlogin" element={<AdminLogin />} />
+                <Route path="/Adminlogin" element={<SecureAdminLogin />} />
                 <Route path="/admin/*" element={
                   <ProtectedRoute>
                     <AdminDashboard />
@@ -154,7 +154,6 @@ function App() {
                       <Route path="/blogs" element={<Blogs />} />
                     </Routes>
                     <Footer />
-                    <WhatsAppButton phoneNumber="+919876543210" message="Hello! I'd like to know more about your church." />
                   </>
                 } />
               </Routes>
