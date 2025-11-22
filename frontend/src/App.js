@@ -16,7 +16,6 @@ const API = `${BACKEND_URL}/api`;
 // Pages
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import WhatsAppButton from "./components/WhatsAppButton";
 import Home from "./pages/EnhancedHome";
 import About from "./pages/About";
 import Events from "./pages/Events";
@@ -28,6 +27,7 @@ import PrayerWall from "./pages/PrayerWall";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import AdminLogin from "./pages/AdminLogin";
+import SecureAdminLogin from "./pages/SecureAdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import Giving from "./pages/Giving";
 import WatchLive from "./pages/WatchLive";
