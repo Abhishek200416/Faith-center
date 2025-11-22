@@ -1780,6 +1780,60 @@ async def get_foundation_donations(foundation_id: str, admin = Depends(get_curre
     ).sort("created_at", -1).to_list(1000)
     return donations
 
+# ========== BLOG ENDPOINTS ==========
+
+@api_router.get("/blogs", response_model=List[Blog])
+async def get_blogs(brand_id: Optional[str] = None, published: Optional[bool] = None):
+    query = {}
+    if brand_id:
+        query["brand_id"] = brand_id
+    if published is not None:
+        query["published"] = published
+    
+    blogs = await db.blogs.find(query, {"_id": 0}).sort("created_at", -1).to_list(100)
+    return blogs
+
+@api_router.get("/blogs/{blog_id}", response_model=Blog)
+async def get_blog(blog_id: str):
+    blog = await db.blogs.find_one({"id": blog_id}, {"_id": 0})
+    if not blog:
+        raise HTTPException(status_code=404, detail="Blog not found")
+    return blog
+
+@api_router.post("/blogs", response_model=Blog)
+async def create_blog(blog: BlogCreate, admin = Depends(get_current_admin)):
+    blog_dict = blog.model_dump()
+    blog_obj = Blog(**blog_dict)
+    await db.blogs.insert_one(blog_obj.model_dump())
+    return blog_obj
+
+@api_router.put("/blogs/{blog_id}", response_model=Blog)
+async def update_blog(blog_id: str, blog_update: BlogUpdate, admin = Depends(get_current_admin)):
+    # Check if blog exists
+    existing_blog = await db.blogs.find_one({"id": blog_id}, {"_id": 0})
+    if not existing_blog:
+        raise HTTPException(status_code=404, detail="Blog not found")
+    
+    # Update fields
+    update_data = {k: v for k, v in blog_update.model_dump().items() if v is not None}
+    update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+    
+    await db.blogs.update_one(
+        {"id": blog_id},
+        {"$set": update_data}
+    )
+    
+    # Return updated blog
+    updated_blog = await db.blogs.find_one({"id": blog_id}, {"_id": 0})
+    return updated_blog
+
+@api_router.delete("/blogs/{blog_id}")
+async def delete_blog(blog_id: str, admin = Depends(get_current_admin)):
+    result = await db.blogs.delete_one({"id": blog_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Blog not found")
+    return {"message": "Blog deleted successfully"}
+
 # Include router
 app.include_router(api_router)
 
