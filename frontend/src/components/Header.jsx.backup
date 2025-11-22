@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useBrand } from "@/App";
-import { Menu, X, Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useBrand, useAuth } from "@/App";
+import { Menu, X, ChevronDown, Heart, Video, User, LogOut, Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
-  const { currentBrand } = useBrand();
+  const { brands, currentBrand, switchBrand } = useBrand();
+  const { memberUser, memberLogout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -22,18 +31,26 @@ const Header = () => {
     setMobileMenuOpen(false);
   }, [location]);
 
-  // Updated navigation links - removed Watch Live, added Blogs
+  // Filter navigation links based on brand
   const getNavLinks = () => {
     const baseLinks = [
       { path: "/", label: "Home" },
       { path: "/about", label: "About" },
       { path: "/ministries", label: "Ministries" },
       { path: "/events", label: "Events" },
-      { path: "/blogs", label: "Blogs" },
+    ];
+
+    // Only show Foundations for Nehemiah David Ministries
+    if (currentBrand?.name === "Nehemiah David Ministries") {
+      baseLinks.push({ path: "/foundations", label: "Foundations" });
+    }
+
+    baseLinks.push(
+      { path: "/watch-live", label: "Watch Live" },
       { path: "/messages", label: "Sermons" },
       { path: "/giving", label: "Give", highlight: true },
-      { path: "/contact", label: "Contact" },
-    ];
+      { path: "/contact", label: "Contact" }
+    );
 
     return baseLinks;
   };
@@ -44,14 +61,22 @@ const Header = () => {
       { path: "/about", label: "About" },
       { path: "/ministries", label: "Ministries" },
       { path: "/events", label: "Events" },
-      { path: "/blogs", label: "Blogs" },
+    ];
+
+    // Only show Foundations for Nehemiah David Ministries
+    if (currentBrand?.name === "Nehemiah David Ministries") {
+      baseLinks.push({ path: "/foundations", label: "Foundations" });
+    }
+
+    baseLinks.push(
+      { path: "/watch-live", label: "Watch Live" },
       { path: "/messages", label: "Sermons" },
       { path: "/giving", label: "Give" },
       { path: "/testimonials", label: "Testimonials" },
       { path: "/prayer-wall", label: "Prayer" },
       { path: "/gallery", label: "Gallery" },
-      { path: "/contact", label: "Contact" },
-    ];
+      { path: "/contact", label: "Contact" }
+    );
 
     return baseLinks;
   };
@@ -60,6 +85,15 @@ const Header = () => {
   const mobileNavLinks = getMobileNavLinks();
 
   const isActive = (path) => location.pathname === path;
+
+  // Function to toggle between brands with a single click
+  const handleBrandToggle = () => {
+    if (brands.length > 1) {
+      const currentIndex = brands.findIndex(b => b.id === currentBrand.id);
+      const nextIndex = (currentIndex + 1) % brands.length;
+      switchBrand(brands[nextIndex].id);
+    }
+  };
 
   if (!currentBrand) return null;
 
@@ -104,18 +138,20 @@ const Header = () => {
               </nav>
             </div>
 
-            {/* Right Section: Nehemiah David Link + Social */}
+            {/* Right Section: Brand Switcher + Social + User Actions */}
             <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 flex-shrink-0">
-              {/* Nehemiah David Ministries External Link */}
-              <a
-                href="https://nehemiahdavid.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden md:flex items-center gap-1.5 px-3 py-2 text-xs lg:text-sm font-medium text-white bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all shadow-lg hover:shadow-orange-500/50 hover:scale-105 whitespace-nowrap relative z-50"
-                title="Visit Nehemiah David Ministries"
-              >
-                Nehemiah David Ministries
-              </a>
+              {/* Brand Switcher - Desktop */}
+              {brands.length > 1 && (
+                <button
+                  onClick={handleBrandToggle}
+                  data-testid="brand-switcher"
+                  className="hidden lg:flex items-center gap-1.5 px-3 py-2 text-xs lg:text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-purple-500/50 hover:scale-105 whitespace-nowrap relative z-50"
+                  title={`Switch brand`}
+                >
+                  <span className="max-w-[100px] truncate">{currentBrand.name}</span>
+                  <ChevronDown size={14} className="flex-shrink-0" />
+                </button>
+              )}
 
               {/* Social Media Links - Desktop */}
               <div className="hidden xl:flex items-center gap-1">
@@ -147,6 +183,38 @@ const Header = () => {
                   <Youtube size={16} />
                 </a>
               </div>
+
+              {/* User Menu - Desktop */}
+              {memberUser ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="hidden sm:flex gap-1.5 text-white border-gray-700 hover:bg-white/10 text-xs relative z-50 px-2 sm:px-3 hover:scale-105 transition-transform">
+                      <User size={14} />
+                      <span className="hidden md:inline">{memberUser.name.split(' ')[0]}</span>
+                      <ChevronDown size={12} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="z-[60]">
+                    <DropdownMenuItem onClick={() => navigate('/member/dashboard')}>
+                      Dashboard
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => { memberLogout(); navigate('/'); }}>
+                      <LogOut size={14} className="mr-2" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => navigate('/member/login')}
+                  className="hidden sm:flex gap-1.5 text-white border-gray-700 hover:bg-white/10 text-xs relative z-50 whitespace-nowrap px-2 sm:px-3 hover:scale-105 transition-transform"
+                >
+                  <User size={14} />
+                  <span className="hidden md:inline">Login</span>
+                </Button>
+              )}
 
               {/* Hamburger Menu Button */}
               <button
@@ -184,20 +252,18 @@ const Header = () => {
         aria-label="Mobile navigation"
       >
         <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6 max-h-[calc(100vh-4rem)] overflow-y-auto custom-scrollbar">
-          {/* Nehemiah David Ministries Link in Mobile Menu */}
-          <div className="mb-4 pb-4 border-b border-gray-800 md:hidden">
-            <a
-              href="https://nehemiahdavid.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all shadow-lg"
-            >
-              <span>Nehemiah David Ministries</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </a>
-          </div>
+          {/* Brand Switcher in Mobile Menu */}
+          {brands.length > 1 && (
+            <div className="mb-4 pb-4 border-b border-gray-800">
+              <button
+                onClick={handleBrandToggle}
+                className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
+              >
+                <span className="truncate">Switch to {brands.find(b => b.id !== currentBrand.id)?.name}</span>
+                <ChevronDown size={16} className="flex-shrink-0 ml-2" />
+              </button>
+            </div>
+          )}
 
           {/* Social Media in Mobile Menu */}
           <div className="flex items-center justify-center gap-4 pb-4 mb-4 border-b border-gray-800 xl:hidden">
@@ -246,6 +312,24 @@ const Header = () => {
               {link.label}
             </Link>
           ))}
+
+          {/* User Actions in Mobile Menu */}
+          {!memberUser && (
+            <div className="pt-4 mt-4 border-t border-gray-800">
+              <Button 
+                size="lg"
+                variant="outline" 
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigate('/member/login');
+                }}
+                className="w-full gap-2 text-white border-gray-700 hover:bg-white/10 min-h-[48px]"
+              >
+                <User size={18} />
+                Member Login
+              </Button>
+            </div>
+          )}
         </div>
       </nav>
 
