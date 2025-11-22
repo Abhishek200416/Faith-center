@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useBrand, API } from "@/App";
-import { Facebook, Instagram, Youtube, MapPin, Mail, Phone, MessageCircle } from "lucide-react";
+import { Facebook, Instagram, Youtube, MapPin, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -145,29 +145,14 @@ const Footer = () => {
               >
                 <Youtube size={24} />
               </a>
-              <a 
-                href="https://wa.me/919876543210" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-green-400 transition-all hover:scale-110" 
-                aria-label="WhatsApp"
-              >
-                <MessageCircle size={24} />
-              </a>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-xs sm:text-sm text-gray-500 text-center sm:text-left">
+        <div className="border-t border-gray-800 pt-8">
+          <p className="text-xs sm:text-sm text-gray-500 text-center">
             © {new Date().getFullYear()} {currentBrand.name}. All rights reserved.
           </p>
-          <Link 
-            to="/admin/login" 
-            className="text-xs sm:text-sm text-gray-500 hover:text-gray-300 transition-colors"
-          >
-            Admin Login
-          </Link>
         </div>
       </div>
     </footer>
