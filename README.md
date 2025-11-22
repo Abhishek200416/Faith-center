@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://church-portal-18.preview.emergentagent.com
-- Admin Panel: https://church-portal-18.preview.emergentagent.com/admin/login
+- Public Site: https://header-redesign-3.preview.emergentagent.com
+- Admin Panel: https://header-redesign-3.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
