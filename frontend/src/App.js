@@ -29,20 +29,16 @@ import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
-import UserLogin from "./pages/UserLogin";
-import UserRegister from "./pages/UserRegister";
-import MemberDashboard from "./pages/MemberDashboard";
 import Giving from "./pages/Giving";
 import WatchLive from "./pages/WatchLive";
 import Foundations from "./pages/Foundations";
+import Blogs from "./pages/Blogs";
 
 function App() {
   const [brands, setBrands] = useState([]);
   const [currentBrand, setCurrentBrand] = useState(null);
   const [authToken, setAuthToken] = useState(localStorage.getItem("authToken"));
   const [admin, setAdmin] = useState(null);
-  const [memberToken, setMemberToken] = useState(localStorage.getItem("memberToken"));
-  const [memberUser, setMemberUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -57,12 +53,6 @@ function App() {
     }
   }, [authToken]);
 
-  useEffect(() => {
-    if (memberToken) {
-      verifyMemberToken();
-    }
-  }, [memberToken]);
-
   // Update page title when brand changes
   useEffect(() => {
     if (currentBrand) {
@@ -75,10 +65,11 @@ function App() {
       const response = await axios.get(`${API}/brands`);
       setBrands(response.data);
       
-      // Check for brand cookie or set default
-      const savedBrandId = localStorage.getItem("brandId");
-      if (savedBrandId && response.data.find(b => b.id === savedBrandId)) {
-        setCurrentBrand(response.data.find(b => b.id === savedBrandId));
+      // Set Faith Centre as the default and only brand
+      const faithCentre = response.data.find(b => b.name === "Faith Centre");
+      if (faithCentre) {
+        setCurrentBrand(faithCentre);
+        localStorage.setItem("brandId", faithCentre.id);
       } else if (response.data.length > 0) {
         setCurrentBrand(response.data[0]);
         localStorage.setItem("brandId", response.data[0].id);
@@ -99,18 +90,6 @@ function App() {
       logout();
     } finally {
       setLoading(false);
-    }
-  };
-
-  const verifyMemberToken = async () => {
-    try {
-      const response = await axios.get(`${API}/users/me`, {
-        headers: { Authorization: `Bearer ${memberToken}` }
-      });
-      setMemberUser(response.data);
-    } catch (error) {
-      console.error("Member token verification failed:", error);
-      memberLogout();
     }
   };
 
@@ -135,20 +114,6 @@ function App() {
     setAdmin(null);
   };
 
-  const memberLogout = () => {
-    localStorage.removeItem("memberToken");
-    localStorage.removeItem("memberUser");
-    setMemberToken(null);
-    setMemberUser(null);
-  };
-
-  const memberLogin = (token, user) => {
-    localStorage.setItem("memberToken", token);
-    localStorage.setItem("memberUser", JSON.stringify(user));
-    setMemberToken(token);
-    setMemberUser(user);
-  };
-
   const ProtectedRoute = ({ children }) => {
     if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
     return authToken && admin ? children : <Navigate to="/admin/login" />;
@@ -156,20 +121,18 @@ function App() {
 
   return (
     <HelmetProvider>
-      <AuthContext.Provider value={{ authToken, admin, login, logout, memberToken, memberUser, memberLogin, memberLogout }}>
+      <AuthContext.Provider value={{ authToken, admin, login, logout }}>
         <BrandContext.Provider value={{ brands, currentBrand, switchBrand }}>
           <div className="App">
             <BrowserRouter>
               <Routes>
                 <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/Adminlogin" element={<AdminLogin />} />
                 <Route path="/admin/*" element={
                   <ProtectedRoute>
                     <AdminDashboard />
                   </ProtectedRoute>
                 } />
-                <Route path="/member/login" element={<UserLogin />} />
-                <Route path="/member/register" element={<UserRegister />} />
-                <Route path="/member/dashboard" element={<MemberDashboard />} />
                 <Route path="/*" element={
                   <>
                     <Header />
@@ -188,6 +151,7 @@ function App() {
                       <Route path="/giving/success" element={<Giving />} />
                       <Route path="/watch-live" element={<WatchLive />} />
                       <Route path="/foundations" element={<Foundations />} />
+                      <Route path="/blogs" element={<Blogs />} />
                     </Routes>
                     <Footer />
                     <WhatsAppButton phoneNumber="+919876543210" message="Hello! I'd like to know more about your church." />
