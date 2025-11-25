@@ -129,7 +129,7 @@ const Home = () => {
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center px-4 sm:px-0 animate-fadeIn" style={{ animationDelay: '0.4s' }}>
             <Button 
               size="lg" 
-              className="rounded-full w-full sm:w-auto text-sm sm:text-base px-6 py-4 sm:py-5 shadow-2xl hover:scale-110 transition-all hover:shadow-purple-500/50 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" 
+              className="rounded-full w-full sm:w-auto text-sm sm:text-base px-6 py-4 sm:py-5 shadow-2xl hover:scale-110 transition-all hover:shadow-purple-500/50 bg-[#2D3748] hover:bg-[#1a202c]" 
               onClick={() => navigate("/watch-live")} 
               data-testid="cta-join-sunday"
             >

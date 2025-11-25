@@ -179,7 +179,7 @@ const Foundations = () => {
                       <div className="flex gap-3">
                         <Button
                           onClick={() => openDonateModal(foundation)}
-                          className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                          className="flex-1 bg-[#2D3748] hover:bg-[#1a202c] text-white"
                         >
                           <Heart size={18} className="mr-2" />
                           Donate Now
@@ -214,7 +214,7 @@ const Foundations = () => {
           />
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
             <div className="bg-white rounded-lg max-w-md w-full pointer-events-auto animate-slideUp shadow-2xl max-h-[90vh] overflow-y-auto">
-              <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-t-lg">
+              <div className="sticky top-0 bg-[#2D3748] text-white p-6 rounded-t-lg">
                 <div className="flex items-start justify-between">
                   <div>
                     <h3 className="text-2xl font-bold mb-2">Donate to Foundation</h3>
@@ -288,7 +288,7 @@ const Foundations = () => {
                   <Button
                     type="submit"
                     disabled={submitting}
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                    className="flex-1 bg-[#2D3748] hover:bg-[#1a202c] text-white"
                   >
                     {submitting ? (
                       <>

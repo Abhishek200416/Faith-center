@@ -263,7 +263,7 @@ const Giving = () => {
               <Button
                 type="submit"
                 disabled={loading || !amount}
-                className="w-full py-6 text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                className="w-full py-6 text-xl font-bold bg-[#2D3748] hover:bg-[#1a202c]"
               >
                 {loading ? (
                   <>
