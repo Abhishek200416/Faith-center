@@ -375,6 +375,80 @@ const MessagesEnhanced = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Announcements Section */}
+              {announcements.length > 0 && (
+                <div className="bg-white rounded-2xl shadow-xl p-8 mt-8" style={{ animation: 'fadeInUp 0.6s ease-out 0.4s backwards' }}>
+                  <h3 className="text-2xl font-bold mb-6 flex items-center">
+                    <svg className="w-7 h-7 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                    </svg>
+                    Important Announcements
+                  </h3>
+                  <div className="space-y-4">
+                    {announcements.map((announcement, index) => (
+                      <div 
+                        key={announcement.id}
+                        className={`relative overflow-hidden rounded-xl ${announcement.is_urgent ? 'bg-gradient-to-r from-red-50 to-orange-50 border-2 border-red-200' : 'bg-gray-50 border border-gray-200'} p-5 hover:shadow-lg transition-all duration-300 cursor-pointer group`}
+                        onClick={() => window.location.href = '/announcements'}
+                        style={{ animationDelay: `${index * 0.1}s` }}
+                      >
+                        <div className="flex items-start gap-4">
+                          {announcement.image_url && (
+                            <div className="flex-shrink-0">
+                              <img 
+                                src={announcement.image_url} 
+                                alt={announcement.title}
+                                className="w-24 h-24 rounded-lg object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between mb-2">
+                              <h4 className="font-bold text-lg text-gray-900 line-clamp-1 pr-2">
+                                {announcement.title}
+                              </h4>
+                              {announcement.is_urgent && (
+                                <span className="flex-shrink-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full animate-pulse">
+                                  URGENT
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-gray-700 text-sm line-clamp-2 mb-3 leading-relaxed">
+                              {announcement.content}
+                            </p>
+                            <div className="flex items-center text-xs text-gray-500">
+                              <Calendar size={14} className="mr-1.5" />
+                              {new Date(announcement.created_at).toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric'
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Hover Arrow */}
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <svg className={brandColor === "red" ? "w-6 h-6 text-red-600" : "w-6 h-6 text-blue-600"} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="mt-6 text-center">
+                    <Button
+                      onClick={() => window.location.href = '/announcements'}
+                      variant="outline"
+                      className={`${brandColor === "red" ? "border-red-600 text-red-600 hover:bg-red-50" : "border-blue-600 text-blue-600 hover:bg-blue-50"} transition-all duration-300 hover:scale-105`}
+                    >
+                      View All Announcements
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
