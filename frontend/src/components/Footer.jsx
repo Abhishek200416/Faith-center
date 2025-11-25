@@ -55,8 +55,8 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div className="text-center sm:text-left">
-            <h4 className="text-base sm:text-lg font-semibold text-white mb-5 sm:mb-6">Quick Links</h4>
-            <ul className="space-y-3.5">
+            <h4 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Quick Links</h4>
+            <ul className="space-y-2">
               <li>
                 <Link 
                   to="/about" 
