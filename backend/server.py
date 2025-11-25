@@ -1793,6 +1793,42 @@ async def get_foundation_donations(foundation_id: str, admin = Depends(get_curre
     ).sort("created_at", -1).to_list(1000)
     return donations
 
+# ========== UPLOAD ENDPOINTS ==========
+
+@api_router.post("/upload-image")
+async def upload_image(file: UploadFile = File(...), admin = Depends(get_current_admin)):
+    """
+    Upload an image and return a base64 data URL
+    This allows storing images directly in the database without external storage
+    """
+    try:
+        # Read file content
+        contents = await file.read()
+        
+        # Get file extension and mime type
+        file_extension = file.filename.split('.')[-1].lower()
+        mime_types = {
+            'jpg': 'image/jpeg',
+            'jpeg': 'image/jpeg',
+            'png': 'image/png',
+            'gif': 'image/gif',
+            'webp': 'image/webp'
+        }
+        
+        mime_type = mime_types.get(file_extension, 'image/jpeg')
+        
+        # Convert to base64
+        base64_encoded = base64.b64encode(contents).decode('utf-8')
+        data_url = f"data:{mime_type};base64,{base64_encoded}"
+        
+        return {
+            "success": True,
+            "image_url": data_url,
+            "filename": file.filename
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to upload image: {str(e)}")
+
 # ========== BLOG ENDPOINTS ==========
 
 @api_router.get("/blogs", response_model=List[Blog])
