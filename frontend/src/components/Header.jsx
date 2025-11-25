@@ -92,10 +92,10 @@ const Header = () => {
                     to={link.path}
                     className={`px-4 py-2 rounded-md font-medium transition-all duration-200 text-sm whitespace-nowrap relative z-50 ${
                       link.highlight
-                        ? "bg-gradient-to-r from-slate-700 to-slate-900 text-white hover:from-slate-800 hover:to-black shadow-sm hover:shadow-md"
+                        ? "bg-[#2D3748] text-white hover:bg-[#1a202c] shadow-sm hover:shadow-md"
                         : isActive(link.path)
-                        ? "bg-slate-100 text-slate-900 font-semibold"
-                        : "text-slate-700 hover:bg-slate-50 hover:text-slate-900"
+                        ? "bg-gray-100 text-[#2D3748] font-semibold"
+                        : "text-[#2D3748] hover:bg-gray-50 hover:text-[#1a202c]"
                     }`}
                   >
                     {link.label}
