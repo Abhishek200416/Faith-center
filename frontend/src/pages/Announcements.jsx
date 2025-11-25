@@ -191,59 +191,78 @@ const Announcements = () => {
 
       {/* Announcement Detail Modal */}
       {selectedAnnouncement && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn transition-all duration-300" data-testid="announcement-detail-modal">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 animate-slideUp transition-all duration-300">
-            {/* Image */}
-            {selectedAnnouncement.image_url && (
-              <div className="mb-6 rounded-lg overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 animate-fadeIn transition-all duration-300" data-testid="announcement-detail-modal">
+          <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-slideUp transition-all duration-300">
+            {/* Image Hero */}
+            {(selectedAnnouncement.image_url || getAnnouncementImage(0)) && (
+              <div className="relative h-72 overflow-hidden">
                 <img 
-                  src={selectedAnnouncement.image_url} 
+                  src={selectedAnnouncement.image_url || getAnnouncementImage(0)} 
                   alt={selectedAnnouncement.title}
-                  className="w-full h-64 object-cover"
+                  className="w-full h-full object-cover"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                
+                {selectedAnnouncement.is_urgent && (
+                  <div className="absolute top-6 right-6">
+                    <span className="bg-red-500 text-white text-sm font-bold px-5 py-2 rounded-full shadow-lg animate-pulse">
+                      URGENT
+                    </span>
+                  </div>
+                )}
+                
+                <button
+                  onClick={() => setSelectedAnnouncement(null)}
+                  className="absolute top-6 left-6 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 transition-all duration-300 hover:scale-110 shadow-lg"
+                >
+                  <X size={24} />
+                </button>
               </div>
             )}
 
-            <div className="flex items-start justify-between mb-4">
-              <h2 className="text-3xl font-bold flex-1">{selectedAnnouncement.title}</h2>
-              {selectedAnnouncement.is_urgent && (
-                <span className="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full ml-2">
-                  Urgent
-                </span>
-              )}
-            </div>
-            <div className="flex items-center text-gray-500 text-sm mb-6">
-              <Calendar size={14} className="mr-2" />
-              {new Date(selectedAnnouncement.created_at).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </div>
-            <div className="prose max-w-none mb-6">
-              <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{selectedAnnouncement.content}</p>
-            </div>
-            
-            {/* Action Buttons in Modal */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button
-                onClick={() => setSelectedAnnouncement(null)}
-                className="flex-1 transition-all duration-300"
-                data-testid="close-announcement-detail-btn"
-              >
-                Close
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setSelectedAnnouncement(null);
-                  navigate('/ministries');
-                }}
-                className="flex-1 transition-all duration-300"
-              >
-                <Users size={16} className="mr-2" />
-                Volunteer Now
-              </Button>
+            <div className="p-8">
+              <h2 className="text-4xl font-bold mb-4 text-gray-900">{selectedAnnouncement.title}</h2>
+              
+              <div className="flex items-center gap-3 text-gray-600 text-sm mb-6 pb-6 border-b border-gray-200">
+                <div className="flex items-center bg-amber-50 px-4 py-2 rounded-full">
+                  <Calendar size={16} className="mr-2 text-amber-600" />
+                  <span className="font-medium">
+                    {new Date(selectedAnnouncement.created_at).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="prose prose-lg max-w-none mb-8">
+                <p className="text-gray-700 whitespace-pre-wrap leading-relaxed text-lg">
+                  {selectedAnnouncement.content}
+                </p>
+              </div>
+              
+              {/* Action Buttons in Modal */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                <Button
+                  onClick={() => setSelectedAnnouncement(null)}
+                  className="flex-1 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 transition-all duration-300 hover:scale-105 text-lg py-6"
+                  data-testid="close-announcement-detail-btn"
+                >
+                  Close
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSelectedAnnouncement(null);
+                    navigate('/ministries');
+                  }}
+                  className="flex-1 border-2 border-amber-600 text-amber-600 hover:bg-amber-50 transition-all duration-300 hover:scale-105 text-lg py-6"
+                >
+                  <Users size={20} className="mr-2" />
+                  Volunteer Now
+                </Button>
+              </div>
             </div>
           </div>
         </div>
