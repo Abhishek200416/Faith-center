@@ -284,6 +284,7 @@ const AnnouncementsManager = () => {
         <table className="table">
           <thead>
             <tr>
+              <th>Image</th>
               <th>Title</th>
               <th>Urgent</th>
               <th>Date</th>
@@ -293,15 +294,28 @@ const AnnouncementsManager = () => {
           <tbody>
             {announcements.map((announcement) => (
               <tr key={announcement.id} data-testid={`announcement-row-${announcement.id}`}>
-                <td className="max-w-md truncate">{announcement.title}</td>
+                <td>
+                  {announcement.image_url ? (
+                    <img 
+                      src={announcement.image_url} 
+                      alt={announcement.title}
+                      className="h-12 w-16 object-cover rounded"
+                    />
+                  ) : (
+                    <div className="h-12 w-16 bg-gray-100 rounded flex items-center justify-center">
+                      <ImageIcon size={20} className="text-gray-400" />
+                    </div>
+                  )}
+                </td>
+                <td className="max-w-md truncate font-medium">{announcement.title}</td>
                 <td>
                   {announcement.is_urgent ? (
-                    <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Yes</span>
+                    <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded font-medium">Yes</span>
                   ) : (
                     <span className="text-gray-500">No</span>
                   )}
                 </td>
-                <td>{new Date(announcement.created_at).toLocaleDateString()}</td>
+                <td className="text-sm text-gray-600">{new Date(announcement.created_at).toLocaleDateString()}</td>
                 <td>
                   <div className="flex gap-2">
                     <button onClick={() => handleEdit(announcement)} className="text-blue-600 hover:text-blue-800" data-testid={`edit-announcement-${announcement.id}`}>
