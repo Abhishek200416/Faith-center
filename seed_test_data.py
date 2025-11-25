@@ -6,7 +6,7 @@ Seed test data for backend testing
 import requests
 import json
 
-BACKEND_URL = "https://header-redesign-3.preview.emergentagent.com/api"
+BACKEND_URL = "https://secure-admin-login-2.preview.emergentagent.com/api"
 
 def create_test_brand():
     """Create a test brand"""
