@@ -2027,6 +2027,12 @@ async def upload_image(file: UploadFile = File(...), admin = Depends(get_current
 # Include router
 app.include_router(api_router)
 
+# Serve uploaded images
+from fastapi.staticfiles import StaticFiles
+uploads_dir = Path("/app/uploads")
+uploads_dir.mkdir(exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=str(uploads_dir)), name="uploads")
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
