@@ -102,9 +102,9 @@ const Footer = () => {
 
           {/* Newsletter */}
           <div className="text-center sm:text-left sm:col-span-2 lg:col-span-1">
-            <h4 className="text-base sm:text-lg font-semibold text-white mb-5 sm:mb-6">Stay Connected</h4>
-            <p className="text-xs sm:text-sm mb-5 text-gray-400 leading-relaxed">Subscribe to receive updates and announcements</p>
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 mb-7" data-testid="newsletter-form">
+            <h4 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Stay Connected</h4>
+            <p className="text-xs mb-3 text-gray-400 leading-relaxed">Subscribe to receive updates</p>
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 mb-4" data-testid="newsletter-form">
               <Input
                 type="email"
                 placeholder="Your email"
