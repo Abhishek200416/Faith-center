@@ -88,10 +88,12 @@ const AnnouncementsManager = () => {
     setFormData({
       title: announcement.title,
       content: announcement.content,
+      image_url: announcement.image_url || "",
       is_urgent: announcement.is_urgent,
       scheduled_start: announcement.scheduled_start || "",
       scheduled_end: announcement.scheduled_end || "",
     });
+    setImagePreview(announcement.image_url || "");
     setShowForm(true);
   };
 
@@ -99,12 +101,56 @@ const AnnouncementsManager = () => {
     setFormData({
       title: "",
       content: "",
+      image_url: "",
       is_urgent: false,
       scheduled_start: "",
       scheduled_end: "",
     });
+    setImagePreview("");
     setEditingAnnouncement(null);
     setShowForm(false);
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image size should be less than 5MB");
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const formDataUpload = new FormData();
+      formDataUpload.append("file", file);
+
+      const response = await axios.post(`${API}/upload-image`, formDataUpload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+
+      const imageUrl = `${API}${response.data.image_url}`;
+      setFormData({ ...formData, image_url: imageUrl });
+      setImagePreview(imageUrl);
+      toast.success("Image uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      toast.error("Failed to upload image. Please try again.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeImage = () => {
+    setFormData({ ...formData, image_url: "" });
+    setImagePreview("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
