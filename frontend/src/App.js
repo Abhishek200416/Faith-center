@@ -76,6 +76,11 @@ function App() {
       }
     } catch (error) {
       console.error("Error loading brands:", error);
+    } finally {
+      // Ensure loading is set to false if no auth token present
+      if (!authToken) {
+        setLoading(false);
+      }
     }
   };
 
