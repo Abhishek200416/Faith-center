@@ -39,16 +39,16 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 mb-6 sm:mb-8">
           {/* Brand Info */}
           <div className="text-center sm:text-left">
-            <h3 className="text-xl sm:text-2xl font-bold text-white mb-5 mt-0" data-testid="footer-brand-name">
+            <h3 className="text-lg sm:text-xl font-bold text-white mb-3 mt-0" data-testid="footer-brand-name">
               {currentBrand.name}
             </h3>
             {currentBrand.tagline && (
-              <p className="text-gray-400 mb-5 text-sm sm:text-base leading-relaxed">{currentBrand.tagline}</p>
+              <p className="text-gray-400 mb-3 text-xs sm:text-sm leading-relaxed">{currentBrand.tagline}</p>
             )}
             {currentBrand.location && (
-              <div className="flex items-start space-x-3 mb-3 justify-center sm:justify-start">
-                <MapPin size={18} className="mt-1 flex-shrink-0 text-gray-400" />
-                <span className="text-sm leading-relaxed">{currentBrand.location}</span>
+              <div className="flex items-start space-x-2 mb-2 justify-center sm:justify-start">
+                <MapPin size={16} className="mt-1 flex-shrink-0 text-gray-400" />
+                <span className="text-xs sm:text-sm leading-relaxed">{currentBrand.location}</span>
               </div>
             )}
           </div>
