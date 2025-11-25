@@ -111,7 +111,7 @@ const Header = () => {
                 href="https://nehemiahdavid.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:flex items-center gap-1.5 px-4 py-2 text-xs lg:text-sm font-semibold text-white bg-gradient-to-r from-slate-700 to-slate-900 rounded-md hover:from-slate-800 hover:to-black transition-all shadow-sm hover:shadow-md whitespace-nowrap relative z-50"
+                className="hidden md:flex items-center gap-1.5 px-4 py-2 text-xs lg:text-sm font-semibold text-white bg-[#2D3748] rounded-md hover:bg-[#1a202c] transition-all shadow-sm hover:shadow-md whitespace-nowrap relative z-50"
                 title="Visit Nehemiah David Ministries"
               >
                 Nehemiah David Ministries
