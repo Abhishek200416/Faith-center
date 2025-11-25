@@ -17,10 +17,14 @@ const AnnouncementsManager = () => {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
+    image_url: "",
     is_urgent: false,
     scheduled_start: "",
     scheduled_end: "",
   });
+  const [uploading, setUploading] = useState(false);
+  const [imagePreview, setImagePreview] = useState("");
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (currentBrand && authToken) {
