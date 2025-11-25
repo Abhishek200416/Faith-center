@@ -364,7 +364,7 @@ const EnhancedHome = () => {
           )}
 
           {/* Countdown Timer */}
-          <div className="bg-gradient-to-r from-blue-600/90 to-purple-600/90 backdrop-blur-md text-white rounded-xl p-4 sm:p-6 mb-6 inline-block max-w-full border border-white/30 shadow-2xl transition-all duration-300 hover:shadow-3xl" style={{animation: 'fadeInUp 0.8s ease-out 0.7s backwards'}}>
+          <div className="bg-[#2D3748]/90 backdrop-blur-md text-white rounded-xl p-4 sm:p-6 mb-6 inline-block max-w-full border border-white/30 shadow-2xl transition-all duration-300 hover:shadow-3xl" style={{animation: 'fadeInUp 0.8s ease-out 0.7s backwards'}}>
             <h3 className="text-lg sm:text-xl font-bold mb-4 text-center">Next Service In:</h3>
             <div className="grid grid-cols-4 gap-2 sm:gap-4 text-center">
               <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 sm:p-3">
@@ -389,7 +389,7 @@ const EnhancedHome = () => {
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center px-4 sm:px-0" style={{animation: 'fadeInUp 0.8s ease-out 0.8s backwards'}}>
             <Button 
               size="lg" 
-              className="rounded-full w-full sm:w-auto text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 text-white" 
+              className="rounded-full w-full sm:w-auto text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-5 bg-[#2D3748] hover:bg-[#1a202c] shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 text-white" 
               onClick={() => navigate("/watch-live")}
             >
               <Play className="mr-2" size={20} />
