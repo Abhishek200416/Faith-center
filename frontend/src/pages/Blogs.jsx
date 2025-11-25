@@ -73,10 +73,17 @@ const Blogs = () => {
     });
   };
 
+  const stripHtml = (html) => {
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  };
+
   const truncateText = (text, maxLength = 150) => {
     if (!text) return "";
-    if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength) + "...";
+    const stripped = stripHtml(text);
+    if (stripped.length <= maxLength) return stripped;
+    return stripped.substring(0, maxLength) + "...";
   };
 
   return (
