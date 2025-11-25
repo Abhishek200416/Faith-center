@@ -305,7 +305,7 @@ const EnhancedHome = () => {
         url={window.location.href}
       />
       {/* Enhanced Hero Section - Updated with better image and reduced shadow */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#2D3748]">
         {currentBrand.hero_video_url ? (
           <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-60 transition-opacity duration-700">
             <source src={currentBrand.hero_video_url} type="video/mp4" />
@@ -320,7 +320,7 @@ const EnhancedHome = () => {
           </div>
         )}
         
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60 transition-all duration-500" />
+        <div className="absolute inset-0 bg-black/50 transition-all duration-500" />
         
         <div className="relative z-10 text-center text-white max-w-5xl px-4 sm:px-6">
           <h1 
