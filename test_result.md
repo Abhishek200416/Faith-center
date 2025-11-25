@@ -398,6 +398,42 @@ backend:
 
 
 frontend:
+  - task: "CountdownManager admin page for managing live stream countdowns"
+    implemented: true
+    working: "NA"
+    file: "src/pages/admin/CountdownManager.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created comprehensive CountdownManager admin page with CRUD operations. Features: 1) List all countdowns sorted by priority with visual cards, 2) Create/Edit modal with form fields for title, event_date, priority (0-5), active status, 3) Image upload with preview and drag-drop support, 4) Toggle active/inactive status with one click, 5) Delete countdown with confirmation, 6) Real-time countdown preview showing time remaining, 7) Priority badges and active/hidden indicators, 8) Responsive grid layout. Fully integrated with backend countdown APIs."
+
+  - task: "Dynamic countdown display in MessagesEnhanced Live tab"
+    implemented: true
+    working: "NA"
+    file: "src/pages/MessagesEnhanced.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated MessagesEnhanced.jsx Live tab to use dynamic countdowns from API. Changes: 1) Replaced hardcoded service times with API fetch from /api/countdowns, 2) Load active countdowns filtered by brand, 3) Display highest priority countdown in main countdown card, 4) Show event banner image if available, 5) Real-time countdown timer updates every second, 6) 'Upcoming Events' section showing all active countdowns with dates and times, 7) Brand-specific color theming (red/blue), 8) Automatic refresh when event passes, 9) Priority indicators and 'Next' badge for highest priority event. Countdown logic now fully database-driven and admin-manageable."
+
+  - task: "Added Countdowns to admin dashboard navigation"
+    implemented: true
+    working: "NA"
+    file: "src/pages/AdminDashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added 'Countdowns' menu item to admin dashboard navigation with Clock icon. Added CountdownManager route at /admin/countdowns. Menu appears between Blogs and Live Streams in sidebar."
+
   - task: "Enhanced CSS with fluid typography and responsive design"
     implemented: true
     working: true
