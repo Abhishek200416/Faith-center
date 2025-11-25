@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Routes, Route, Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/App";
-import { LayoutDashboard, Calendar, Users, Megaphone, Mail, UserCircle, Settings, LogOut, DollarSign, Video, BookOpen } from "lucide-react";
+import { LayoutDashboard, Calendar, Users, Megaphone, Mail, UserCircle, Settings, LogOut, DollarSign, Video, BookOpen, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import DashboardHome from "./admin/DashboardHome";
@@ -14,6 +14,7 @@ import MembersManager from "./admin/MembersManager";
 import LiveStreamManager from "./admin/LiveStreamManager";
 import AttendeesManager from "./admin/AttendeesManager";
 import BlogsManager from "./admin/BlogsManagerEnhanced";
+import CountdownManager from "./admin/CountdownManager";
 
 const AdminDashboard = () => {
   const location = useLocation();
@@ -33,6 +34,7 @@ const AdminDashboard = () => {
     { path: "/admin/attendees", icon: Users, label: "Attendees" },
     { path: "/admin/ministries", icon: Users, label: "Ministries" },
     { path: "/admin/blogs", icon: BookOpen, label: "Blogs" },
+    { path: "/admin/countdowns", icon: Clock, label: "Countdowns" },
     { path: "/admin/live-streams", icon: Video, label: "Live Streams" },
     { path: "/admin/announcements", icon: Megaphone, label: "Announcements" },
     { path: "/admin/volunteers", icon: Mail, label: "Volunteers" },
@@ -90,6 +92,7 @@ const AdminDashboard = () => {
           <Route path="attendees" element={<AttendeesManager />} />
           <Route path="ministries" element={<MinistriesManager />} />
           <Route path="blogs" element={<BlogsManager />} />
+          <Route path="countdowns" element={<CountdownManager />} />
           <Route path="live-streams" element={<LiveStreamManager />} />
           <Route path="announcements" element={<AnnouncementsManager />} />
           <Route path="volunteers" element={<VolunteersManager />} />
