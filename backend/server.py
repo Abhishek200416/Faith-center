@@ -1923,6 +1923,62 @@ async def delete_blog(blog_id: str, admin = Depends(get_current_admin)):
         raise HTTPException(status_code=404, detail="Blog not found")
     return {"message": "Blog deleted successfully"}
 
+# ========== COUNTDOWN ENDPOINTS ==========
+
+@api_router.get("/countdowns", response_model=List[Countdown])
+async def get_countdowns(brand_id: Optional[str] = None, active_only: bool = False):
+    """Get all countdowns, optionally filtered by brand and active status"""
+    query = {}
+    if brand_id:
+        query["brand_id"] = brand_id
+    if active_only:
+        query["is_active"] = True
+    
+    countdowns = await db.countdowns.find(query, {"_id": 0}).sort("priority", -1).to_list(100)
+    return countdowns
+
+@api_router.get("/countdowns/{countdown_id}", response_model=Countdown)
+async def get_countdown(countdown_id: str):
+    """Get a single countdown by ID"""
+    countdown = await db.countdowns.find_one({"id": countdown_id}, {"_id": 0})
+    if not countdown:
+        raise HTTPException(status_code=404, detail="Countdown not found")
+    return countdown
+
+@api_router.post("/countdowns", response_model=Countdown)
+async def create_countdown(countdown: CountdownCreate, admin = Depends(get_current_admin)):
+    """Create a new countdown"""
+    countdown_dict = countdown.model_dump()
+    countdown_obj = Countdown(**countdown_dict)
+    await db.countdowns.insert_one(countdown_obj.model_dump())
+    return countdown_obj
+
+@api_router.put("/countdowns/{countdown_id}", response_model=Countdown)
+async def update_countdown(countdown_id: str, countdown_update: CountdownUpdate, admin = Depends(get_current_admin)):
+    """Update an existing countdown"""
+    existing_countdown = await db.countdowns.find_one({"id": countdown_id}, {"_id": 0})
+    if not existing_countdown:
+        raise HTTPException(status_code=404, detail="Countdown not found")
+    
+    update_data = {k: v for k, v in countdown_update.model_dump().items() if v is not None}
+    update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+    
+    await db.countdowns.update_one(
+        {"id": countdown_id},
+        {"$set": update_data}
+    )
+    
+    updated_countdown = await db.countdowns.find_one({"id": countdown_id}, {"_id": 0})
+    return updated_countdown
+
+@api_router.delete("/countdowns/{countdown_id}")
+async def delete_countdown(countdown_id: str, admin = Depends(get_current_admin)):
+    """Delete a countdown"""
+    result = await db.countdowns.delete_one({"id": countdown_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Countdown not found")
+    return {"message": "Countdown deleted successfully"}
+
 # Include router
 app.include_router(api_router)
 
