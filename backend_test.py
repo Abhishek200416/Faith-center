@@ -1424,6 +1424,462 @@ def test_video_id_format_validation():
         print(f"   ❌ Exception: {str(e)}")
         return False
 
+# ========== COUNTDOWN TESTS ==========
+
+def test_get_countdowns_all():
+    """Test GET /api/countdowns - Get all countdowns"""
+    print("🔍 Testing GET /api/countdowns (all countdowns)...")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/countdowns", timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            countdowns = response.json()
+            print(f"   Response Type: {type(countdowns)}")
+            if isinstance(countdowns, list):
+                print(f"   Countdowns Count: {len(countdowns)}")
+                
+                # Verify sorting by priority (highest first)
+                if len(countdowns) > 1:
+                    priorities = [c.get('priority', 0) for c in countdowns]
+                    is_sorted = all(priorities[i] >= priorities[i+1] for i in range(len(priorities)-1))
+                    if is_sorted:
+                        print("   ✅ Countdowns sorted by priority (highest first)")
+                    else:
+                        print(f"   ❌ Countdowns not sorted by priority: {priorities}")
+                        return False
+                
+                # Verify countdown structure
+                if len(countdowns) > 0:
+                    sample = countdowns[0]
+                    required_fields = ['id', 'title', 'event_date', 'is_active', 'priority', 'brand_id']
+                    missing_fields = [field for field in required_fields if field not in sample]
+                    if missing_fields:
+                        print(f"   ❌ Missing fields in countdown: {missing_fields}")
+                        return False
+                    else:
+                        print("   ✅ Countdown has all required fields")
+                        print(f"   Sample: {sample.get('title')} (Priority: {sample.get('priority')})")
+                
+                return True, countdowns
+            else:
+                print("   ❌ Response is not a list")
+                return False, None
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False, None
+
+def test_get_countdowns_with_brand_filter(brand_id, brand_name):
+    """Test GET /api/countdowns?brand_id={brand_id} - Filter by brand"""
+    print(f"🔍 Testing GET /api/countdowns?brand_id={brand_id} ({brand_name})...")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/countdowns?brand_id={brand_id}", timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            countdowns = response.json()
+            print(f"   Response Type: {type(countdowns)}")
+            if isinstance(countdowns, list):
+                print(f"   Brand Countdowns Count: {len(countdowns)}")
+                
+                # Verify all countdowns belong to the brand
+                for countdown in countdowns:
+                    if countdown.get('brand_id') != brand_id:
+                        print(f"   ❌ Countdown {countdown.get('title')} has wrong brand_id: {countdown.get('brand_id')}")
+                        return False
+                
+                print(f"   ✅ All countdowns belong to {brand_name}")
+                return True, countdowns
+            else:
+                print("   ❌ Response is not a list")
+                return False, None
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False, None
+
+def test_get_countdowns_active_only(brand_id, brand_name):
+    """Test GET /api/countdowns?active_only=true - Only active countdowns"""
+    print(f"🔍 Testing GET /api/countdowns?active_only=true...")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/countdowns?active_only=true", timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            countdowns = response.json()
+            print(f"   Response Type: {type(countdowns)}")
+            if isinstance(countdowns, list):
+                print(f"   Active Countdowns Count: {len(countdowns)}")
+                
+                # Verify all countdowns are active
+                for countdown in countdowns:
+                    if not countdown.get('is_active'):
+                        print(f"   ❌ Countdown {countdown.get('title')} is not active")
+                        return False
+                
+                print("   ✅ All countdowns are active")
+                return True, countdowns
+            else:
+                print("   ❌ Response is not a list")
+                return False, None
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False, None
+
+def test_get_countdowns_brand_and_active(brand_id, brand_name):
+    """Test GET /api/countdowns?brand_id={brand_id}&active_only=true - Both filters"""
+    print(f"🔍 Testing GET /api/countdowns?brand_id={brand_id}&active_only=true ({brand_name})...")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/countdowns?brand_id={brand_id}&active_only=true", timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            countdowns = response.json()
+            print(f"   Response Type: {type(countdowns)}")
+            if isinstance(countdowns, list):
+                print(f"   Brand Active Countdowns Count: {len(countdowns)}")
+                
+                # Verify all countdowns belong to brand and are active
+                for countdown in countdowns:
+                    if countdown.get('brand_id') != brand_id:
+                        print(f"   ❌ Countdown {countdown.get('title')} has wrong brand_id: {countdown.get('brand_id')}")
+                        return False
+                    if not countdown.get('is_active'):
+                        print(f"   ❌ Countdown {countdown.get('title')} is not active")
+                        return False
+                
+                print(f"   ✅ All countdowns belong to {brand_name} and are active")
+                return True, countdowns
+            else:
+                print("   ❌ Response is not a list")
+                return False, None
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False, None
+
+def test_get_single_countdown(countdown_id):
+    """Test GET /api/countdowns/{countdown_id} - Get single countdown"""
+    print(f"🔍 Testing GET /api/countdowns/{countdown_id}...")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/countdowns/{countdown_id}", timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            countdown = response.json()
+            print(f"   Response Type: {type(countdown)}")
+            if isinstance(countdown, dict):
+                print(f"   Countdown Title: {countdown.get('title', 'No title')}")
+                
+                # Verify all required fields are present
+                required_fields = ['id', 'title', 'event_date', 'is_active', 'priority', 'brand_id']
+                missing_fields = [field for field in required_fields if field not in countdown]
+                if missing_fields:
+                    print(f"   ❌ Missing fields: {missing_fields}")
+                    return False, None
+                
+                # Verify optional fields
+                optional_fields = ['banner_image_url', 'created_at', 'updated_at']
+                for field in optional_fields:
+                    if field in countdown:
+                        print(f"   ✅ Has {field}: {countdown[field] if field != 'banner_image_url' else 'Present' if countdown[field] else 'None'}")
+                
+                print("   ✅ Countdown has all required fields")
+                return True, countdown
+            else:
+                print("   ❌ Response is not a dict")
+                return False, None
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False, None
+
+def test_get_single_countdown_not_found():
+    """Test GET /api/countdowns/{invalid_id} - Should return 404"""
+    print("🔍 Testing GET /api/countdowns/{invalid_id} (should return 404)...")
+    
+    invalid_id = "non-existent-countdown-id"
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/countdowns/{invalid_id}", timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 404:
+            print("   ✅ Correctly returned 404 for non-existent countdown")
+            return True
+        else:
+            print(f"   ❌ Expected 404, got {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False
+
+def test_create_countdown_with_auth(admin_token, brand_id):
+    """Test POST /api/countdowns - Create countdown with admin auth"""
+    print("🔍 Testing POST /api/countdowns (with admin auth)...")
+    
+    countdown_data = {
+        "title": "Test Revival Service",
+        "event_date": "2025-12-25T10:00:00",
+        "priority": 3,
+        "is_active": True,
+        "brand_id": brand_id
+    }
+    
+    try:
+        headers = {
+            "Authorization": f"Bearer {admin_token}",
+            "Content-Type": "application/json"
+        }
+        
+        response = requests.post(
+            f"{BACKEND_URL}/countdowns",
+            json=countdown_data,
+            headers=headers,
+            timeout=10
+        )
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            print(f"   Response Type: {type(result)}")
+            if isinstance(result, dict):
+                print(f"   Created Countdown ID: {result.get('id', 'No ID')}")
+                print(f"   Created Countdown Title: {result.get('title', 'No title')}")
+                
+                # Verify all fields are present
+                for key, value in countdown_data.items():
+                    if result.get(key) != value:
+                        print(f"   ❌ Field {key} mismatch: expected {value}, got {result.get(key)}")
+                        return False, None
+                
+                # Verify generated fields
+                if not result.get('id'):
+                    print("   ❌ Missing generated ID")
+                    return False, None
+                
+                if not result.get('created_at'):
+                    print("   ❌ Missing created_at timestamp")
+                    return False, None
+                
+                print("   ✅ Countdown created successfully with all fields")
+                return True, result.get('id')
+            else:
+                print("   ❌ Response is not a dict")
+                return False, None
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False, None
+
+def test_create_countdown_without_auth():
+    """Test POST /api/countdowns - Should fail without admin auth"""
+    print("🔍 Testing POST /api/countdowns (without auth - should fail)...")
+    
+    countdown_data = {
+        "title": "Unauthorized Test",
+        "event_date": "2025-12-25T10:00:00",
+        "priority": 1,
+        "is_active": True,
+        "brand_id": "test-brand"
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/countdowns",
+            json=countdown_data,
+            headers={"Content-Type": "application/json"},
+            timeout=10
+        )
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code in [401, 403]:
+            print("   ✅ Correctly rejected request without authentication")
+            return True
+        else:
+            print(f"   ❌ Expected 401/403, got {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False
+
+def test_update_countdown_with_auth(admin_token, countdown_id):
+    """Test PUT /api/countdowns/{countdown_id} - Update countdown with admin auth"""
+    print(f"🔍 Testing PUT /api/countdowns/{countdown_id} (with admin auth)...")
+    
+    update_data = {
+        "title": "Updated Test Revival Service",
+        "priority": 5,
+        "is_active": False
+    }
+    
+    try:
+        headers = {
+            "Authorization": f"Bearer {admin_token}",
+            "Content-Type": "application/json"
+        }
+        
+        response = requests.put(
+            f"{BACKEND_URL}/countdowns/{countdown_id}",
+            json=update_data,
+            headers=headers,
+            timeout=10
+        )
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            print(f"   Response Type: {type(result)}")
+            if isinstance(result, dict):
+                print(f"   Updated Countdown Title: {result.get('title', 'No title')}")
+                
+                # Verify updates were applied
+                for key, value in update_data.items():
+                    if result.get(key) != value:
+                        print(f"   ❌ Field {key} not updated: expected {value}, got {result.get(key)}")
+                        return False
+                
+                # Verify updated_at timestamp changed
+                if not result.get('updated_at'):
+                    print("   ❌ Missing updated_at timestamp")
+                    return False
+                
+                print("   ✅ Countdown updated successfully")
+                return True
+            else:
+                print("   ❌ Response is not a dict")
+                return False
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False
+
+def test_update_countdown_without_auth(countdown_id):
+    """Test PUT /api/countdowns/{countdown_id} - Should fail without admin auth"""
+    print(f"🔍 Testing PUT /api/countdowns/{countdown_id} (without auth - should fail)...")
+    
+    update_data = {
+        "title": "Unauthorized Update"
+    }
+    
+    try:
+        response = requests.put(
+            f"{BACKEND_URL}/countdowns/{countdown_id}",
+            json=update_data,
+            headers={"Content-Type": "application/json"},
+            timeout=10
+        )
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code in [401, 403]:
+            print("   ✅ Correctly rejected update without authentication")
+            return True
+        else:
+            print(f"   ❌ Expected 401/403, got {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False
+
+def test_delete_countdown_without_auth(countdown_id):
+    """Test DELETE /api/countdowns/{countdown_id} - Should fail without admin auth"""
+    print(f"🔍 Testing DELETE /api/countdowns/{countdown_id} (without auth - should fail)...")
+    
+    try:
+        response = requests.delete(f"{BACKEND_URL}/countdowns/{countdown_id}", timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code in [401, 403]:
+            print("   ✅ Correctly rejected delete without authentication")
+            return True
+        else:
+            print(f"   ❌ Expected 401/403, got {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False
+
+def test_delete_countdown_with_auth(admin_token, countdown_id):
+    """Test DELETE /api/countdowns/{countdown_id} - Delete countdown with admin auth"""
+    print(f"🔍 Testing DELETE /api/countdowns/{countdown_id} (with admin auth)...")
+    
+    try:
+        headers = {
+            "Authorization": f"Bearer {admin_token}",
+            "Content-Type": "application/json"
+        }
+        
+        response = requests.delete(
+            f"{BACKEND_URL}/countdowns/{countdown_id}",
+            headers=headers,
+            timeout=10
+        )
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            print(f"   Response: {result.get('message', 'No message')}")
+            
+            # Verify countdown is actually deleted
+            verify_response = requests.get(f"{BACKEND_URL}/countdowns/{countdown_id}", timeout=10)
+            if verify_response.status_code == 404:
+                print("   ✅ Countdown successfully deleted (verified with GET)")
+                return True
+            else:
+                print(f"   ❌ Countdown still exists after delete (GET returned {verify_response.status_code})")
+                return False
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False
+
 # ========== LIVE STREAM TESTS ==========
 
 def test_get_live_streams(brand_id):
