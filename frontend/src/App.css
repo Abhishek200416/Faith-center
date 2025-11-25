@@ -285,7 +285,7 @@ a {
 .gradient-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 100%);
+  background: rgba(45, 55, 72, 0.6);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -298,10 +298,7 @@ a {
 .stat-number {
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 700;
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #2D3748;
 }
 
 /* Enhanced Animations */
