@@ -20,8 +20,24 @@ const MessagesEnhanced = () => {
   useEffect(() => {
     if (currentBrand) {
       loadChannelVideos();
+      loadAnnouncements();
     }
   }, [currentBrand]);
+
+  const loadAnnouncements = async () => {
+    setLoadingAnnouncements(true);
+    try {
+      const response = await axios.get(`${API}/announcements?brand_id=${currentBrand.id}`);
+      // Get only urgent announcements or latest 3 announcements
+      const sorted = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      const urgentAnnouncements = sorted.filter(a => a.is_urgent);
+      setAnnouncements(urgentAnnouncements.length > 0 ? urgentAnnouncements.slice(0, 3) : sorted.slice(0, 3));
+    } catch (error) {
+      console.error("Error loading announcements:", error);
+    } finally {
+      setLoadingAnnouncements(false);
+    }
+  };
 
   useEffect(() => {
     // Update countdown every second
