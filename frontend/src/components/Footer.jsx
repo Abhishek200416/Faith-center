@@ -149,8 +149,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8">
-          <p className="text-xs sm:text-sm text-gray-500 text-center">
+        <div className="border-t border-gray-800 pt-4 sm:pt-6">
+          <p className="text-xs text-gray-500 text-center">
             © {new Date().getFullYear()} {currentBrand.name}. All rights reserved.
           </p>
         </div>
