@@ -144,6 +144,7 @@ class Announcement(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str
     content: str
+    image_url: Optional[str] = None  # Featured image for announcement
     is_urgent: bool = False
     scheduled_start: Optional[str] = None
     scheduled_end: Optional[str] = None
@@ -153,10 +154,19 @@ class Announcement(BaseModel):
 class AnnouncementCreate(BaseModel):
     title: str
     content: str
+    image_url: Optional[str] = None
     is_urgent: bool = False
     scheduled_start: Optional[str] = None
     scheduled_end: Optional[str] = None
     brand_id: str
+
+class AnnouncementUpdate(BaseModel):
+    title: Optional[str] = None
+    content: Optional[str] = None
+    image_url: Optional[str] = None
+    is_urgent: Optional[bool] = None
+    scheduled_start: Optional[str] = None
+    scheduled_end: Optional[str] = None
 
 class VolunteerApplication(BaseModel):
     model_config = ConfigDict(extra="ignore")
