@@ -13,7 +13,7 @@ import BrandsManager from "./admin/BrandsManager";
 import MembersManager from "./admin/MembersManager";
 import LiveStreamManager from "./admin/LiveStreamManager";
 import AttendeesManager from "./admin/AttendeesManager";
-import BlogsManager from "./admin/BlogsManager";
+import BlogsManager from "./admin/BlogsManagerEnhanced";
 
 const AdminDashboard = () => {
   const location = useLocation();
