@@ -67,7 +67,7 @@ const SecureAdminLogin = () => {
 
   if (keyError) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8 text-center">
           <div className="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
             <AlertCircle className="text-red-600" size={32} />
@@ -78,7 +78,7 @@ const SecureAdminLogin = () => {
           </p>
           <Button 
             onClick={() => navigate("/")}
-            className="w-full bg-slate-700 hover:bg-slate-800"
+            className="w-full bg-[#2D3748] hover:bg-[#1a202c]"
           >
             Return to Home
           </Button>
@@ -88,7 +88,7 @@ const SecureAdminLogin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8">
         <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
           <CheckCircle className="text-green-600" size={32} />
@@ -132,7 +132,7 @@ const SecureAdminLogin = () => {
           <Button 
             type="submit" 
             disabled={loading || !isAuthorized} 
-            className="w-full bg-gradient-to-r from-slate-700 to-slate-900 hover:from-slate-800 hover:to-black" 
+            className="w-full bg-[#2D3748] hover:bg-[#1a202c]" 
             data-testid="admin-login-submit-btn"
           >
             {loading ? "Logging in..." : "Login"}
