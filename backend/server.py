@@ -510,6 +510,36 @@ class BlogUpdate(BaseModel):
     image_url: Optional[str] = None
     published: Optional[bool] = None
 
+# ========== COUNTDOWN MODELS ==========
+
+class Countdown(BaseModel):
+    """Countdown timer for events (e.g., live stream services)"""
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str  # e.g., "Sunday Morning Service", "Revival Conference"
+    event_date: str  # ISO format datetime
+    banner_image_url: Optional[str] = None  # Event banner/poster
+    is_active: bool = True  # Show/hide countdown
+    priority: int = 0  # Higher priority shows first
+    brand_id: str
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    updated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+class CountdownCreate(BaseModel):
+    title: str
+    event_date: str
+    banner_image_url: Optional[str] = None
+    is_active: bool = True
+    priority: int = 0
+    brand_id: str
+
+class CountdownUpdate(BaseModel):
+    title: Optional[str] = None
+    event_date: Optional[str] = None
+    banner_image_url: Optional[str] = None
+    is_active: Optional[bool] = None
+    priority: Optional[int] = None
+
 # ========== AUTH UTILITIES ==========
 
 def hash_password(password: str) -> str:
