@@ -115,7 +115,7 @@ function App() {
   };
 
   const ProtectedRoute = ({ children }) => {
-    if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    if (loading) return null;
     return authToken && admin ? children : <Navigate to="/admin/login" />;
   };
 
