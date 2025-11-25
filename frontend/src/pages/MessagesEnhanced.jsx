@@ -266,14 +266,32 @@ const MessagesEnhanced = () => {
         <section className="section bg-gradient-to-br from-gray-50 to-gray-100">
           <div className="container">
             <div className="max-w-4xl mx-auto">
+              {/* Event Banner (if available) */}
+              {countdown.bannerUrl && (
+                <div className="mb-8 rounded-2xl overflow-hidden shadow-2xl" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
+                  <img 
+                    src={countdown.bannerUrl} 
+                    alt={countdown.nextEvent}
+                    className="w-full h-64 md:h-80 object-cover"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+
               {/* Countdown Card */}
               <div className="bg-white rounded-2xl shadow-2xl p-8 mb-8" style={{ animation: 'fadeInUp 0.6s ease-out' }}>
                 <div className="text-center mb-8">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-full mb-4">
+                  <div className={`inline-flex items-center justify-center w-20 h-20 rounded-full mb-4 ${
+                    brandColor === "red" 
+                      ? "bg-gradient-to-br from-red-500 to-red-600" 
+                      : "bg-gradient-to-br from-blue-500 to-blue-600"
+                  }`}>
                     <Radio className="text-white" size={40} />
                   </div>
-                  <h2 className="text-3xl sm:text-4xl font-bold mb-2">Next Service</h2>
-                  <p className="text-xl text-gray-600">{countdown.nextService}</p>
+                  <h2 className="text-3xl sm:text-4xl font-bold mb-2">Upcoming Event</h2>
+                  <p className="text-xl text-gray-600">{countdown.nextEvent}</p>
                 </div>
 
                 {/* Countdown Timer */}
