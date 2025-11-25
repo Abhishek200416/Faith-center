@@ -324,6 +324,78 @@ backend:
         agent: "testing"
         comment: "✅ ADMIN AUTHENTICATION WORKING WITH CORRECT CREDENTIALS: POST /api/auth/login successfully authenticates admin@faithcenter.com with password Admin@2025. Returns proper JWT token and admin object as required. Admin user exists in database with correct credentials from review request. Authentication endpoint working perfectly for Faith Center application."
 
+  - task: "POST /api/upload-image endpoint"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ Image upload API working correctly. Uploads images to /app/uploads directory and returns URL path for frontend use. Supports jpg, png, gif, webp formats with admin authentication required."
+
+  - task: "GET /api/countdowns endpoint with brand filtering and active status"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ Countdown list API working correctly. Returns countdowns sorted by priority (highest first). Supports optional brand_id and active_only query parameters. Returns 8 countdowns from seed data."
+
+  - task: "GET /api/countdowns/{countdown_id} endpoint"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ Get single countdown API working correctly. Returns countdown by ID with all fields including title, event_date, banner_image_url, priority, is_active."
+
+  - task: "POST /api/countdowns endpoint"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ Create countdown API working correctly. Requires admin authentication. Creates new countdown with all required fields. Returns created countdown object."
+
+  - task: "PUT /api/countdowns/{countdown_id} endpoint"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ Update countdown API working correctly. Requires admin authentication. Supports partial updates for all fields. Updates updated_at timestamp automatically."
+
+  - task: "DELETE /api/countdowns/{countdown_id} endpoint"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ Delete countdown API working correctly. Requires admin authentication. Removes countdown from database."
+
 
 frontend:
   - task: "Enhanced CSS with fluid typography and responsive design"
