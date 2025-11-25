@@ -458,14 +458,24 @@ class FoundationDonationCreate(BaseModel):
 
 # ========== BLOG MODELS ==========
 
+class ContentBlock(BaseModel):
+    """Represents a content block in a blog post (text, image, heading, etc.)"""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    type: str  # "text", "image", "heading", "quote"
+    content: Optional[str] = None  # For text/heading content
+    image_url: Optional[str] = None  # For image blocks
+    alignment: Optional[str] = "left"  # "left", "right", "center"
+    order: int = 0  # Order in the blog post
+
 class Blog(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str
-    content: str
+    content: str  # Keep for backward compatibility and plain text
+    content_blocks: Optional[List[ContentBlock]] = []  # Rich content blocks
     excerpt: Optional[str] = None
     author: str = "Admin"
-    image_url: Optional[str] = None
+    image_url: Optional[str] = None  # Featured image
     brand_id: str
     published: bool = True
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
@@ -474,6 +484,7 @@ class Blog(BaseModel):
 class BlogCreate(BaseModel):
     title: str
     content: str
+    content_blocks: Optional[List[ContentBlock]] = []
     excerpt: Optional[str] = None
     author: str = "Admin"
     image_url: Optional[str] = None
@@ -483,6 +494,7 @@ class BlogCreate(BaseModel):
 class BlogUpdate(BaseModel):
     title: Optional[str] = None
     content: Optional[str] = None
+    content_blocks: Optional[List[ContentBlock]] = None
     excerpt: Optional[str] = None
     author: Optional[str] = None
     image_url: Optional[str] = None
