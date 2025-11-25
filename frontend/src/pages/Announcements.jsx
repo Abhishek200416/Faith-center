@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useBrand, API } from "@/App";
 import axios from "axios";
-import { Calendar, Users, ArrowRight } from "lucide-react";
+import { Calendar, Users, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
