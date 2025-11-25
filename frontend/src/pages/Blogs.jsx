@@ -236,12 +236,56 @@ const Blogs = () => {
             {/* Content */}
             <div className="prose prose-lg max-w-none">
               <div
-                className="text-gray-700 leading-relaxed whitespace-pre-wrap"
+                className="text-gray-700 leading-relaxed blog-content"
                 dangerouslySetInnerHTML={{
-                  __html: selectedBlog?.content.replace(/\n/g, "<br />"),
+                  __html: selectedBlog?.content,
                 }}
               />
             </div>
+          
+            <style jsx>{`
+              :global(.blog-content p) {
+                margin-bottom: 1rem;
+              }
+              :global(.blog-content img) {
+                max-width: 100%;
+                height: auto;
+                border-radius: 0.5rem;
+                margin: 1.5rem 0;
+              }
+              :global(.blog-content h1),
+              :global(.blog-content h2),
+              :global(.blog-content h3) {
+                font-weight: bold;
+                margin-top: 2rem;
+                margin-bottom: 1rem;
+              }
+              :global(.blog-content h1) {
+                font-size: 2rem;
+              }
+              :global(.blog-content h2) {
+                font-size: 1.5rem;
+              }
+              :global(.blog-content h3) {
+                font-size: 1.25rem;
+              }
+              :global(.blog-content ul),
+              :global(.blog-content ol) {
+                margin: 1rem 0;
+                padding-left: 2rem;
+              }
+              :global(.blog-content blockquote) {
+                border-left: 4px solid #9333ea;
+                padding-left: 1rem;
+                margin: 1.5rem 0;
+                font-style: italic;
+                color: #6b7280;
+              }
+              :global(.blog-content a) {
+                color: #9333ea;
+                text-decoration: underline;
+              }
+            `}</style>
           </div>
         </DialogContent>
       </Dialog>
