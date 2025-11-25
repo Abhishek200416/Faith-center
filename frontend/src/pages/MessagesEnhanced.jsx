@@ -349,43 +349,70 @@ const MessagesEnhanced = () => {
                 </div>
               </div>
 
-              {/* Service Schedule */}
-              <div className="bg-white rounded-2xl shadow-xl p-8" style={{ animation: 'fadeInUp 0.6s ease-out 0.2s backwards' }}>
-                <h3 className="text-2xl font-bold mb-6 flex items-center">
-                  <Clock className="mr-3" size={28} />
-                  Service Schedule
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div>
-                      <div className="font-semibold text-lg">Morning Service</div>
-                      <div className="text-gray-600">Sunday</div>
-                    </div>
-                    <div className={brandColor === "red" ? "text-2xl font-bold text-red-600" : "text-2xl font-bold text-blue-600"}>7:00 AM</div>
-                  </div>
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div>
-                      <div className="font-semibold text-lg">Main Service</div>
-                      <div className="text-gray-600">Sunday</div>
-                    </div>
-                    <div className={brandColor === "red" ? "text-2xl font-bold text-red-600" : "text-2xl font-bold text-blue-600"}>10:00 AM</div>
-                  </div>
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div>
-                      <div className="font-semibold text-lg">Evening Service</div>
-                      <div className="text-gray-600">Sunday</div>
-                    </div>
-                    <div className={brandColor === "red" ? "text-2xl font-bold text-red-600" : "text-2xl font-bold text-blue-600"}>6:00 PM</div>
-                  </div>
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div>
-                      <div className="font-semibold text-lg">Friday Service</div>
-                      <div className="text-gray-600">Friday</div>
-                    </div>
-                    <div className={brandColor === "red" ? "text-2xl font-bold text-red-600" : "text-2xl font-bold text-blue-600"}>6:30 PM</div>
+              {/* All Upcoming Events */}
+              {activeCountdowns.length > 0 && (
+                <div className="bg-white rounded-2xl shadow-xl p-8" style={{ animation: 'fadeInUp 0.6s ease-out 0.2s backwards' }}>
+                  <h3 className="text-2xl font-bold mb-6 flex items-center">
+                    <Calendar className="mr-3" size={28} />
+                    Upcoming Events
+                  </h3>
+                  <div className="space-y-4">
+                    {activeCountdowns.map((event, index) => {
+                      const eventDate = new Date(event.event_date);
+                      const isHighPriority = event.priority > 2;
+                      return (
+                        <div 
+                          key={event.id} 
+                          className={`flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-lg transition-all duration-300 hover:shadow-md ${
+                            index === 0 
+                              ? brandColor === "red"
+                                ? "bg-gradient-to-r from-red-50 to-pink-50 border-2 border-red-200"
+                                : "bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200"
+                              : "bg-gray-50"
+                          }`}
+                        >
+                          <div className="flex-1 mb-2 sm:mb-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="font-semibold text-lg">{event.title}</div>
+                              {index === 0 && (
+                                <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
+                                  brandColor === "red" 
+                                    ? "bg-red-100 text-red-700" 
+                                    : "bg-blue-100 text-blue-700"
+                                }`}>
+                                  Next
+                                </span>
+                              )}
+                              {isHighPriority && (
+                                <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full font-semibold">
+                                  Priority
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-sm text-gray-600">
+                              {eventDate.toLocaleDateString('en-US', { 
+                                weekday: 'long', 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric' 
+                              })}
+                            </div>
+                          </div>
+                          <div className={`text-xl font-bold ${
+                            brandColor === "red" ? "text-red-600" : "text-blue-600"
+                          }`}>
+                            {eventDate.toLocaleTimeString('en-US', { 
+                              hour: 'numeric', 
+                              minute: '2-digit',
+                              hour12: true 
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Announcements Section */}
               {announcements.length > 0 && (
