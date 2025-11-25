@@ -88,18 +88,41 @@ const Blogs = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-purple-700 text-white py-16 sm:py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <BookOpen className="w-16 h-16 mx-auto mb-6 opacity-90" />
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
-              Our Blog
-            </h1>
-            <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto">
-              Insights, reflections, and updates from {currentBrand?.name}
-            </p>
-          </div>
+      {/* Hero Section with Background Image */}
+      <div className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 w-full h-full">
+          <img 
+            src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1920" 
+            alt="Blog hero" 
+            className="w-full h-full object-cover" 
+          />
+        </div>
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/80 via-blue-900/75 to-purple-800/80" />
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+          <BookOpen className="w-16 h-16 mx-auto mb-6 opacity-90" style={{ filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))' }} />
+          <h1 
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4"
+            style={{ 
+              textShadow: '2px 2px 8px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.3)', 
+              color: '#FFFFFF' 
+            }}
+          >
+            Our Blog
+          </h1>
+          <p 
+            className="text-lg sm:text-xl max-w-2xl mx-auto"
+            style={{ 
+              textShadow: '1px 1px 4px rgba(0,0,0,0.4)', 
+              color: '#FFFFFF' 
+            }}
+          >
+            Insights, reflections, and updates from {currentBrand?.name}
+          </p>
         </div>
       </div>
 
