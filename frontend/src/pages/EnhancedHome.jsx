@@ -617,7 +617,7 @@ const EnhancedHome = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="section bg-gradient-to-br from-blue-600 to-purple-600 text-white">
+      <section className="section bg-[#2D3748] text-white">
         <div className="container text-center max-w-4xl">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Join Us This Sunday</h2>
           <p className="text-lg sm:text-xl mb-8 opacity-90">
