@@ -110,7 +110,7 @@ const Footer = () => {
                 placeholder="Your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-gray-500 text-sm sm:text-base"
+                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-gray-500 text-xs sm:text-sm h-9"
                 required
                 data-testid="newsletter-email-input"
               />
@@ -118,32 +118,32 @@ const Footer = () => {
                 type="submit" 
                 disabled={loading} 
                 data-testid="newsletter-subscribe-btn"
-                className="w-full sm:w-auto whitespace-nowrap"
+                className="w-full sm:w-auto whitespace-nowrap h-9 text-xs sm:text-sm"
               >
                 {loading ? "Subscribing..." : "Subscribe"}
               </Button>
             </form>
-            <div className="flex space-x-6 justify-center sm:justify-start">
+            <div className="flex space-x-4 justify-center sm:justify-start">
               <a 
                 href="#" 
                 className="hover:text-white transition-all hover:scale-110" 
                 aria-label="Facebook"
               >
-                <Facebook size={24} />
+                <Facebook size={20} />
               </a>
               <a 
                 href="#" 
                 className="hover:text-white transition-all hover:scale-110" 
                 aria-label="Instagram"
               >
-                <Instagram size={24} />
+                <Instagram size={20} />
               </a>
               <a 
                 href="#" 
                 className="hover:text-white transition-all hover:scale-110" 
                 aria-label="YouTube"
               >
-                <Youtube size={24} />
+                <Youtube size={20} />
               </a>
             </div>
           </div>
