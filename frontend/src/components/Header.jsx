@@ -190,7 +190,7 @@ const Header = () => {
               href="https://nehemiahdavid.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-white bg-gradient-to-r from-slate-700 to-slate-900 rounded-md hover:from-slate-800 hover:to-black transition-all shadow-sm"
+              className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-white bg-[#2D3748] rounded-md hover:bg-[#1a202c] transition-all shadow-sm"
             >
               <span>Nehemiah David Ministries</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
