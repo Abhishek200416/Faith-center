@@ -1986,6 +1986,44 @@ async def delete_countdown(countdown_id: str, admin = Depends(get_current_admin)
         raise HTTPException(status_code=404, detail="Countdown not found")
     return {"message": "Countdown deleted successfully"}
 
+# ========== IMAGE UPLOAD ROUTE ==========
+
+@api_router.post("/upload-image")
+async def upload_image(file: UploadFile = File(...), admin = Depends(get_current_admin)):
+    """Upload an image file and return the URL"""
+    try:
+        # Validate file type
+        allowed_types = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"]
+        if file.content_type not in allowed_types:
+            raise HTTPException(status_code=400, detail="Invalid file type. Only images are allowed.")
+        
+        # Create uploads directory if it doesn't exist
+        uploads_dir = Path("/app/uploads")
+        uploads_dir.mkdir(exist_ok=True)
+        
+        # Generate unique filename
+        file_extension = file.filename.split(".")[-1]
+        unique_filename = f"{uuid.uuid4()}.{file_extension}"
+        file_path = uploads_dir / unique_filename
+        
+        # Save file
+        with open(file_path, "wb") as buffer:
+            content = await file.read()
+            buffer.write(content)
+        
+        # Return URL (in production this would be the CDN URL)
+        # For now, we'll return a path that the frontend can use
+        image_url = f"/uploads/{unique_filename}"
+        
+        return {
+            "success": True,
+            "image_url": image_url,
+            "filename": unique_filename
+        }
+    except Exception as e:
+        logging.error(f"Error uploading image: {e}")
+        raise HTTPException(status_code=500, detail=f"Error uploading image: {str(e)}")
+
 # Include router
 app.include_router(api_router)
 
