@@ -403,6 +403,111 @@ print("Creating gallery images...")
 db.gallery_images.delete_many({})
 db.gallery_images.insert_many(gallery_images)
 
+# Create Countdowns for Live Stream Events
+print("Creating countdowns...")
+db.countdowns.delete_many({})
+
+# Calculate upcoming dates
+now = datetime.utcnow()
+next_sunday = now + timedelta(days=(6 - now.weekday()) % 7)
+next_friday = now + timedelta(days=(4 - now.weekday()) % 7)
+next_month = now + timedelta(days=30)
+
+countdowns = [
+    # Nehemiah David Ministries countdowns
+    {
+        "id": str(uuid.uuid4()),
+        "title": "Sunday Morning Service",
+        "event_date": (next_sunday.replace(hour=7, minute=0, second=0)).isoformat(),
+        "banner_image_url": "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1920&q=80",
+        "is_active": True,
+        "priority": 3,
+        "brand_id": ndm_id,
+        "created_at": now.isoformat(),
+        "updated_at": now.isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "title": "Main Worship Service",
+        "event_date": (next_sunday.replace(hour=10, minute=0, second=0)).isoformat(),
+        "banner_image_url": "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1920&q=80",
+        "is_active": True,
+        "priority": 5,
+        "brand_id": ndm_id,
+        "created_at": now.isoformat(),
+        "updated_at": now.isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "title": "Evening Online Service",
+        "event_date": (next_sunday.replace(hour=18, minute=30, second=0)).isoformat(),
+        "banner_image_url": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1920&q=80",
+        "is_active": True,
+        "priority": 2,
+        "brand_id": ndm_id,
+        "created_at": now.isoformat(),
+        "updated_at": now.isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "title": "Friday Night Prayer & Worship",
+        "event_date": (next_friday.replace(hour=19, minute=0, second=0)).isoformat(),
+        "banner_image_url": "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=1920&q=80",
+        "is_active": True,
+        "priority": 4,
+        "brand_id": ndm_id,
+        "created_at": now.isoformat(),
+        "updated_at": now.isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "title": "REVIVE - 5 Day Revival Conference",
+        "event_date": (next_month.replace(hour=18, minute=0, second=0)).isoformat(),
+        "banner_image_url": "https://images.unsplash.com/photo-1540206395-68808572332f?w=1920&q=80",
+        "is_active": True,
+        "priority": 5,
+        "brand_id": ndm_id,
+        "created_at": now.isoformat(),
+        "updated_at": now.isoformat()
+    },
+    # Faith Centre countdowns
+    {
+        "id": str(uuid.uuid4()),
+        "title": "Sunday Morning Worship",
+        "event_date": (next_sunday.replace(hour=7, minute=0, second=0)).isoformat(),
+        "banner_image_url": "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1920&q=80",
+        "is_active": True,
+        "priority": 3,
+        "brand_id": fc_id,
+        "created_at": now.isoformat(),
+        "updated_at": now.isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "title": "Main Service",
+        "event_date": (next_sunday.replace(hour=10, minute=0, second=0)).isoformat(),
+        "banner_image_url": "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1920&q=80",
+        "is_active": True,
+        "priority": 5,
+        "brand_id": fc_id,
+        "created_at": now.isoformat(),
+        "updated_at": now.isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "title": "Friday Fellowship Service",
+        "event_date": (next_friday.replace(hour=18, minute=30, second=0)).isoformat(),
+        "banner_image_url": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1920&q=80",
+        "is_active": True,
+        "priority": 4,
+        "brand_id": fc_id,
+        "created_at": now.isoformat(),
+        "updated_at": now.isoformat()
+    }
+]
+
+db.countdowns.insert_many(countdowns)
+
 print("\n=== Database Seeded Successfully! ===")
 print(f"Brands: {db.brands.count_documents({})}")
 print(f"Events: {db.events.count_documents({})}")
@@ -410,3 +515,4 @@ print(f"Ministries: {db.ministries.count_documents({})}")
 print(f"Announcements: {db.announcements.count_documents({})}")
 print(f"Foundations: {db.foundations.count_documents({})}")
 print(f"Gallery Images: {db.gallery_images.count_documents({})}")
+print(f"Countdowns: {db.countdowns.count_documents({})}")
