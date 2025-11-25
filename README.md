@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://blog-enhance.preview.emergentagent.com
-- Admin Panel: https://blog-enhance.preview.emergentagent.com/admin/login
+- Public Site: https://content-manager-60.preview.emergentagent.com
+- Admin Panel: https://content-manager-60.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
