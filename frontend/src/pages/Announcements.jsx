@@ -45,39 +45,44 @@ const Announcements = () => {
 
   return (
     <div className="transition-all duration-500">
-      {/* Hero Header */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      {/* Hero Header with Dynamic Background */}
+      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
           <img 
-            src="https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1920" 
+            src={currentBrand?.hero_image_url || "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1920"} 
             alt="Announcements" 
-            className="w-full h-full object-cover opacity-60 transition-opacity duration-700" 
+            className="w-full h-full object-cover opacity-70 transition-opacity duration-700" 
           />
         </div>
         
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60 transition-all duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70 transition-all duration-500" />
         
-        <div className="relative z-10 text-center text-white max-w-4xl px-4 sm:px-6">
+        <div className="relative z-10 text-center text-white max-w-5xl px-4 sm:px-6">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full mb-6 shadow-2xl">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+            </svg>
+          </div>
           <h1 
-            className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-white transition-all duration-500" 
+            className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 text-white transition-all duration-500" 
             style={{
               animation: 'fadeInUp 0.8s ease-out 0.2s backwards', 
-              textShadow: '1px 1px 3px rgba(0,0,0,0.5), 0 0 10px rgba(0,0,0,0.3)', 
+              textShadow: '2px 2px 4px rgba(0,0,0,0.7), 0 0 20px rgba(0,0,0,0.4)', 
               color: '#FFFFFF'
             }}
             data-testid="announcements-page-title"
           >
-            Announcements
+            Latest Updates
           </h1>
           <p 
-            className="text-lg sm:text-xl max-w-2xl mx-auto text-white transition-all duration-500" 
+            className="text-xl sm:text-2xl max-w-3xl mx-auto text-white font-medium transition-all duration-500" 
             style={{
               animation: 'fadeInUp 0.8s ease-out 0.4s backwards', 
-              textShadow: '1px 1px 2px rgba(0,0,0,0.4)', 
+              textShadow: '1px 1px 3px rgba(0,0,0,0.6)', 
               color: '#FFFFFF'
             }}
           >
-            Stay updated with the latest news and announcements
+            Stay connected with important announcements and upcoming events
           </p>
         </div>
       </section>
