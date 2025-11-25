@@ -14,6 +14,8 @@ const MessagesEnhanced = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, nextService: "" });
+  const [announcements, setAnnouncements] = useState([]);
+  const [loadingAnnouncements, setLoadingAnnouncements] = useState(false);
 
   useEffect(() => {
     if (currentBrand) {
