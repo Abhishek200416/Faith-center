@@ -13,14 +13,17 @@ const MessagesEnhanced = () => {
   const [activeTab, setActiveTab] = useState("sermons"); // "sermons" or "live"
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, nextService: "" });
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, nextEvent: "", bannerUrl: null });
   const [announcements, setAnnouncements] = useState([]);
   const [loadingAnnouncements, setLoadingAnnouncements] = useState(false);
+  const [activeCountdowns, setActiveCountdowns] = useState([]);
+  const [nextCountdown, setNextCountdown] = useState(null);
 
   useEffect(() => {
     if (currentBrand) {
       loadChannelVideos();
       loadAnnouncements();
+      loadCountdowns();
     }
   }, [currentBrand]);
 
@@ -39,6 +42,26 @@ const MessagesEnhanced = () => {
     }
   };
 
+  const loadCountdowns = async () => {
+    try {
+      const response = await axios.get(`${API}/countdowns?brand_id=${currentBrand.id}&active_only=true`);
+      // Filter out past events and sort by priority
+      const now = new Date();
+      const upcomingCountdowns = response.data
+        .filter(c => new Date(c.event_date) > now)
+        .sort((a, b) => b.priority - a.priority);
+      
+      setActiveCountdowns(upcomingCountdowns);
+      
+      // Set the highest priority upcoming countdown
+      if (upcomingCountdowns.length > 0) {
+        setNextCountdown(upcomingCountdowns[0]);
+      }
+    } catch (error) {
+      console.error("Error loading countdowns:", error);
+    }
+  };
+
   useEffect(() => {
     // Update countdown every second
     const timer = setInterval(() => {
@@ -47,67 +70,37 @@ const MessagesEnhanced = () => {
     
     updateCountdown();
     return () => clearInterval(timer);
-  }, []);
+  }, [nextCountdown]);
 
   const updateCountdown = () => {
+    if (!nextCountdown) {
+      setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0, nextEvent: "No upcoming events", bannerUrl: null });
+      return;
+    }
+
     const now = new Date();
-    const currentDay = now.getDay(); // 0 = Sunday, 5 = Friday
-    const currentTime = now.getHours() * 60 + now.getMinutes();
-    
-    // Service times in minutes from midnight
-    const services = [
-      { name: "Morning Service", time: 7 * 60, days: [0] }, // 7 AM Sunday
-      { name: "Main Service", time: 10 * 60, days: [0] }, // 10 AM Sunday
-      { name: "Evening Service", time: 18 * 60, days: [0] }, // 6 PM Sunday
-      { name: "Friday Service", time: 18 * 60 + 30, days: [5] } // 6:30 PM Friday
-    ];
-    
-    let nextService = null;
-    let minDiff = Infinity;
-    
-    // Find next service
-    for (let daysAhead = 0; daysAhead < 7; daysAhead++) {
-      const checkDay = (currentDay + daysAhead) % 7;
-      
-      for (const service of services) {
-        if (service.days.includes(checkDay)) {
-          const serviceTime = service.time;
-          let diff;
-          
-          if (daysAhead === 0 && currentTime < serviceTime) {
-            diff = serviceTime - currentTime;
-          } else if (daysAhead > 0) {
-            diff = (daysAhead * 24 * 60) + serviceTime - currentTime;
-          } else {
-            continue;
-          }
-          
-          if (diff < minDiff && diff > 0) {
-            minDiff = diff;
-            nextService = {
-              name: service.name,
-              diff: diff
-            };
-          }
-        }
-      }
+    const eventDate = new Date(nextCountdown.event_date);
+    const diff = eventDate - now;
+
+    if (diff < 0) {
+      // Event has passed, reload countdowns
+      loadCountdowns();
+      return;
     }
-    
-    if (nextService) {
-      const totalMinutes = nextService.diff;
-      const days = Math.floor(totalMinutes / (24 * 60));
-      const hours = Math.floor((totalMinutes % (24 * 60)) / 60);
-      const minutes = Math.floor(totalMinutes % 60);
-      const seconds = Math.floor((totalMinutes * 60) % 60);
-      
-      setCountdown({
-        days,
-        hours,
-        minutes,
-        seconds,
-        nextService: nextService.name
-      });
-    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    setCountdown({
+      days,
+      hours,
+      minutes,
+      seconds,
+      nextEvent: nextCountdown.title,
+      bannerUrl: nextCountdown.banner_image_url
+    });
   };
 
   const loadChannelVideos = async () => {
