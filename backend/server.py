@@ -798,13 +798,20 @@ async def create_announcement(announcement_data: AnnouncementCreate, admin = Dep
     return announcement
 
 @api_router.put("/announcements/{announcement_id}", response_model=Announcement)
-async def update_announcement(announcement_id: str, announcement_data: AnnouncementCreate, admin = Depends(get_current_admin)):
+async def update_announcement(announcement_id: str, announcement_data: AnnouncementUpdate, admin = Depends(get_current_admin)):
+    # Check if announcement exists
+    existing = await db.announcements.find_one({"id": announcement_id}, {"_id": 0})
+    if not existing:
+        raise HTTPException(status_code=404, detail="Announcement not found")
+    
+    # Update only provided fields
+    update_data = {k: v for k, v in announcement_data.model_dump().items() if v is not None}
+    
     result = await db.announcements.update_one(
         {"id": announcement_id},
-        {"$set": announcement_data.model_dump()}
+        {"$set": update_data}
     )
-    if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Announcement not found")
+    
     announcement = await db.announcements.find_one({"id": announcement_id}, {"_id": 0})
     return announcement
 
