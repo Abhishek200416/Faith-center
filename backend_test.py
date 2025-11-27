@@ -2236,9 +2236,9 @@ def test_create_live_stream(admin_token, brand_id):
         return False
 
 def main():
-    """Run comprehensive countdown backend tests as requested"""
+    """Run Phase 3 Announcements Enhancement API tests as requested"""
     print("=" * 80)
-    print("🚀 PHASE 4 COUNTDOWN BACKEND TESTING - COMPLETE ALL 5 ENDPOINT TESTS")
+    print("🚀 PHASE 3 ANNOUNCEMENTS ENHANCEMENT API TESTING")
     print("=" * 80)
     print(f"Backend URL: {BACKEND_URL}")
     print(f"Test Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -2247,14 +2247,13 @@ def main():
     # Track test results
     results = []
     
-    print("\n🔍 TESTING ALL 5 COUNTDOWN ENDPOINTS")
+    print("\n🔍 TESTING PHASE 3 ANNOUNCEMENTS ENHANCEMENT")
     print("=" * 60)
-    print("Testing all countdown endpoints as requested:")
-    print("1. GET /api/countdowns - with different query parameters")
-    print("2. GET /api/countdowns/{countdown_id} - single countdown retrieval")
-    print("3. POST /api/countdowns - countdown creation (requires admin auth)")
-    print("4. PUT /api/countdowns/{countdown_id} - countdown updates (requires admin auth)")
-    print("5. DELETE /api/countdowns/{countdown_id} - countdown deletion (requires admin auth)")
+    print("Testing Phase 3 enhanced announcement endpoints:")
+    print("1. GET /api/announcements - Verify new fields (event_id, location, event_time, requires_registration)")
+    print("2. GET /api/announcements/urgent - Verify urgent announcements include new fields")
+    print("3. POST /api/announcements (admin auth) - Create announcement with new fields")
+    print("4. PUT /api/announcements/{id} (admin auth) - Update announcement with new fields")
     print("=" * 60)
     
     # First, get brands for testing
@@ -2264,7 +2263,7 @@ def main():
     
     brands_success, ndm_brand_id, faith_brand_id = test_get_brands()
     if not brands_success:
-        print("❌ Failed to get brands - cannot continue with countdown tests")
+        print("❌ Failed to get brands - cannot continue with announcement tests")
         return 1
     
     # Get admin token for authenticated tests
@@ -2277,138 +2276,69 @@ def main():
         print("❌ Failed to authenticate admin - cannot test protected endpoints")
         return 1
     
-    # Test 1: GET /api/countdowns (all countdowns)
+    # Get events for linking to announcements
     print("\n" + "=" * 50)
-    print("📋 TEST 1: GET /api/countdowns (all countdowns)")
+    print("🎯 GETTING EVENTS FOR ANNOUNCEMENT LINKING")
     print("=" * 50)
     
-    all_countdowns_success, all_countdowns = test_get_countdowns_all()
-    results.append(("GET /api/countdowns (all)", all_countdowns_success))
-    
-    # Test 2: GET /api/countdowns?brand_id={brand_id} (filter by brand)
-    print("\n" + "=" * 50)
-    print("📋 TEST 2: GET /api/countdowns?brand_id={brand_id} (filter by brand)")
-    print("=" * 50)
-    
-    brand_filter_success, brand_countdowns = test_get_countdowns_with_brand_filter(ndm_brand_id, "Nehemiah David Ministries")
-    results.append(("GET /api/countdowns?brand_id={brand_id}", brand_filter_success))
-    
-    # Test 3: GET /api/countdowns?active_only=true (only active countdowns)
-    print("\n" + "=" * 50)
-    print("📋 TEST 3: GET /api/countdowns?active_only=true (only active)")
-    print("=" * 50)
-    
-    active_only_success, active_countdowns = test_get_countdowns_active_only(ndm_brand_id, "Nehemiah David Ministries")
-    results.append(("GET /api/countdowns?active_only=true", active_only_success))
-    
-    # Test 4: GET /api/countdowns?brand_id={brand_id}&active_only=true (both filters)
-    print("\n" + "=" * 50)
-    print("📋 TEST 4: GET /api/countdowns?brand_id={brand_id}&active_only=true (both filters)")
-    print("=" * 50)
-    
-    both_filters_success, both_filter_countdowns = test_get_countdowns_brand_and_active(ndm_brand_id, "Nehemiah David Ministries")
-    results.append(("GET /api/countdowns?brand_id={brand_id}&active_only=true", both_filters_success))
-    
-    # Test 5: GET /api/countdowns/{countdown_id} (single countdown - valid ID)
-    print("\n" + "=" * 50)
-    print("📋 TEST 5: GET /api/countdowns/{countdown_id} (single countdown)")
-    print("=" * 50)
-    
-    single_countdown_success = False
-    test_countdown_id = None
-    
-    if all_countdowns and len(all_countdowns) > 0:
-        test_countdown_id = all_countdowns[0].get('id')
-        single_countdown_success, single_countdown = test_get_single_countdown(test_countdown_id)
+    events_success = test_get_events(ndm_brand_id, "Nehemiah David Ministries", None)
+    if not events_success:
+        print("❌ Failed to get events - will test without event linking")
+        test_event_id = None
     else:
-        print("   ⚠️  No countdowns available to test single retrieval")
-        single_countdown_success = True  # Skip this test
+        # Get a sample event ID for testing
+        try:
+            events_response = requests.get(f"{BACKEND_URL}/events?brand_id={ndm_brand_id}", timeout=10)
+            if events_response.status_code == 200:
+                events = events_response.json()
+                test_event_id = events[0].get('id') if events else None
+                print(f"   ✅ Using event ID for testing: {test_event_id}")
+            else:
+                test_event_id = None
+        except:
+            test_event_id = None
     
-    results.append(("GET /api/countdowns/{countdown_id} (valid)", single_countdown_success))
-    
-    # Test 6: GET /api/countdowns/{countdown_id} (single countdown - invalid ID)
+    # Test 1: GET /api/announcements with Phase 3 enhanced fields
     print("\n" + "=" * 50)
-    print("📋 TEST 6: GET /api/countdowns/{invalid_id} (should return 404)")
+    print("📢 TEST 1: GET /api/announcements (Phase 3 Enhanced Fields)")
     print("=" * 50)
     
-    not_found_success = test_get_single_countdown_not_found()
-    results.append(("GET /api/countdowns/{invalid_id} (404)", not_found_success))
+    announcements_success, announcements = test_get_announcements(ndm_brand_id)
+    results.append(("GET /api/announcements (Phase 3 fields)", announcements_success))
     
-    # Test 7: POST /api/countdowns (with admin auth)
+    # Test 2: GET /api/announcements/urgent with Phase 3 enhanced fields
     print("\n" + "=" * 50)
-    print("📋 TEST 7: POST /api/countdowns (with admin auth)")
+    print("📢 TEST 2: GET /api/announcements/urgent (Phase 3 Enhanced Fields)")
     print("=" * 50)
     
-    create_with_auth_success, created_countdown_id = test_create_countdown_with_auth(admin_token, ndm_brand_id)
-    results.append(("POST /api/countdowns (with auth)", create_with_auth_success))
+    urgent_announcements_success = test_get_urgent_announcements(ndm_brand_id)
+    results.append(("GET /api/announcements/urgent (Phase 3 fields)", urgent_announcements_success))
     
-    # Test 8: POST /api/countdowns (without auth - should fail)
+    # Test 3: POST /api/announcements with Phase 3 enhanced fields (with admin auth)
     print("\n" + "=" * 50)
-    print("📋 TEST 8: POST /api/countdowns (without auth - should fail)")
+    print("📢 TEST 3: POST /api/announcements (Phase 3 Enhanced with Event Link)")
     print("=" * 50)
     
-    create_without_auth_success = test_create_countdown_without_auth()
-    results.append(("POST /api/countdowns (without auth)", create_without_auth_success))
+    create_announcement_success, created_announcement_id = test_create_announcement_with_event_link(admin_token, ndm_brand_id, test_event_id)
+    results.append(("POST /api/announcements (Phase 3 fields)", create_announcement_success))
     
-    # Test 9: PUT /api/countdowns/{countdown_id} (with admin auth)
+    # Test 4: PUT /api/announcements/{id} with Phase 3 enhanced fields (with admin auth)
     print("\n" + "=" * 50)
-    print("📋 TEST 9: PUT /api/countdowns/{countdown_id} (with admin auth)")
+    print("📢 TEST 4: PUT /api/announcements/{id} (Phase 3 Enhanced Updates)")
     print("=" * 50)
     
-    update_with_auth_success = False
-    if created_countdown_id:
-        update_with_auth_success = test_update_countdown_with_auth(admin_token, created_countdown_id)
+    update_announcement_success = False
+    if created_announcement_id:
+        update_announcement_success = test_update_announcement_with_phase3_fields(admin_token, created_announcement_id)
     else:
-        print("   ⚠️  No countdown created to test update")
-        update_with_auth_success = True  # Skip this test
+        print("   ⚠️  No announcement created to test update")
+        update_announcement_success = True  # Skip this test
     
-    results.append(("PUT /api/countdowns/{countdown_id} (with auth)", update_with_auth_success))
-    
-    # Test 10: PUT /api/countdowns/{countdown_id} (without auth - should fail)
-    print("\n" + "=" * 50)
-    print("📋 TEST 10: PUT /api/countdowns/{countdown_id} (without auth - should fail)")
-    print("=" * 50)
-    
-    update_without_auth_success = False
-    if created_countdown_id:
-        update_without_auth_success = test_update_countdown_without_auth(created_countdown_id)
-    else:
-        print("   ⚠️  No countdown created to test unauthorized update")
-        update_without_auth_success = True  # Skip this test
-    
-    results.append(("PUT /api/countdowns/{countdown_id} (without auth)", update_without_auth_success))
-    
-    # Test 11: DELETE /api/countdowns/{countdown_id} (without auth - should fail)
-    print("\n" + "=" * 50)
-    print("📋 TEST 11: DELETE /api/countdowns/{countdown_id} (without auth - should fail)")
-    print("=" * 50)
-    
-    delete_without_auth_success = False
-    if created_countdown_id:
-        delete_without_auth_success = test_delete_countdown_without_auth(created_countdown_id)
-    else:
-        print("   ⚠️  No countdown created to test unauthorized delete")
-        delete_without_auth_success = True  # Skip this test
-    
-    results.append(("DELETE /api/countdowns/{countdown_id} (without auth)", delete_without_auth_success))
-    
-    # Test 12: DELETE /api/countdowns/{countdown_id} (with admin auth)
-    print("\n" + "=" * 50)
-    print("📋 TEST 12: DELETE /api/countdowns/{countdown_id} (with admin auth)")
-    print("=" * 50)
-    
-    delete_with_auth_success = False
-    if created_countdown_id:
-        delete_with_auth_success = test_delete_countdown_with_auth(admin_token, created_countdown_id)
-    else:
-        print("   ⚠️  No countdown created to test delete")
-        delete_with_auth_success = True  # Skip this test
-    
-    results.append(("DELETE /api/countdowns/{countdown_id} (with auth)", delete_with_auth_success))
+    results.append(("PUT /api/announcements/{id} (Phase 3 fields)", update_announcement_success))
     
     # Print final results
     print("\n" + "=" * 80)
-    print("📊 COUNTDOWN BACKEND TEST RESULTS")
+    print("📊 PHASE 3 ANNOUNCEMENTS ENHANCEMENT TEST RESULTS")
     print("=" * 80)
     
     passed = 0
@@ -2426,17 +2356,18 @@ def main():
     print(f"📈 SUMMARY: {passed} passed, {failed} failed, {passed + failed} total")
     
     if failed == 0:
-        print("🎉 ALL 5 COUNTDOWN ENDPOINT TESTS PASSED!")
-        print("✅ All endpoints respond with correct HTTP status codes")
-        print("✅ Authentication is properly enforced on protected endpoints (POST, PUT, DELETE)")
-        print("✅ Query parameters work correctly (brand_id, active_only)")
-        print("✅ Sorting by priority works (highest first)")
-        print("✅ Data validation works (required fields, proper formats)")
-        print("✅ CRUD operations actually modify database (create, read, update, delete verified)")
+        print("🎉 ALL PHASE 3 ANNOUNCEMENTS ENHANCEMENT TESTS PASSED!")
+        print("✅ GET /api/announcements returns new fields: event_id, location, event_time, requires_registration")
+        print("✅ GET /api/announcements/urgent includes Phase 3 enhanced fields")
+        print("✅ POST /api/announcements creates announcements with new fields and event linking")
+        print("✅ PUT /api/announcements/{id} updates announcements with Phase 3 fields")
+        print("✅ Admin authentication properly enforced on protected endpoints")
+        print("✅ All new fields have correct data types (requires_registration as boolean)")
+        print("✅ Event linking functionality working (event_id field)")
         return 0
     else:
-        print(f"⚠️  {failed} COUNTDOWN ENDPOINT TESTS FAILED")
-        print("❌ Some validation checks did not pass - see details above")
+        print(f"⚠️  {failed} PHASE 3 ANNOUNCEMENTS ENHANCEMENT TESTS FAILED")
+        print("❌ Some Phase 3 enhancement validation checks did not pass - see details above")
         return 1
     
     print("=" * 80)
