@@ -15,7 +15,6 @@ const BlogsManagerEnhanced = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingBlog, setEditingBlog] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const quillRef = useRef(null);
   const [formData, setFormData] = useState({
     title: "",
     content: "",
