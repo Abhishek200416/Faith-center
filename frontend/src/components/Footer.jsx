@@ -1,40 +1,16 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useBrand, API } from "@/App";
-import { Facebook, Instagram, Youtube, MapPin, Mail, Phone, Bell, ArrowRight, Calendar } from "lucide-react";
+import { Facebook, Instagram, Youtube, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import axios from "axios";
 
 const Footer = () => {
-  const navigate = useNavigate();
   const { currentBrand } = useBrand();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [latestAnnouncement, setLatestAnnouncement] = useState(null);
-
-  useEffect(() => {
-    if (currentBrand) {
-      fetchLatestAnnouncement();
-    }
-  }, [currentBrand]);
-
-  const fetchLatestAnnouncement = async () => {
-    try {
-      const response = await axios.get(`${API}/announcements?brand_id=${currentBrand.id}`);
-      if (response.data && response.data.length > 0) {
-        // Get the most recent urgent announcement, or the latest one if none are urgent
-        const urgentAnn = response.data.find(a => a.is_urgent);
-        const latestAnn = response.data.sort((a, b) => 
-          new Date(b.created_at) - new Date(a.created_at)
-        )[0];
-        setLatestAnnouncement(urgentAnn || latestAnn);
-      }
-    } catch (error) {
-      console.error("Error fetching announcement:", error);
-    }
-  };
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
