@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import "@/App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import { Toaster } from "@/components/ui/sonner";
@@ -12,6 +12,10 @@ const AuthContext = createContext();
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
+
+// The secure admin key (URL encoded version will be used in paths)
+const ADMIN_SECURE_KEY = "X#9fV2$Lm@7qW!c8Zr^4N*t0P%yG5sD+Qh6J&vB1uK";
+const ADMIN_KEY_ENCODED = encodeURIComponent(ADMIN_SECURE_KEY);
 
 // Pages
 import Header from "./components/Header";
