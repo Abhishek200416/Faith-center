@@ -122,7 +122,12 @@ function App() {
 
   const ProtectedRoute = ({ children }) => {
     if (loading) return null;
-    return authToken && admin ? children : <Navigate to="/admin/login" />;
+    return authToken && admin ? children : <Navigate to="/Adminlogin?key=X%239fV2%24Lm%407qW%21c8Zr%5E4N%2At0P%25yG5sD%2BQh6J%26vB1uK" />;
+  };
+
+  // Component to redirect /admin and /admin/login to secure login
+  const AdminRedirect = () => {
+    return <Navigate to="/Adminlogin?key=X%239fV2%24Lm%407qW%21c8Zr%5E4N%2At0P%25yG5sD%2BQh6J%26vB1uK" replace />;
   };
 
   return (
@@ -132,7 +137,8 @@ function App() {
           <div className="App">
             <BrowserRouter>
               <Routes>
-                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/login" element={<AdminRedirect />} />
+                <Route path="/admin" element={<AdminRedirect />} />
                 <Route path="/Adminlogin" element={<SecureAdminLogin />} />
                 <Route path="/admin/*" element={
                   <ProtectedRoute>
