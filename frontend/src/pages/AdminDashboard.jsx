@@ -89,9 +89,7 @@ const AdminDashboard = ({ secureKey }) => {
       <main className="admin-content flex-1">
         <Routes>
           <Route path="dashboard" element={<DashboardHome />} />
-          <Route path="brands" element={<BrandsManager />} />
           <Route path="header-navigation" element={<HeaderNavigationManager />} />
-          <Route path="members" element={<MembersManager />} />
           <Route path="events" element={<EventsManager />} />
           <Route path="attendees" element={<AttendeesManager />} />
           <Route path="ministries" element={<MinistriesManager />} />
