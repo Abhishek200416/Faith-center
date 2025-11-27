@@ -200,8 +200,8 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Spacer to prevent content from going under fixed header - only show when not on hero pages or when scrolled */}
-      {(!isHeroPage || scrolled) && (
+      {/* Spacer to prevent content from going under fixed header - only show when not on hero pages */}
+      {!isHeroPage && (
         <div className="h-14 sm:h-16 lg:h-20" aria-hidden="true" />
       )}
 
