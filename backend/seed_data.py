@@ -725,8 +725,8 @@ admin_users = [
     }
 ]
 
-db.users.delete_many({"role": "admin"})  # Clear existing admin users
-db.users.insert_many(admin_users)
+db.admins.delete_many({})  # Clear existing admin users
+db.admins.insert_many(admin_users)
 
 print("\n=== Database Seeded Successfully! ===")
 print(f"Brands: {db.brands.count_documents({})}")
