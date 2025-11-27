@@ -138,6 +138,7 @@ const BlogManager = () => {
       setTitle(blog.title);
       setContent(blog.content || "");
       setExcerpt(blog.excerpt || "");
+      setAuthor(blog.author || "Admin");
       setImageUrl(blog.image_url || "");
       setPublished(blog.published);
       setContentBlocks(blog.content_blocks || []);
@@ -157,6 +158,7 @@ const BlogManager = () => {
     setTitle("");
     setContent("");
     setExcerpt("");
+    setAuthor("Admin");
     setImageUrl("");
     setPublished(true);
     setContentBlocks([]);
