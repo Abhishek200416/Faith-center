@@ -210,21 +210,19 @@ const BlogsManagerEnhanced = () => {
 
             {/* Rich Text Editor */}
             <div>
-              <Label htmlFor="content">Content * (Rich Text Editor)</Label>
-              <div className="mt-2 border rounded-lg overflow-hidden">
-                <ReactQuill
-                  ref={quillRef}
-                  theme="snow"
+              <Label htmlFor="content">Content *</Label>
+              <div className="mt-2">
+                <Textarea
+                  id="content"
+                  rows={12}
                   value={formData.content}
-                  onChange={(content) => setFormData({ ...formData, content })}
-                  modules={modules}
-                  formats={formats}
-                  placeholder="Write your blog content here... You can format text, add images, and more!"
-                  style={{ minHeight: '300px' }}
+                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                  placeholder="Write your blog content here... (supports HTML for formatting)"
+                  className="font-mono text-sm"
                 />
               </div>
               <p className="text-sm text-gray-500 mt-2">
-                💡 Use the toolbar above to format text and insert images directly into your blog content
+                Tip: You can use basic HTML tags like &lt;b&gt;, &lt;i&gt;, &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt; for formatting
               </p>
             </div>
 
