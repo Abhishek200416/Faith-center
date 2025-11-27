@@ -15,7 +15,8 @@ const API = `${BACKEND_URL}/api`;
 
 // The secure admin key (URL encoded version will be used in paths)
 const ADMIN_SECURE_KEY = "X#9fV2$Lm@7qW!c8Zr^4N*t0P%yG5sD+Qh6J&vB1uK";
-const ADMIN_KEY_ENCODED = encodeURIComponent(ADMIN_SECURE_KEY);
+// URL-safe version for use in URL paths (base64-like)
+const ADMIN_KEY_PATH = "X9fV2LmAt7qWc8Zr4NtPyG5sDQh6JvB1uK";
 
 // Pages
 import Header from "./components/Header";
