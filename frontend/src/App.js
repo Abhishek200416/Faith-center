@@ -185,14 +185,21 @@ function App() {
           <div className="App">
             <BrowserRouter>
               <Routes>
-                <Route path="/admin/login" element={<AdminBlocked />} />
+                {/* Block all direct admin routes */}
                 <Route path="/admin" element={<AdminBlocked />} />
+                <Route path="/admin/*" element={<AdminBlocked />} />
+                <Route path="/admin/login" element={<AdminBlocked />} />
+                
+                {/* Secure admin login with key in query param */}
                 <Route path="/Adminlogin" element={<SecureAdminLogin />} />
-                <Route path="/admin/*" element={
-                  <ProtectedRoute>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                } />
+                
+                {/* Secure admin panel with key in URL path */}
+                <Route path="/panel/:secureKey/*" element={<SecureAdminPanel />} />
+                
+                {/* Block direct /panel access without key */}
+                <Route path="/panel" element={<AdminBlocked />} />
+                
+                {/* Public routes */}
                 <Route path="/*" element={
                   <>
                     <Header />
