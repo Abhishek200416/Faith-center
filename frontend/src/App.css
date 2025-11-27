@@ -592,12 +592,18 @@ textarea:focus-visible {
 
 /* Admin Styles */
 .admin-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
   background: #1a1a1a;
   color: white;
-  min-height: 100vh;
   width: 100%;
   padding: 2.5rem 0;
   border-right: 1px solid #2d2d2d;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 40;
 }
 
 @media (min-width: 768px) {
@@ -610,7 +616,16 @@ textarea:focus-visible {
   flex: 1;
   padding: clamp(1.5rem, 4vw, 2.5rem);
   background: #fafafa;
+  overflow-y: auto;
   overflow-x: auto;
+  min-height: 100vh;
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  .admin-content {
+    margin-left: 260px;
+  }
 }
 
 .admin-card {
