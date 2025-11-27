@@ -75,8 +75,10 @@ const Header = () => {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 bg-white border-b transition-all duration-300 ${
-          scrolled ? 'border-gray-200 shadow-md' : 'border-gray-100 shadow-sm'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled || !isHeroPage
+            ? 'bg-white border-b border-gray-200 shadow-md' 
+            : 'bg-transparent border-b border-transparent'
         }`}
       >
         <div className="container mx-auto px-3 sm:px-6 lg:px-8">
@@ -88,7 +90,9 @@ const Header = () => {
                 className="flex items-center space-x-1 sm:space-x-2 transition-all hover:opacity-80 relative z-50 flex-shrink-0 group" 
                 data-testid="header-logo"
               >
-                <div className="text-xs sm:text-sm md:text-base lg:text-xl font-bold text-gray-900 whitespace-normal sm:whitespace-nowrap leading-tight tracking-tight max-w-[120px] sm:max-w-none">
+                <div className={`text-xs sm:text-sm md:text-base lg:text-xl font-bold whitespace-normal sm:whitespace-nowrap leading-tight tracking-tight max-w-[120px] sm:max-w-none transition-colors duration-500 ${
+                  scrolled || !isHeroPage ? 'text-gray-900' : 'text-white drop-shadow-lg'
+                }`}>
                   {currentBrand.name}
                 </div>
               </Link>
@@ -99,12 +103,16 @@ const Header = () => {
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`px-4 py-2 rounded-md font-medium transition-all duration-200 text-sm whitespace-nowrap relative z-50 ${
+                    className={`px-4 py-2 rounded-md font-medium transition-all duration-300 text-sm whitespace-nowrap relative z-50 ${
                       link.highlight
                         ? "bg-[#2D3748] text-white hover:bg-[#1a202c] shadow-sm hover:shadow-md"
-                        : isActive(link.path)
-                        ? "bg-gray-100 text-[#2D3748] font-semibold"
-                        : "text-[#2D3748] hover:bg-gray-50 hover:text-[#1a202c]"
+                        : scrolled || !isHeroPage
+                          ? isActive(link.path)
+                            ? "bg-gray-100 text-[#2D3748] font-semibold"
+                            : "text-[#2D3748] hover:bg-gray-50 hover:text-[#1a202c]"
+                          : isActive(link.path)
+                            ? "bg-white/20 text-white font-semibold backdrop-blur-sm"
+                            : "text-white hover:bg-white/10 hover:text-white drop-shadow-md"
                     }`}
                   >
                     {link.label}
@@ -120,7 +128,11 @@ const Header = () => {
                 href="https://nehemiahdavid.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:flex items-center gap-1.5 px-4 py-2 text-xs lg:text-sm font-semibold text-white bg-[#2D3748] rounded-md hover:bg-[#1a202c] transition-all shadow-sm hover:shadow-md whitespace-nowrap relative z-50"
+                className={`hidden md:flex items-center gap-1.5 px-4 py-2 text-xs lg:text-sm font-semibold rounded-md transition-all shadow-sm hover:shadow-md whitespace-nowrap relative z-50 ${
+                  scrolled || !isHeroPage
+                    ? 'text-white bg-[#2D3748] hover:bg-[#1a202c]'
+                    : 'text-white bg-white/20 backdrop-blur-sm hover:bg-white/30 border border-white/30'
+                }`}
                 title="Visit Nehemiah David Ministries"
               >
                 Nehemiah David Ministries
@@ -132,7 +144,11 @@ const Header = () => {
                   href="https://facebook.com" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-2 text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-md transition-all relative z-50"
+                  className={`p-2 rounded-md transition-all relative z-50 ${
+                    scrolled || !isHeroPage
+                      ? 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
+                      : 'text-white/90 hover:text-white hover:bg-white/10'
+                  }`}
                   aria-label="Facebook"
                 >
                   <Facebook size={18} />
@@ -141,7 +157,11 @@ const Header = () => {
                   href="https://instagram.com" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-2 text-slate-600 hover:text-pink-600 hover:bg-slate-50 rounded-md transition-all relative z-50"
+                  className={`p-2 rounded-md transition-all relative z-50 ${
+                    scrolled || !isHeroPage
+                      ? 'text-slate-600 hover:text-pink-600 hover:bg-slate-50'
+                      : 'text-white/90 hover:text-white hover:bg-white/10'
+                  }`}
                   aria-label="Instagram"
                 >
                   <Instagram size={18} />
@@ -150,7 +170,11 @@ const Header = () => {
                   href="https://youtube.com" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-2 text-slate-600 hover:text-red-600 hover:bg-slate-50 rounded-md transition-all relative z-50"
+                  className={`p-2 rounded-md transition-all relative z-50 ${
+                    scrolled || !isHeroPage
+                      ? 'text-slate-600 hover:text-red-600 hover:bg-slate-50'
+                      : 'text-white/90 hover:text-white hover:bg-white/10'
+                  }`}
                   aria-label="YouTube"
                 >
                   <Youtube size={18} />
@@ -159,7 +183,11 @@ const Header = () => {
 
               {/* Hamburger Menu Button */}
               <button
-                className="lg:hidden p-2 rounded-md hover:bg-slate-100 transition-all text-slate-700 relative z-50 min-h-[40px] min-w-[40px] flex items-center justify-center flex-shrink-0"
+                className={`lg:hidden p-2 rounded-md transition-all relative z-50 min-h-[40px] min-w-[40px] flex items-center justify-center flex-shrink-0 ${
+                  scrolled || !isHeroPage
+                    ? 'text-slate-700 hover:bg-slate-100'
+                    : 'text-white hover:bg-white/10'
+                }`}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 data-testid="mobile-menu-toggle"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -172,8 +200,10 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Spacer to prevent content from going under fixed header */}
-      <div className="h-14 sm:h-16 lg:h-20" aria-hidden="true" />
+      {/* Spacer to prevent content from going under fixed header - only show when not on hero pages or when scrolled */}
+      {(!isHeroPage || scrolled) && (
+        <div className="h-14 sm:h-16 lg:h-20" aria-hidden="true" />
+      )}
 
       {/* Mobile Menu Overlay */}
       <div
