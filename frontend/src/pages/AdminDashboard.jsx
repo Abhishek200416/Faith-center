@@ -13,7 +13,7 @@ import LiveStreamManager from "./admin/LiveStreamManager";
 import AttendeesManager from "./admin/AttendeesManager";
 import BlogManager from "./admin/BlogManager";
 import CountdownManager from "./admin/CountdownManager";
-import HeaderNavigationManager from "./admin/HeaderNavigationManager";
+import HeaderNavigationManager from "./admin/HeaderNavigationManagerEnhanced";
 
 const AdminDashboard = ({ secureKey }) => {
   const location = useLocation();
