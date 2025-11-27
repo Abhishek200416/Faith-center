@@ -388,6 +388,20 @@ a {
   background-size: 1000px 100%;
 }
 
+/* Bounce X Animation for arrows */
+@keyframes bounceX {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+.animate-bounce-x {
+  animation: bounceX 1s ease-in-out infinite;
+}
+
 /* Cards */
 .card-grid {
   display: grid;
