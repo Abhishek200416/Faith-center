@@ -10,7 +10,13 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
 
   // Check if we're on a page with hero image (homepage, about, etc.)
-  const isHeroPage = location.pathname === "/" || location.pathname === "/about";
+  // Use startsWith to handle trailing slashes
+  const isHeroPage = location.pathname === "/" || 
+                     location.pathname === "/about" || 
+                     location.pathname.startsWith("/about/");
+
+  // Determine if header should be transparent (not scrolled AND on hero page)
+  const isTransparent = !scrolled && isHeroPage;
 
   useEffect(() => {
     const handleScroll = () => {
