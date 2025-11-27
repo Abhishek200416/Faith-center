@@ -633,8 +633,8 @@ def test_admin_login():
     print("🔍 Testing Admin Login...")
     
     login_data = {
-        "email": "admin@faithcenter.com",
-        "password": "Admin@2025"
+        "email": "promptforge.dev@gmail.com",
+        "password": "P9$wX!7rAq#4Lz@M2f"
     }
     
     try:
