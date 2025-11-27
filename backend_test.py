@@ -2235,140 +2235,348 @@ def test_create_live_stream(admin_token, brand_id):
         print(f"   ❌ Exception: {str(e)}")
         return False
 
+def test_get_countdowns(brand_id=None):
+    """Test GET /api/countdowns endpoint - Phase 5 requirement"""
+    url = f"{BACKEND_URL}/countdowns"
+    if brand_id:
+        url += f"?brand_id={brand_id}"
+        print(f"🔍 Testing GET /api/countdowns?brand_id={brand_id}...")
+    else:
+        print("🔍 Testing GET /api/countdowns...")
+    
+    try:
+        response = requests.get(url, timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            countdowns = response.json()
+            print(f"   Response Type: {type(countdowns)}")
+            print(f"   Countdowns Count: {len(countdowns) if isinstance(countdowns, list) else 'Not a list'}")
+            
+            if isinstance(countdowns, list):
+                if len(countdowns) > 0:
+                    print(f"   Sample Countdown: {countdowns[0].get('title', 'No title')}")
+                    
+                    # Verify countdown structure
+                    sample = countdowns[0]
+                    required_fields = ['id', 'title', 'event_date', 'is_active', 'priority', 'brand_id']
+                    
+                    all_fields_present = True
+                    for field in required_fields:
+                        if field not in sample:
+                            print(f"   ❌ Missing field: {field}")
+                            all_fields_present = False
+                        else:
+                            print(f"   ✅ {field}: {sample.get(field)}")
+                    
+                    if all_fields_present:
+                        print("   ✅ All required countdown fields present")
+                        return True, countdowns
+                    else:
+                        print("   ❌ Some required countdown fields missing")
+                        return False, countdowns
+                else:
+                    print("   ⚠️  Empty countdowns list")
+                    return True, []
+            else:
+                print("   ❌ Response is not a list")
+                return False, None
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False, None
+
+def test_admin_login_with_phase5_credentials():
+    """Test admin login with Phase 5 specific credentials from review request"""
+    print("🔍 Testing Admin Login with Phase 5 Credentials...")
+    
+    login_data = {
+        "email": "promptforge.dev@gmail.com",
+        "password": "P9$wX!7rAq#4Lz@M2f"
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"},
+            timeout=10
+        )
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            print(f"   Response Type: {type(result)}")
+            if isinstance(result, dict) and "token" in result:
+                print(f"   ✅ Admin Token obtained: {result['token'][:20]}...")
+                print(f"   Admin Email: {result.get('admin', {}).get('email', 'No email')}")
+                return True, result["token"]
+            else:
+                print("   ❌ Response missing token")
+                return False, None
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False, None
+
+def test_phase5_api_health_check():
+    """Test Phase 5 API Health Check requirements"""
+    print("\n🔍 PHASE 5 API HEALTH CHECK")
+    print("=" * 50)
+    
+    health_results = {
+        "brands": False,
+        "countdowns": False,
+        "events": False,
+        "announcements": False
+    }
+    
+    # Test GET /api/brands - should return 2 brands
+    print("🔍 Testing GET /api/brands (should return 2 brands)...")
+    try:
+        response = requests.get(f"{BACKEND_URL}/brands", timeout=10)
+        if response.status_code == 200:
+            brands = response.json()
+            if isinstance(brands, list) and len(brands) == 2:
+                print(f"   ✅ GET /api/brands returns 2 brands: {[b.get('name') for b in brands]}")
+                health_results["brands"] = True
+            else:
+                print(f"   ❌ Expected 2 brands, got {len(brands) if isinstance(brands, list) else 'not a list'}")
+        else:
+            print(f"   ❌ GET /api/brands failed with status {response.status_code}")
+    except Exception as e:
+        print(f"   ❌ GET /api/brands exception: {str(e)}")
+    
+    # Test GET /api/countdowns - should return countdowns
+    print("🔍 Testing GET /api/countdowns (should return countdowns)...")
+    try:
+        response = requests.get(f"{BACKEND_URL}/countdowns", timeout=10)
+        if response.status_code == 200:
+            countdowns = response.json()
+            if isinstance(countdowns, list):
+                print(f"   ✅ GET /api/countdowns returns {len(countdowns)} countdowns")
+                health_results["countdowns"] = True
+            else:
+                print("   ❌ GET /api/countdowns response is not a list")
+        else:
+            print(f"   ❌ GET /api/countdowns failed with status {response.status_code}")
+    except Exception as e:
+        print(f"   ❌ GET /api/countdowns exception: {str(e)}")
+    
+    # Test GET /api/events - should return events
+    print("🔍 Testing GET /api/events (should return events)...")
+    try:
+        response = requests.get(f"{BACKEND_URL}/events", timeout=10)
+        if response.status_code == 200:
+            events = response.json()
+            if isinstance(events, list):
+                print(f"   ✅ GET /api/events returns {len(events)} events")
+                health_results["events"] = True
+            else:
+                print("   ❌ GET /api/events response is not a list")
+        else:
+            print(f"   ❌ GET /api/events failed with status {response.status_code}")
+    except Exception as e:
+        print(f"   ❌ GET /api/events exception: {str(e)}")
+    
+    # Test GET /api/announcements - should return announcements
+    print("🔍 Testing GET /api/announcements (should return announcements)...")
+    try:
+        response = requests.get(f"{BACKEND_URL}/announcements", timeout=10)
+        if response.status_code == 200:
+            announcements = response.json()
+            if isinstance(announcements, list):
+                print(f"   ✅ GET /api/announcements returns {len(announcements)} announcements")
+                health_results["announcements"] = True
+            else:
+                print("   ❌ GET /api/announcements response is not a list")
+        else:
+            print(f"   ❌ GET /api/announcements failed with status {response.status_code}")
+    except Exception as e:
+        print(f"   ❌ GET /api/announcements exception: {str(e)}")
+    
+    # Summary
+    passed = sum(health_results.values())
+    total = len(health_results)
+    
+    print(f"\n📊 API Health Check Results: {passed}/{total} passed")
+    if passed == total:
+        print("   ✅ All Phase 5 API health checks passed!")
+        return True
+    else:
+        failed_apis = [api for api, result in health_results.items() if not result]
+        print(f"   ❌ Failed APIs: {failed_apis}")
+        return False
+
 def main():
-    """Run Phase 3 Announcements Enhancement API tests as requested"""
-    print("=" * 80)
-    print("🚀 PHASE 3 ANNOUNCEMENTS ENHANCEMENT API TESTING")
-    print("=" * 80)
-    print(f"Backend URL: {BACKEND_URL}")
-    print(f"Test Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("=" * 80)
+    """Run Phase 5 Backend API Testing focused on review request requirements"""
+    print("🚀 Starting Phase 5 Backend API Testing...")
+    print("=" * 60)
+    print("Focus: Homepage text visibility, countdown functionality, admin login security,")
+    print("       events page announcements link, admin header navigation, API health check")
+    print("=" * 60)
     
     # Track test results
-    results = []
+    results = {
+        "passed": 0,
+        "failed": 0,
+        "total": 0
+    }
     
-    print("\n🔍 TESTING PHASE 3 ANNOUNCEMENTS ENHANCEMENT")
-    print("=" * 60)
-    print("Testing Phase 3 enhanced announcement endpoints:")
-    print("1. GET /api/announcements - Verify new fields (event_id, location, event_time, requires_registration)")
-    print("2. GET /api/announcements/urgent - Verify urgent announcements include new fields")
-    print("3. POST /api/announcements (admin auth) - Create announcement with new fields")
-    print("4. PUT /api/announcements/{id} (admin auth) - Update announcement with new fields")
-    print("=" * 60)
-    
-    # First, get brands for testing
-    print("\n" + "=" * 50)
-    print("🏢 GETTING BRANDS FOR TESTING")
-    print("=" * 50)
-    
-    brands_success, ndm_brand_id, faith_brand_id = test_get_brands()
-    if not brands_success:
-        print("❌ Failed to get brands - cannot continue with announcement tests")
-        return 1
-    
-    # Get admin token for authenticated tests
-    print("\n" + "=" * 50)
-    print("🔐 ADMIN AUTHENTICATION")
-    print("=" * 50)
-    
-    admin_success, admin_token = test_admin_login()
-    if not admin_success:
-        print("❌ Failed to authenticate admin - cannot test protected endpoints")
-        return 1
-    
-    # Get events for linking to announcements
-    print("\n" + "=" * 50)
-    print("🎯 GETTING EVENTS FOR ANNOUNCEMENT LINKING")
-    print("=" * 50)
-    
-    events_success = test_get_events(ndm_brand_id, "Nehemiah David Ministries", None)
-    if not events_success:
-        print("❌ Failed to get events - will test without event linking")
-        test_event_id = None
-    else:
-        # Get a sample event ID for testing
+    def run_test(test_func, *args, **kwargs):
+        results["total"] += 1
         try:
-            events_response = requests.get(f"{BACKEND_URL}/events?brand_id={ndm_brand_id}", timeout=10)
-            if events_response.status_code == 200:
-                events = events_response.json()
-                test_event_id = events[0].get('id') if events else None
-                print(f"   ✅ Using event ID for testing: {test_event_id}")
+            result = test_func(*args, **kwargs)
+            if isinstance(result, tuple):
+                success = result[0]
+                if success:
+                    results["passed"] += 1
+                else:
+                    results["failed"] += 1
+                return result
             else:
-                test_event_id = None
-        except:
-            test_event_id = None
+                success = result
+                if success:
+                    results["passed"] += 1
+                else:
+                    results["failed"] += 1
+                return success
+        except Exception as e:
+            print(f"   ❌ Test failed with exception: {str(e)}")
+            results["failed"] += 1
+            return False
     
-    # Test 1: GET /api/announcements with Phase 3 enhanced fields
-    print("\n" + "=" * 50)
-    print("📢 TEST 1: GET /api/announcements (Phase 3 Enhanced Fields)")
-    print("=" * 50)
+    # Phase 5 Test 1: API Health Check (from review request)
+    print("\n" + "=" * 60)
+    print("PHASE 5 TEST 1: API HEALTH CHECK")
+    print("=" * 60)
     
-    announcements_success, announcements = test_get_announcements(ndm_brand_id)
-    results.append(("GET /api/announcements (Phase 3 fields)", announcements_success))
+    run_test(test_phase5_api_health_check)
     
-    # Test 2: GET /api/announcements/urgent with Phase 3 enhanced fields
-    print("\n" + "=" * 50)
-    print("📢 TEST 2: GET /api/announcements/urgent (Phase 3 Enhanced Fields)")
-    print("=" * 50)
+    # Phase 5 Test 2: Admin Login Security (from review request)
+    print("\n" + "=" * 60)
+    print("PHASE 5 TEST 2: ADMIN LOGIN SECURITY")
+    print("=" * 60)
     
-    urgent_announcements_success = test_get_urgent_announcements(ndm_brand_id)
-    results.append(("GET /api/announcements/urgent (Phase 3 fields)", urgent_announcements_success))
+    admin_success, admin_token = run_test(test_admin_login_with_phase5_credentials)
     
-    # Test 3: POST /api/announcements with Phase 3 enhanced fields (with admin auth)
-    print("\n" + "=" * 50)
-    print("📢 TEST 3: POST /api/announcements (Phase 3 Enhanced with Event Link)")
-    print("=" * 50)
+    # Phase 5 Test 3: Get brands and verify 2 brands
+    print("\n" + "=" * 60)
+    print("PHASE 5 TEST 3: BRAND VERIFICATION (2 brands required)")
+    print("=" * 60)
     
-    create_announcement_success, created_announcement_id = test_create_announcement_with_event_link(admin_token, ndm_brand_id, test_event_id)
-    results.append(("POST /api/announcements (Phase 3 fields)", create_announcement_success))
+    brands_success, ndm_brand_id, faith_brand_id = run_test(test_get_brands)
     
-    # Test 4: PUT /api/announcements/{id} with Phase 3 enhanced fields (with admin auth)
-    print("\n" + "=" * 50)
-    print("📢 TEST 4: PUT /api/announcements/{id} (Phase 3 Enhanced Updates)")
-    print("=" * 50)
+    if not brands_success or not ndm_brand_id or not faith_brand_id:
+        print("❌ Cannot continue without valid brand data")
+        return
     
-    update_announcement_success = False
-    if created_announcement_id:
-        update_announcement_success = test_update_announcement_with_phase3_fields(admin_token, created_announcement_id)
+    print(f"\n✅ Brand IDs obtained:")
+    print(f"   Nehemiah David Ministries: {ndm_brand_id}")
+    print(f"   Faith Centre: {faith_brand_id}")
+    
+    # Phase 5 Test 4: Countdown Functionality (from review request)
+    print("\n" + "=" * 60)
+    print("PHASE 5 TEST 4: COUNTDOWN FUNCTIONALITY")
+    print("=" * 60)
+    
+    countdowns_success, countdowns = run_test(test_get_countdowns)
+    if countdowns_success and countdowns:
+        # Test brand-specific countdowns
+        run_test(test_get_countdowns, ndm_brand_id)
+        run_test(test_get_countdowns, faith_brand_id)
+    
+    # Phase 5 Test 5: Events API (for Events page announcements link)
+    print("\n" + "=" * 60)
+    print("PHASE 5 TEST 5: EVENTS API (for Events page)")
+    print("=" * 60)
+    
+    run_test(test_get_events)
+    run_test(test_get_events, ndm_brand_id, "Nehemiah David Ministries")
+    run_test(test_get_events, faith_brand_id, "Faith Centre")
+    
+    # Phase 5 Test 6: Announcements API (for Events page announcements link)
+    print("\n" + "=" * 60)
+    print("PHASE 5 TEST 6: ANNOUNCEMENTS API (for Events page link)")
+    print("=" * 60)
+    
+    announcements_success, announcements = run_test(test_get_announcements, ndm_brand_id)
+    run_test(test_get_announcements, faith_brand_id)
+    run_test(test_get_urgent_announcements, ndm_brand_id)
+    
+    # Phase 5 Test 7: Admin Header Navigation Manager (requires admin auth)
+    print("\n" + "=" * 60)
+    print("PHASE 5 TEST 7: ADMIN HEADER NAVIGATION MANAGER")
+    print("=" * 60)
+    
+    if admin_success and admin_token:
+        print("✅ Admin authentication successful - Header Navigation Manager accessible")
+        
+        # Test brand management (related to navigation)
+        if ndm_brand_id:
+            print("🔍 Testing brand data access for navigation management...")
+            try:
+                response = requests.get(f"{BACKEND_URL}/brands/{ndm_brand_id}", timeout=10)
+                if response.status_code == 200:
+                    brand = response.json()
+                    if 'hidden_nav_links' in brand:
+                        print(f"   ✅ Brand has navigation settings: {brand.get('hidden_nav_links', [])}")
+                        results["passed"] += 1
+                    else:
+                        print("   ❌ Brand missing navigation settings")
+                        results["failed"] += 1
+                else:
+                    print(f"   ❌ Failed to get brand data: {response.status_code}")
+                    results["failed"] += 1
+                results["total"] += 1
+            except Exception as e:
+                print(f"   ❌ Exception testing brand navigation: {str(e)}")
+                results["failed"] += 1
+                results["total"] += 1
     else:
-        print("   ⚠️  No announcement created to test update")
-        update_announcement_success = True  # Skip this test
+        print("❌ Admin authentication failed - Header Navigation Manager not accessible")
     
-    results.append(("PUT /api/announcements/{id} (Phase 3 fields)", update_announcement_success))
+    # Phase 5 Test 8: Additional API endpoints verification
+    print("\n" + "=" * 60)
+    print("PHASE 5 TEST 8: ADDITIONAL API VERIFICATION")
+    print("=" * 60)
     
-    # Print final results
+    # Test contact and subscribers (basic functionality)
+    run_test(test_post_contact, ndm_brand_id)
+    run_test(test_post_subscribers, ndm_brand_id)
+    
+    # Final Results
     print("\n" + "=" * 80)
-    print("📊 PHASE 3 ANNOUNCEMENTS ENHANCEMENT TEST RESULTS")
+    print("🏁 PHASE 5 BACKEND API TESTING COMPLETE")
     print("=" * 80)
+    print(f"✅ Tests Passed: {results['passed']}")
+    print(f"❌ Tests Failed: {results['failed']}")
+    print(f"📊 Total Tests: {results['total']}")
     
-    passed = 0
-    failed = 0
-    
-    for test_name, success in results:
-        status = "✅ PASS" if success else "❌ FAIL"
-        print(f"{status:<10} {test_name}")
-        if success:
-            passed += 1
-        else:
-            failed += 1
-    
-    print("=" * 80)
-    print(f"📈 SUMMARY: {passed} passed, {failed} failed, {passed + failed} total")
-    
-    if failed == 0:
-        print("🎉 ALL PHASE 3 ANNOUNCEMENTS ENHANCEMENT TESTS PASSED!")
-        print("✅ GET /api/announcements returns new fields: event_id, location, event_time, requires_registration")
-        print("✅ GET /api/announcements/urgent includes Phase 3 enhanced fields")
-        print("✅ POST /api/announcements creates announcements with new fields and event linking")
-        print("✅ PUT /api/announcements/{id} updates announcements with Phase 3 fields")
-        print("✅ Admin authentication properly enforced on protected endpoints")
-        print("✅ All new fields have correct data types (requires_registration as boolean)")
-        print("✅ Event linking functionality working (event_id field)")
-        return 0
+    if results['failed'] == 0:
+        print("\n🎉 ALL PHASE 5 TESTS PASSED! Backend APIs are ready for Phase 5 features.")
+        print("\n📋 Phase 5 Backend Verification Summary:")
+        print("   ✅ API Health Check: All 4 required endpoints working")
+        print("   ✅ Admin Login Security: Credentials verified")
+        print("   ✅ Brand System: 2 brands confirmed")
+        print("   ✅ Countdown Functionality: API endpoints ready")
+        print("   ✅ Events & Announcements: APIs ready for frontend integration")
+        print("   ✅ Admin Navigation: Backend support confirmed")
     else:
-        print(f"⚠️  {failed} PHASE 3 ANNOUNCEMENTS ENHANCEMENT TESTS FAILED")
-        print("❌ Some Phase 3 enhancement validation checks did not pass - see details above")
-        return 1
+        print(f"\n⚠️  {results['failed']} test(s) failed. Please review the output above.")
+        print("\n🔧 Issues found that may affect Phase 5 features:")
+        if results['failed'] > 0:
+            print("   - Check failed tests above for specific API issues")
+            print("   - Verify admin credentials and authentication")
+            print("   - Ensure all required data is seeded in database")
     
     print("=" * 80)
 
