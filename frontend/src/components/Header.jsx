@@ -14,12 +14,23 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      // Only consider scrolled if we've scrolled more than 50 pixels
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
     };
-    window.addEventListener('scroll', handleScroll);
-    // Initial check
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Check initial scroll position after a small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      handleScroll();
+    }, 100);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
