@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Routes, Route, Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "@/App";
+import { Routes, Route, Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useAuth, ADMIN_KEY_ENCODED } from "@/App";
 import { LayoutDashboard, Calendar, Users, Megaphone, Mail, UserCircle, Settings, LogOut, DollarSign, Video, BookOpen, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -16,28 +16,33 @@ import AttendeesManager from "./admin/AttendeesManager";
 import BlogManager from "./admin/BlogManager";
 import CountdownManager from "./admin/CountdownManager";
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ secureKey }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { admin, logout } = useAuth();
+  
+  // Use the key from props or get from URL params
+  const params = useParams();
+  const urlKey = secureKey || params.secureKey || ADMIN_KEY_ENCODED;
+  const basePath = `/panel/${urlKey}`;
 
   const handleLogout = () => {
     logout();
-    navigate("/admin/login");
+    navigate("/");
   };
 
   const menuItems = [
-    { path: "/admin/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-    { path: "/admin/brands", icon: Settings, label: "Brands" },
-    { path: "/admin/members", icon: UserCircle, label: "Members" },
-    { path: "/admin/events", icon: Calendar, label: "Events" },
-    { path: "/admin/attendees", icon: Users, label: "Attendees" },
-    { path: "/admin/ministries", icon: Users, label: "Ministries" },
-    { path: "/admin/blogs", icon: BookOpen, label: "Blogs" },
-    { path: "/admin/countdowns", icon: Clock, label: "Countdowns" },
-    { path: "/admin/live-streams", icon: Video, label: "Live Streams" },
-    { path: "/admin/announcements", icon: Megaphone, label: "Announcements" },
-    { path: "/admin/volunteers", icon: Mail, label: "Volunteers" },
+    { path: `${basePath}/dashboard`, icon: LayoutDashboard, label: "Dashboard" },
+    { path: `${basePath}/brands`, icon: Settings, label: "Brands" },
+    { path: `${basePath}/members`, icon: UserCircle, label: "Members" },
+    { path: `${basePath}/events`, icon: Calendar, label: "Events" },
+    { path: `${basePath}/attendees`, icon: Users, label: "Attendees" },
+    { path: `${basePath}/ministries`, icon: Users, label: "Ministries" },
+    { path: `${basePath}/blogs`, icon: BookOpen, label: "Blogs" },
+    { path: `${basePath}/countdowns`, icon: Clock, label: "Countdowns" },
+    { path: `${basePath}/live-streams`, icon: Video, label: "Live Streams" },
+    { path: `${basePath}/announcements`, icon: Megaphone, label: "Announcements" },
+    { path: `${basePath}/volunteers`, icon: Mail, label: "Volunteers" },
   ];
 
   const isActive = (path) => location.pathname === path;
