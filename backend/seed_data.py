@@ -508,6 +508,169 @@ countdowns = [
 
 db.countdowns.insert_many(countdowns)
 
+# Create Blogs
+print("Creating blogs...")
+db.blogs.delete_many({})
+
+blogs = [
+    {
+        "id": str(uuid.uuid4()),
+        "title": "Welcome to Our New Blog",
+        "content": "<p>We're excited to launch our new blog platform where we'll be sharing inspiring stories, spiritual insights, and community updates.</p><p>Stay tuned for more content coming soon!</p>",
+        "content_blocks": [
+            {
+                "id": str(uuid.uuid4()),
+                "type": "heading",
+                "content": "Why We Started This Blog",
+                "alignment": "left",
+                "order": 0
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "type": "text",
+                "content": "Our mission is to connect with you beyond Sunday services and share the transformative power of faith in everyday life.",
+                "alignment": "left",
+                "order": 1
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "type": "image",
+                "image_url": "https://images.unsplash.com/photo-1519491050282-cf00c82424b4?w=1200",
+                "alignment": "center",
+                "order": 2
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "type": "quote",
+                "content": "Faith is taking the first step even when you don't see the whole staircase. - Martin Luther King Jr.",
+                "alignment": "left",
+                "order": 3
+            }
+        ],
+        "excerpt": "We're excited to launch our new blog platform where we'll be sharing inspiring stories, spiritual insights, and community updates.",
+        "author": "Admin",
+        "image_url": "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200",
+        "brand_id": ndm_id,
+        "published": True,
+        "created_at": (now - timedelta(days=7)).isoformat(),
+        "updated_at": (now - timedelta(days=7)).isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "title": "The Power of Community Prayer",
+        "content": "<p>Prayer is the foundation of our community. When we come together in prayer, miracles happen.</p><p>Join us every Wednesday evening for our prayer meeting.</p>",
+        "content_blocks": [
+            {
+                "id": str(uuid.uuid4()),
+                "type": "heading",
+                "content": "Prayer Changes Things",
+                "alignment": "left",
+                "order": 0
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "type": "text",
+                "content": "Throughout the Bible, we see countless examples of how prayer transformed situations, healed the sick, and brought hope to the hopeless.",
+                "alignment": "left",
+                "order": 1
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "type": "image",
+                "image_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200",
+                "alignment": "center",
+                "order": 2
+            }
+        ],
+        "excerpt": "Discover the transformative power of community prayer and how it strengthens our faith together.",
+        "author": "Pastor David",
+        "image_url": "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=1200",
+        "brand_id": ndm_id,
+        "published": True,
+        "created_at": (now - timedelta(days=5)).isoformat(),
+        "updated_at": (now - timedelta(days=5)).isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "title": "Serving Our Community with Love",
+        "content": "<p>Last week, our volunteers served over 200 meals to families in need. This is what faith in action looks like.</p>",
+        "content_blocks": [
+            {
+                "id": str(uuid.uuid4()),
+                "type": "text",
+                "content": "Our community outreach program continues to make a difference in the lives of those who need it most. Through food distribution, clothing drives, and educational support, we're living out the call to love our neighbors.",
+                "alignment": "left",
+                "order": 0
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "type": "image",
+                "image_url": "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1200",
+                "alignment": "center",
+                "order": 1
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "type": "heading",
+                "content": "Get Involved",
+                "alignment": "left",
+                "order": 2
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "type": "text",
+                "content": "Want to join us in serving? Contact our volunteer coordinator to learn about upcoming opportunities to make a difference.",
+                "alignment": "left",
+                "order": 3
+            }
+        ],
+        "excerpt": "See how our community outreach program is transforming lives through acts of love and service.",
+        "author": "Community Team",
+        "image_url": "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=1200",
+        "brand_id": ndm_id,
+        "published": True,
+        "created_at": (now - timedelta(days=3)).isoformat(),
+        "updated_at": (now - timedelta(days=3)).isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "title": "Faith Centre Community Update",
+        "content": "<p>Exciting news from Faith Centre! We're growing and expanding our ministries to serve you better.</p>",
+        "content_blocks": [
+            {
+                "id": str(uuid.uuid4()),
+                "type": "heading",
+                "content": "What's New at Faith Centre",
+                "alignment": "left",
+                "order": 0
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "type": "text",
+                "content": "We've launched new small groups, expanded our children's ministry, and introduced a youth mentorship program. God is doing amazing things in our community!",
+                "alignment": "left",
+                "order": 1
+            },
+            {
+                "id": str(uuid.uuid4()),
+                "type": "image",
+                "image_url": "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1200",
+                "alignment": "center",
+                "order": 2
+            }
+        ],
+        "excerpt": "Discover the exciting new programs and ministries launching at Faith Centre this season.",
+        "author": "Admin",
+        "image_url": "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=1200",
+        "brand_id": fc_id,
+        "published": True,
+        "created_at": (now - timedelta(days=2)).isoformat(),
+        "updated_at": (now - timedelta(days=2)).isoformat()
+    }
+]
+
+db.blogs.insert_many(blogs)
+
 print("\n=== Database Seeded Successfully! ===")
 print(f"Brands: {db.brands.count_documents({})}")
 print(f"Events: {db.events.count_documents({})}")
@@ -516,3 +679,4 @@ print(f"Announcements: {db.announcements.count_documents({})}")
 print(f"Foundations: {db.foundations.count_documents({})}")
 print(f"Gallery Images: {db.gallery_images.count_documents({})}")
 print(f"Countdowns: {db.countdowns.count_documents({})}")
+print(f"Blogs: {db.blogs.count_documents({})}")
