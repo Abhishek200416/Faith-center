@@ -66,8 +66,10 @@ class Brand(BaseModel):
     hero_image_url: Optional[str] = None
     service_times: Optional[str] = None
     location: Optional[str] = None
-    # Header navigation settings - list of hidden nav links
+    # Header navigation settings - list of hidden nav links (deprecated - use navigation_links instead)
     hidden_nav_links: Optional[List[str]] = []
+    # Enhanced navigation settings with order and visibility
+    navigation_links: Optional[List[Dict[str, Any]]] = None
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 class BrandCreate(BaseModel):
@@ -82,6 +84,7 @@ class BrandCreate(BaseModel):
     service_times: Optional[str] = None
     location: Optional[str] = None
     hidden_nav_links: Optional[List[str]] = []
+    navigation_links: Optional[List[Dict[str, Any]]] = None
 
 class Event(BaseModel):
     model_config = ConfigDict(extra="ignore")
