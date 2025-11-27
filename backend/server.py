@@ -624,17 +624,8 @@ async def register_admin(admin_data: AdminCreate):
 
 @api_router.post("/auth/login")
 async def login_admin(login_data: AdminLogin):
-    print(f"Login attempt for: {login_data.email}")
     admin = await db.admins.find_one({"email": login_data.email}, {"_id": 0})
-    print(f"Admin found: {admin is not None}")
-    if not admin:
-        print("Admin not found in database")
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    
-    password_valid = verify_password(login_data.password, admin["password_hash"])
-    print(f"Password valid: {password_valid}")
-    if not password_valid:
-        print("Password verification failed")
+    if not admin or not verify_password(login_data.password, admin["password_hash"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
     token = create_access_token({"email": admin["email"], "role": "admin"})
