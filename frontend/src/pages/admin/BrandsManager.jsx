@@ -24,7 +24,34 @@ const BrandsManager = () => {
     hero_image_url: "",
     service_times: "",
     location: "",
+    hidden_nav_links: [],
   });
+
+  // All available navigation links
+  const allNavLinks = [
+    { key: "home", label: "Home" },
+    { key: "about", label: "About" },
+    { key: "ministries", label: "Ministries" },
+    { key: "events", label: "Events" },
+    { key: "blogs", label: "Blogs" },
+    { key: "messages", label: "Sermons" },
+    { key: "giving", label: "Give" },
+    { key: "testimonials", label: "Testimonials" },
+    { key: "prayer-wall", label: "Prayer" },
+    { key: "gallery", label: "Gallery" },
+    { key: "contact", label: "Contact" },
+  ];
+
+  const handleNavLinkToggle = (key) => {
+    setFormData(prev => {
+      const hiddenLinks = prev.hidden_nav_links || [];
+      if (hiddenLinks.includes(key)) {
+        return { ...prev, hidden_nav_links: hiddenLinks.filter(k => k !== key) };
+      } else {
+        return { ...prev, hidden_nav_links: [...hiddenLinks, key] };
+      }
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +85,7 @@ const BrandsManager = () => {
       hero_image_url: brand.hero_image_url || "",
       service_times: brand.service_times || "",
       location: brand.location || "",
+      hidden_nav_links: brand.hidden_nav_links || [],
     });
     setShowForm(true);
   };
@@ -74,6 +102,7 @@ const BrandsManager = () => {
       hero_image_url: "",
       service_times: "",
       location: "",
+      hidden_nav_links: [],
     });
     setEditingBrand(null);
     setShowForm(false);
