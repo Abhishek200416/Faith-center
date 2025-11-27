@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Backend URL from environment
-BACKEND_URL = "https://admin-secure-4.preview.emergentagent.com/api"
+BACKEND_URL = "https://worship-content.preview.emergentagent.com/api"
 
 def test_brand_data_verification():
     """Test 1: Brand Data Verification - Check Nehemiah David Ministries service times and image URLs"""

@@ -9,7 +9,7 @@ import json
 import sys
 
 # Backend URL from environment
-BACKEND_URL = "https://admin-secure-4.preview.emergentagent.com/api"
+BACKEND_URL = "https://worship-content.preview.emergentagent.com/api"
 
 def test_youtube_integration():
     """Test YouTube Integration: GET /api/youtube/channel/@faithcenter_in"""
