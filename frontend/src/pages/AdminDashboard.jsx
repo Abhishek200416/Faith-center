@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Routes, Route, Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAuth, ADMIN_KEY_PATH } from "@/App";
-import { LayoutDashboard, Calendar, Users, Megaphone, Mail, UserCircle, Settings, LogOut, DollarSign, Video, BookOpen, Clock, Navigation } from "lucide-react";
+import { LayoutDashboard, Calendar, Users, Megaphone, Mail, LogOut, Video, BookOpen, Clock, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import DashboardHome from "./admin/DashboardHome";
@@ -9,8 +9,6 @@ import EventsManager from "./admin/EventsManager";
 import MinistriesManager from "./admin/MinistriesManager";
 import AnnouncementsManager from "./admin/AnnouncementsManager";
 import VolunteersManager from "./admin/VolunteersManager";
-import BrandsManager from "./admin/BrandsManager";
-import MembersManager from "./admin/MembersManager";
 import LiveStreamManager from "./admin/LiveStreamManager";
 import AttendeesManager from "./admin/AttendeesManager";
 import BlogManager from "./admin/BlogManager";
