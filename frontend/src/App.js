@@ -26,7 +26,6 @@ import Testimonials from "./pages/Testimonials";
 import PrayerWall from "./pages/PrayerWall";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
-import AdminLogin from "./pages/AdminLogin";
 import SecureAdminLogin from "./pages/SecureAdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import Giving from "./pages/Giving";
