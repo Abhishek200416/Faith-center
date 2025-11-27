@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useBrand, API, useAuth } from "@/App";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
@@ -7,8 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Pencil, Trash2, Plus, Calendar, User, Upload, Image as ImageIcon, Loader2 } from "lucide-react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 
 const BlogsManagerEnhanced = () => {
   const { currentBrand } = useBrand();
