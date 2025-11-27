@@ -698,6 +698,36 @@ blogs = [
 
 db.blogs.insert_many(blogs)
 
+# Create admin users
+print("Creating admin users...")
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+admin_users = [
+    {
+        "id": str(uuid.uuid4()),
+        "email": "promptforge.dev@gmail.com",
+        "password_hash": pwd_context.hash("P9$wX!7rAq#4Lz@M2f"),
+        "full_name": "Admin",
+        "role": "admin",
+        "brand_id": ndm_id,  # Default to Nehemiah David Ministries
+        "created_at": datetime.utcnow().isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "email": "admin@faithcenter.com",
+        "password_hash": pwd_context.hash("Admin@2025"),
+        "full_name": "Faith Centre Admin",
+        "role": "admin",
+        "brand_id": fc_id,  # Faith Centre admin
+        "created_at": datetime.utcnow().isoformat()
+    }
+]
+
+db.users.delete_many({"role": "admin"})  # Clear existing admin users
+db.users.insert_many(admin_users)
+
 print("\n=== Database Seeded Successfully! ===")
 print(f"Brands: {db.brands.count_documents({})}")
 print(f"Events: {db.events.count_documents({})}")
