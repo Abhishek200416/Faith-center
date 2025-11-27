@@ -33,6 +33,7 @@ import Giving from "./pages/Giving";
 import WatchLive from "./pages/WatchLive";
 import Foundations from "./pages/Foundations";
 import Blogs from "./pages/Blogs";
+import BlogDetail from "./pages/BlogDetail";
 
 function App() {
   const [brands, setBrands] = useState([]);
@@ -157,6 +158,7 @@ function App() {
                       <Route path="/watch-live" element={<WatchLive />} />
                       <Route path="/foundations" element={<Foundations />} />
                       <Route path="/blogs" element={<Blogs />} />
+                      <Route path="/blogs/:blogId" element={<BlogDetail />} />
                     </Routes>
                     <Footer />
                   </>
