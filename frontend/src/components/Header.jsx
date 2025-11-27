@@ -44,8 +44,16 @@ const Header = () => {
     setMobileMenuOpen(false);
   }, [location]);
 
-  // Updated navigation links - removed Watch Live, added Blogs
+  // Get navigation links from brand configuration
   const getNavLinks = () => {
+    // If brand has configured navigation_links, use them
+    if (currentBrand?.navigation_links && currentBrand.navigation_links.length > 0) {
+      return currentBrand.navigation_links.filter(link => 
+        link.visibility === 'desktop' || link.visibility === 'both'
+      );
+    }
+    
+    // Fallback to default links with old hidden_nav_links logic
     const baseLinks = [
       { path: "/", label: "Home", key: "home" },
       { path: "/about", label: "About", key: "about" },
@@ -63,6 +71,14 @@ const Header = () => {
   };
 
   const getMobileNavLinks = () => {
+    // If brand has configured navigation_links, use them
+    if (currentBrand?.navigation_links && currentBrand.navigation_links.length > 0) {
+      return currentBrand.navigation_links.filter(link => 
+        link.visibility === 'mobile' || link.visibility === 'both'
+      );
+    }
+    
+    // Fallback to default links with old hidden_nav_links logic
     const baseLinks = [
       { path: "/", label: "Home", key: "home" },
       { path: "/about", label: "About", key: "about" },
