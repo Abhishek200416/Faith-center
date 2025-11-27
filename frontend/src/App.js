@@ -176,8 +176,8 @@ function App() {
           <div className="App">
             <BrowserRouter>
               <Routes>
-                <Route path="/admin/login" element={<AdminRedirect />} />
-                <Route path="/admin" element={<AdminRedirect />} />
+                <Route path="/admin/login" element={<AdminBlocked />} />
+                <Route path="/admin" element={<AdminBlocked />} />
                 <Route path="/Adminlogin" element={<SecureAdminLogin />} />
                 <Route path="/admin/*" element={
                   <ProtectedRoute>
