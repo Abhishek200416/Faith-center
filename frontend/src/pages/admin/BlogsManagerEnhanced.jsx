@@ -411,21 +411,6 @@ const BlogsManagerEnhanced = () => {
           ))
         )}
       </div>
-
-      {/* Custom Quill Styles */}
-      <style jsx>{`
-        :global(.ql-container) {
-          font-size: 16px;
-          min-height: 300px;
-        }
-        :global(.ql-editor) {
-          min-height: 300px;
-        }
-        :global(.ql-snow .ql-editor img) {
-          max-width: 100%;
-          height: auto;
-        }
-      `}</style>
     </div>
   );
 };
