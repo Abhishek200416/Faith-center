@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://faith-admin-dash.preview.emergentagent.com
-- Admin Panel: https://faith-admin-dash.preview.emergentagent.com/admin/login
+- Public Site: https://faith-dashboard-9.preview.emergentagent.com
+- Admin Panel: https://faith-dashboard-9.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
