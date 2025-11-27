@@ -58,46 +58,38 @@ const Footer = () => {
           <div className="text-center sm:text-left">
             <h4 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li>
-                <Link 
-                  to="/about" 
-                  className="hover:text-white transition-all hover:translate-x-1 inline-block text-sm sm:text-base"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  to="/events" 
-                  className="hover:text-white transition-all hover:translate-x-1 inline-block text-sm sm:text-base"
-                >
-                  Events
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  to="/ministries" 
-                  className="hover:text-white transition-all hover:translate-x-1 inline-block text-sm sm:text-base"
-                >
-                  Ministries
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  to="/announcements" 
-                  className="hover:text-white transition-all hover:translate-x-1 inline-block text-sm sm:text-base"
-                >
-                  Announcements
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  to="/contact" 
-                  className="hover:text-white transition-all hover:translate-x-1 inline-block text-sm sm:text-base"
-                >
-                  Contact
-                </Link>
-              </li>
+              {(() => {
+                // Get footer links from brand configuration
+                let footerLinks = [];
+                
+                if (currentBrand?.navigation_links && currentBrand.navigation_links.length > 0) {
+                  // Use configured navigation links (mobile-only and both visibility)
+                  footerLinks = currentBrand.navigation_links
+                    .filter(link => link.visibility === 'mobile' || link.visibility === 'both')
+                    .slice(0, 8); // Limit to 8 links for footer
+                } else {
+                  // Fallback to default links
+                  footerLinks = [
+                    { path: "/about", label: "About Us" },
+                    { path: "/events", label: "Events" },
+                    { path: "/ministries", label: "Ministries" },
+                    { path: "/messages", label: "Sermons" },
+                    { path: "/gallery", label: "Gallery" },
+                    { path: "/contact", label: "Contact" },
+                  ];
+                }
+                
+                return footerLinks.map((link) => (
+                  <li key={link.path}>
+                    <Link 
+                      to={link.path} 
+                      className="hover:text-white transition-all hover:translate-x-1 inline-block text-sm sm:text-base"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ));
+              })()}
             </ul>
           </div>
 
