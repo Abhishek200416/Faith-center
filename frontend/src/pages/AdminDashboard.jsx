@@ -32,9 +32,7 @@ const AdminDashboard = ({ secureKey }) => {
 
   const menuItems = [
     { path: `${basePath}/dashboard`, icon: LayoutDashboard, label: "Dashboard" },
-    { path: `${basePath}/brands`, icon: Settings, label: "Brands" },
     { path: `${basePath}/header-navigation`, icon: Navigation, label: "Header Navigation" },
-    { path: `${basePath}/members`, icon: UserCircle, label: "Members" },
     { path: `${basePath}/events`, icon: Calendar, label: "Events" },
     { path: `${basePath}/attendees`, icon: Users, label: "Attendees" },
     { path: `${basePath}/ministries`, icon: Users, label: "Ministries" },
