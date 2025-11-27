@@ -176,6 +176,7 @@ const BlogManager = () => {
       title: title.trim(),
       content: content.trim(),
       excerpt: excerpt.trim() || content.trim().substring(0, 150) + "...",
+      author: author.trim() || "Admin",
       image_url: imageUrl,
       content_blocks: contentBlocks,
       brand_id: currentBrand.id,
