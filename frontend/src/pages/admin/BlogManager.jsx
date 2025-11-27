@@ -390,14 +390,16 @@ const BlogManager = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Main Content
                 </label>
-                <ReactQuill
-                  theme="snow"
+                <textarea
                   value={content}
-                  onChange={setContent}
-                  modules={quillModules}
-                  className="bg-white"
-                  placeholder="Write your blog content here..."
+                  onChange={(e) => setContent(e.target.value)}
+                  rows={10}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
+                  placeholder="Write your blog content here... (supports HTML for formatting)"
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Tip: You can use basic HTML tags like &lt;b&gt;, &lt;i&gt;, &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt; for formatting
+                </p>
               </div>
 
               {/* Excerpt */}
