@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Routes, Route, Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAuth, ADMIN_KEY_PATH } from "@/App";
-import { LayoutDashboard, Calendar, Users, Megaphone, Mail, UserCircle, Settings, LogOut, DollarSign, Video, BookOpen, Clock } from "lucide-react";
+import { LayoutDashboard, Calendar, Users, Megaphone, Mail, UserCircle, Settings, LogOut, DollarSign, Video, BookOpen, Clock, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import DashboardHome from "./admin/DashboardHome";
@@ -15,6 +15,7 @@ import LiveStreamManager from "./admin/LiveStreamManager";
 import AttendeesManager from "./admin/AttendeesManager";
 import BlogManager from "./admin/BlogManager";
 import CountdownManager from "./admin/CountdownManager";
+import HeaderNavigationManager from "./admin/HeaderNavigationManager";
 
 const AdminDashboard = ({ secureKey }) => {
   const location = useLocation();
@@ -34,6 +35,7 @@ const AdminDashboard = ({ secureKey }) => {
   const menuItems = [
     { path: `${basePath}/dashboard`, icon: LayoutDashboard, label: "Dashboard" },
     { path: `${basePath}/brands`, icon: Settings, label: "Brands" },
+    { path: `${basePath}/header-navigation`, icon: Navigation, label: "Header Navigation" },
     { path: `${basePath}/members`, icon: UserCircle, label: "Members" },
     { path: `${basePath}/events`, icon: Calendar, label: "Events" },
     { path: `${basePath}/attendees`, icon: Users, label: "Attendees" },
@@ -92,6 +94,7 @@ const AdminDashboard = ({ secureKey }) => {
         <Routes>
           <Route path="dashboard" element={<DashboardHome />} />
           <Route path="brands" element={<BrandsManager />} />
+          <Route path="header-navigation" element={<HeaderNavigationManager />} />
           <Route path="members" element={<MembersManager />} />
           <Route path="events" element={<EventsManager />} />
           <Route path="attendees" element={<AttendeesManager />} />
