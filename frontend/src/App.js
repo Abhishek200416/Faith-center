@@ -164,6 +164,23 @@ function App() {
     }
   };
 
+  const refreshBrand = React.useCallback(async () => {
+    try {
+      const response = await axios.get(`${API}/brands`);
+      setBrands(response.data);
+      
+      // Refresh current brand data
+      if (currentBrand) {
+        const updatedBrand = response.data.find(b => b.id === currentBrand.id);
+        if (updatedBrand) {
+          setCurrentBrand(updatedBrand);
+        }
+      }
+    } catch (error) {
+      console.error("Error refreshing brands:", error);
+    }
+  }, [currentBrand]);
+
   const login = (token, adminData) => {
     localStorage.setItem("authToken", token);
     setAuthToken(token);
@@ -173,7 +190,7 @@ function App() {
   return (
     <HelmetProvider>
       <AuthContext.Provider value={{ authToken, admin, login, logout }}>
-        <BrandContext.Provider value={{ brands, currentBrand, switchBrand }}>
+        <BrandContext.Provider value={{ brands, currentBrand, switchBrand, refreshBrand }}>
           <div className="App">
             <BrowserRouter>
               <Routes>
