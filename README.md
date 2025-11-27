@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://content-blocks-7.preview.emergentagent.com
-- Admin Panel: https://content-blocks-7.preview.emergentagent.com/admin/login
+- Public Site: https://admin-secure-4.preview.emergentagent.com
+- Admin Panel: https://admin-secure-4.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
