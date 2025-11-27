@@ -332,6 +332,217 @@ def test_get_announcements(brand_id=None):
         print(f"   ❌ Exception: {str(e)}")
         return False, None
 
+def test_get_urgent_announcements(brand_id=None):
+    """Test GET /api/announcements/urgent endpoint with Phase 3 enhanced fields"""
+    url = f"{BACKEND_URL}/announcements/urgent"
+    if brand_id:
+        url += f"?brand_id={brand_id}"
+        print(f"🔍 Testing GET /api/announcements/urgent?brand_id={brand_id} (Phase 3 Enhanced)...")
+    else:
+        print("🔍 Testing GET /api/announcements/urgent (Phase 3 Enhanced)...")
+    
+    try:
+        response = requests.get(url, timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            urgent_announcements = response.json()
+            print(f"   Response Type: {type(urgent_announcements)}")
+            print(f"   Urgent Announcements Count: {len(urgent_announcements) if isinstance(urgent_announcements, list) else 'Not a list'}")
+            
+            if isinstance(urgent_announcements, list):
+                if len(urgent_announcements) > 0:
+                    print(f"   Sample Urgent Announcement: {urgent_announcements[0].get('title', 'No title')}")
+                    
+                    # Verify all urgent announcements have is_urgent=True
+                    all_urgent = True
+                    for ann in urgent_announcements:
+                        if not ann.get('is_urgent', False):
+                            print(f"   ❌ Non-urgent announcement in urgent list: {ann.get('title')}")
+                            all_urgent = False
+                    
+                    if all_urgent:
+                        print("   ✅ All announcements are marked as urgent")
+                    
+                    # Verify Phase 3 enhanced fields are present
+                    sample = urgent_announcements[0]
+                    phase3_fields = ['event_id', 'location', 'event_time', 'requires_registration', 'image_url']
+                    
+                    print("   🔍 Verifying Phase 3 enhanced fields in urgent announcements...")
+                    all_fields_present = True
+                    for field in phase3_fields:
+                        if field not in sample:
+                            print(f"   ❌ Missing Phase 3 field: {field}")
+                            all_fields_present = False
+                        else:
+                            field_value = sample.get(field)
+                            if field == 'requires_registration':
+                                if not isinstance(field_value, bool):
+                                    print(f"   ❌ {field} should be boolean, got {type(field_value)}")
+                                    all_fields_present = False
+                                else:
+                                    print(f"   ✅ {field}: {field_value}")
+                            else:
+                                print(f"   ✅ {field}: {field_value if field_value else 'null'}")
+                    
+                    if all_fields_present and all_urgent:
+                        print("   ✅ Urgent announcements with Phase 3 fields working correctly")
+                        return True
+                    else:
+                        return False
+                else:
+                    print("   ⚠️  No urgent announcements found")
+                    return True
+            else:
+                print("   ❌ Response is not a list")
+                return False
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False
+
+def test_create_announcement_with_event_link(admin_token, brand_id, event_id=None):
+    """Test POST /api/announcements with Phase 3 enhanced fields including event linking"""
+    print("🔍 Testing POST /api/announcements (Phase 3 Enhanced with Event Link)...")
+    
+    announcement_data = {
+        "title": "REVIVE Conference Registration Open",
+        "content": "Join us for the 5-day REVIVE Conference! Experience powerful worship, inspiring messages, and life-changing encounters with God. Register now to secure your spot.",
+        "image_url": "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800",
+        "is_urgent": True,
+        "event_id": event_id,  # Link to existing event
+        "location": "Main Sanctuary, Faith Center",
+        "event_time": "December 3-7, 2025 | 7:00 PM - 9:30 PM daily",
+        "requires_registration": True,
+        "brand_id": brand_id
+    }
+    
+    try:
+        headers = {
+            "Authorization": f"Bearer {admin_token}",
+            "Content-Type": "application/json"
+        }
+        
+        response = requests.post(
+            f"{BACKEND_URL}/announcements",
+            json=announcement_data,
+            headers=headers,
+            timeout=10
+        )
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            print(f"   Response Type: {type(result)}")
+            if isinstance(result, dict):
+                print(f"   Created Announcement ID: {result.get('id', 'No ID')}")
+                print(f"   Title: {result.get('title', 'No title')}")
+                print(f"   Event ID: {result.get('event_id', 'No event_id')}")
+                print(f"   Location: {result.get('location', 'No location')}")
+                print(f"   Event Time: {result.get('event_time', 'No event_time')}")
+                print(f"   Requires Registration: {result.get('requires_registration', 'No requires_registration')}")
+                print(f"   Image URL: {result.get('image_url', 'No image_url')}")
+                
+                # Verify all Phase 3 fields were saved correctly
+                phase3_verification = True
+                if result.get('event_id') != event_id:
+                    print(f"   ❌ Event ID mismatch: expected {event_id}, got {result.get('event_id')}")
+                    phase3_verification = False
+                if result.get('location') != announcement_data['location']:
+                    print(f"   ❌ Location mismatch")
+                    phase3_verification = False
+                if result.get('event_time') != announcement_data['event_time']:
+                    print(f"   ❌ Event time mismatch")
+                    phase3_verification = False
+                if result.get('requires_registration') != announcement_data['requires_registration']:
+                    print(f"   ❌ Requires registration mismatch")
+                    phase3_verification = False
+                
+                if phase3_verification:
+                    print("   ✅ All Phase 3 fields saved correctly")
+                    return True, result.get('id')
+                else:
+                    print("   ❌ Some Phase 3 fields not saved correctly")
+                    return False, result.get('id')
+            else:
+                print("   ❌ Response is not a dict")
+                return False, None
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False, None
+
+def test_update_announcement_with_phase3_fields(admin_token, announcement_id):
+    """Test PUT /api/announcements/{id} with Phase 3 enhanced fields"""
+    print(f"🔍 Testing PUT /api/announcements/{announcement_id} (Phase 3 Enhanced)...")
+    
+    update_data = {
+        "title": "REVIVE Conference - Updated Details",
+        "location": "Updated Location: Grand Auditorium, Faith Center",
+        "event_time": "December 3-7, 2025 | Updated Time: 6:30 PM - 9:00 PM daily",
+        "requires_registration": False,  # Changed from True to False
+        "image_url": "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800"
+    }
+    
+    try:
+        headers = {
+            "Authorization": f"Bearer {admin_token}",
+            "Content-Type": "application/json"
+        }
+        
+        response = requests.put(
+            f"{BACKEND_URL}/announcements/{announcement_id}",
+            json=update_data,
+            headers=headers,
+            timeout=10
+        )
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            print(f"   Response Type: {type(result)}")
+            if isinstance(result, dict):
+                print(f"   Updated Announcement ID: {result.get('id', 'No ID')}")
+                print(f"   Updated Title: {result.get('title', 'No title')}")
+                print(f"   Updated Location: {result.get('location', 'No location')}")
+                print(f"   Updated Event Time: {result.get('event_time', 'No event_time')}")
+                print(f"   Updated Requires Registration: {result.get('requires_registration', 'No requires_registration')}")
+                print(f"   Updated Image URL: {result.get('image_url', 'No image_url')}")
+                
+                # Verify all updates were applied correctly
+                update_verification = True
+                for field, expected_value in update_data.items():
+                    actual_value = result.get(field)
+                    if actual_value != expected_value:
+                        print(f"   ❌ {field} update failed: expected {expected_value}, got {actual_value}")
+                        update_verification = False
+                
+                if update_verification:
+                    print("   ✅ All Phase 3 field updates applied correctly")
+                    return True
+                else:
+                    print("   ❌ Some Phase 3 field updates failed")
+                    return False
+            else:
+                print("   ❌ Response is not a dict")
+                return False
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False
+
 def test_post_contact(brand_id=None):
     """Test POST /api/contact endpoint"""
     print("🔍 Testing POST /api/contact...")
