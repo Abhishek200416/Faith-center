@@ -13,7 +13,7 @@ import BrandsManager from "./admin/BrandsManager";
 import MembersManager from "./admin/MembersManager";
 import LiveStreamManager from "./admin/LiveStreamManager";
 import AttendeesManager from "./admin/AttendeesManager";
-import BlogsManager from "./admin/BlogsManagerEnhanced";
+import BlogManager from "./admin/BlogManager";
 import CountdownManager from "./admin/CountdownManager";
 
 const AdminDashboard = () => {
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
           <Route path="events" element={<EventsManager />} />
           <Route path="attendees" element={<AttendeesManager />} />
           <Route path="ministries" element={<MinistriesManager />} />
-          <Route path="blogs" element={<BlogsManager />} />
+          <Route path="blogs" element={<BlogManager />} />
           <Route path="countdowns" element={<CountdownManager />} />
           <Route path="live-streams" element={<LiveStreamManager />} />
           <Route path="announcements" element={<AnnouncementsManager />} />
