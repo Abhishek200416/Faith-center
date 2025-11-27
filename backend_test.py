@@ -269,13 +269,13 @@ def test_get_ministries(brand_id=None, brand_name=None, expected_count=None):
         return False
 
 def test_get_announcements(brand_id=None):
-    """Test GET /api/announcements endpoint"""
+    """Test GET /api/announcements endpoint with Phase 3 enhanced fields"""
     url = f"{BACKEND_URL}/announcements"
     if brand_id:
         url += f"?brand_id={brand_id}"
-        print(f"🔍 Testing GET /api/announcements?brand_id={brand_id}...")
+        print(f"🔍 Testing GET /api/announcements?brand_id={brand_id} (Phase 3 Enhanced)...")
     else:
-        print("🔍 Testing GET /api/announcements...")
+        print("🔍 Testing GET /api/announcements (Phase 3 Enhanced)...")
     
     try:
         response = requests.get(url, timeout=10)
@@ -289,20 +289,48 @@ def test_get_announcements(brand_id=None):
             if isinstance(announcements, list):
                 if len(announcements) > 0:
                     print(f"   Sample Announcement: {announcements[0].get('title', 'No title')}")
+                    
+                    # Verify Phase 3 enhanced fields are present
+                    sample = announcements[0]
+                    phase3_fields = ['event_id', 'location', 'event_time', 'requires_registration', 'image_url']
+                    
+                    print("   🔍 Verifying Phase 3 enhanced fields...")
+                    all_fields_present = True
+                    for field in phase3_fields:
+                        if field not in sample:
+                            print(f"   ❌ Missing Phase 3 field: {field}")
+                            all_fields_present = False
+                        else:
+                            field_value = sample.get(field)
+                            if field == 'requires_registration':
+                                if not isinstance(field_value, bool):
+                                    print(f"   ❌ {field} should be boolean, got {type(field_value)}")
+                                    all_fields_present = False
+                                else:
+                                    print(f"   ✅ {field}: {field_value}")
+                            else:
+                                print(f"   ✅ {field}: {field_value if field_value else 'null'}")
+                    
+                    if all_fields_present:
+                        print("   ✅ All Phase 3 enhanced fields present")
+                        return True, announcements
+                    else:
+                        print("   ❌ Some Phase 3 enhanced fields missing")
+                        return False, announcements
                 else:
                     print("   ⚠️  Empty announcements list")
-                return True
+                    return True, []
             else:
                 print("   ❌ Response is not a list")
-                return False
+                return False, None
         else:
             print(f"   ❌ Failed with status {response.status_code}")
             print(f"   Response: {response.text}")
-            return False
+            return False, None
             
     except Exception as e:
         print(f"   ❌ Exception: {str(e)}")
-        return False
+        return False, None
 
 def test_post_contact(brand_id=None):
     """Test POST /api/contact endpoint"""
