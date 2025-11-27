@@ -156,17 +156,20 @@ backend:
         agent: "testing"
         comment: "✅ BRAND-SPECIFIC MINISTRIES TESTING COMPLETE: 1) GET /api/ministries?brand_id={ndm_id} returns exactly 4 ministries for Nehemiah David Ministries: 'Worship Team', 'Children's Ministry', 'Community Outreach', 'Small Groups', 2) GET /api/ministries?brand_id={faith_id} returns exactly 4 different ministries for Faith Centre: 'Prayer Team', 'Hospitality Team', 'Youth Ministry', 'Community Care', 3) Content uniqueness verified - no ministry titles overlap between brands, 4) All ministries are properly filtered by brand_id parameter. Brand-specific ministry content working perfectly."
         
-  - task: "GET /api/announcements endpoint with brand filtering"
+  - task: "GET /api/announcements endpoint with brand filtering and enhanced event fields"
     implemented: true
     working: true
     file: "backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: true
         agent: "testing"
         comment: "✅ API endpoint working correctly. Both /api/announcements and /api/announcements?brand_id={id} return 200 status with proper JSON arrays. Query parameter filtering implemented correctly."
+      - working: true
+        agent: "main"
+        comment: "✅ PHASE 3 ENHANCED: Added new fields to Announcement model - event_id (links to event), location, event_time, requires_registration. Updated AnnouncementCreate and AnnouncementUpdate models. Seed data updated with event-linked announcements including images, locations, and timing info."
         
   - task: "POST /api/contact endpoint"
     implemented: true
