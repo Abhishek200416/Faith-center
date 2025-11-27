@@ -227,6 +227,36 @@ const BrandsManager = () => {
                 data-testid="brand-location-input"
               />
             </div>
+
+            {/* Header Navigation Settings */}
+            <div className="border-t pt-4 mt-4">
+              <Label className="text-base font-semibold mb-3 block">Header Navigation Settings</Label>
+              <p className="text-sm text-gray-500 mb-3">Check the links you want to HIDE from the header navigation</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {allNavLinks.map(link => (
+                  <label 
+                    key={link.key} 
+                    className={`flex items-center gap-2 p-2 rounded border cursor-pointer transition-colors ${
+                      (formData.hidden_nav_links || []).includes(link.key) 
+                        ? 'bg-red-50 border-red-300 text-red-700' 
+                        : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={(formData.hidden_nav_links || []).includes(link.key)}
+                      onChange={() => handleNavLinkToggle(link.key)}
+                      className="w-4 h-4 rounded border-gray-300"
+                    />
+                    <span className="text-sm font-medium">{link.label}</span>
+                    {(formData.hidden_nav_links || []).includes(link.key) && (
+                      <span className="text-xs bg-red-100 text-red-600 px-1.5 py-0.5 rounded ml-auto">Hidden</span>
+                    )}
+                  </label>
+                ))}
+              </div>
+            </div>
+
             <div className="flex gap-3">
               <Button type="submit" data-testid="brand-save-btn">{editingBrand ? "Update" : "Create"} Brand</Button>
               <Button type="button" variant="outline" onClick={resetForm} data-testid="brand-cancel-btn">Cancel</Button>
