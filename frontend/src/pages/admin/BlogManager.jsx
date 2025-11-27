@@ -4,8 +4,6 @@ import axios from "axios";
 import { Plus, Edit, Trash2, Eye, EyeOff, Loader2, Image as ImageIcon, Type, Heading2, Quote, Save, X, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
