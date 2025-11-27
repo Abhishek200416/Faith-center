@@ -14,6 +14,7 @@ const AnnouncementsManager = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingAnnouncement, setEditingAnnouncement] = useState(null);
+  const [events, setEvents] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -21,6 +22,10 @@ const AnnouncementsManager = () => {
     is_urgent: false,
     scheduled_start: "",
     scheduled_end: "",
+    event_id: "",
+    location: "",
+    event_time: "",
+    requires_registration: false,
   });
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState("");
@@ -29,6 +34,7 @@ const AnnouncementsManager = () => {
   useEffect(() => {
     if (currentBrand && authToken) {
       loadAnnouncements();
+      loadEvents();
     }
   }, [currentBrand, authToken]);
 
@@ -43,6 +49,15 @@ const AnnouncementsManager = () => {
     }
   };
 
+  const loadEvents = async () => {
+    try {
+      const response = await axios.get(`${API}/events?brand_id=${currentBrand.id}`);
+      setEvents(response.data);
+    } catch (error) {
+      console.error("Error loading events:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -52,6 +67,9 @@ const AnnouncementsManager = () => {
         brand_id: currentBrand.id,
         scheduled_start: formData.scheduled_start || null,
         scheduled_end: formData.scheduled_end || null,
+        event_id: formData.event_id || null,
+        location: formData.location || null,
+        event_time: formData.event_time || null,
       };
 
       if (editingAnnouncement) {
