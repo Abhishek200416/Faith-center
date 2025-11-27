@@ -1,16 +1,40 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useBrand, API } from "@/App";
-import { Facebook, Instagram, Youtube, MapPin, Mail, Phone } from "lucide-react";
+import { Facebook, Instagram, Youtube, MapPin, Mail, Phone, Bell, ArrowRight, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import axios from "axios";
 
 const Footer = () => {
+  const navigate = useNavigate();
   const { currentBrand } = useBrand();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [latestAnnouncement, setLatestAnnouncement] = useState(null);
+
+  useEffect(() => {
+    if (currentBrand) {
+      fetchLatestAnnouncement();
+    }
+  }, [currentBrand]);
+
+  const fetchLatestAnnouncement = async () => {
+    try {
+      const response = await axios.get(`${API}/announcements?brand_id=${currentBrand.id}`);
+      if (response.data && response.data.length > 0) {
+        // Get the most recent urgent announcement, or the latest one if none are urgent
+        const urgentAnn = response.data.find(a => a.is_urgent);
+        const latestAnn = response.data.sort((a, b) => 
+          new Date(b.created_at) - new Date(a.created_at)
+        )[0];
+        setLatestAnnouncement(urgentAnn || latestAnn);
+      }
+    } catch (error) {
+      console.error("Error fetching announcement:", error);
+    }
+  };
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
@@ -34,7 +58,37 @@ const Footer = () => {
   if (!currentBrand) return null;
 
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-12 pt-8 sm:pt-10 lg:pt-12 border-t-4 border-gray-700">
+    <footer className="bg-gray-900 text-gray-300 mt-12 border-t-4 border-gray-700">
+      {/* Announcement Banner */}
+      {latestAnnouncement && (
+        <div 
+          className="bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-4 cursor-pointer hover:from-red-700 hover:to-red-800 transition-all duration-300"
+          onClick={() => latestAnnouncement.event_id ? navigate('/events') : navigate('/announcements')}
+          data-testid="footer-announcement-banner"
+        >
+          <div className="container mx-auto flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <Bell size={20} className="flex-shrink-0 animate-pulse" />
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-sm truncate">{latestAnnouncement.title}</p>
+                {latestAnnouncement.event_time && (
+                  <p className="text-xs text-red-100 truncate flex items-center gap-1 mt-0.5">
+                    <Calendar size={12} />
+                    {latestAnnouncement.event_time}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <span className="text-xs font-medium hidden sm:inline">
+                {latestAnnouncement.event_id ? 'View Event' : 'Learn More'}
+              </span>
+              <ArrowRight size={18} className="animate-bounce-x" />
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 mb-6 sm:mb-8">
           {/* Brand Info */}
