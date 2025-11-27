@@ -59,35 +59,6 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-gray-300 mt-12 border-t-4 border-gray-700">
-      {/* Announcement Banner */}
-      {latestAnnouncement && (
-        <div 
-          className="bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-4 cursor-pointer hover:from-red-700 hover:to-red-800 transition-all duration-300"
-          onClick={() => latestAnnouncement.event_id ? navigate('/events') : navigate('/announcements')}
-          data-testid="footer-announcement-banner"
-        >
-          <div className="container mx-auto flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 flex-1 min-w-0">
-              <Bell size={20} className="flex-shrink-0 animate-pulse" />
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-sm truncate">{latestAnnouncement.title}</p>
-                {latestAnnouncement.event_time && (
-                  <p className="text-xs text-red-100 truncate flex items-center gap-1 mt-0.5">
-                    <Calendar size={12} />
-                    {latestAnnouncement.event_time}
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <span className="text-xs font-medium hidden sm:inline">
-                {latestAnnouncement.event_id ? 'View Event' : 'Learn More'}
-              </span>
-              <ArrowRight size={18} className="animate-bounce-x" />
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 mb-6 sm:mb-8">
