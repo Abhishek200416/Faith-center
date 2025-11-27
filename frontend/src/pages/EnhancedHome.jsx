@@ -646,21 +646,108 @@ const EnhancedHome = () => {
       {/* Urgent Announcement Modal */}
       {showUrgentModal && urgentAnnouncement && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn transition-all duration-300">
-          <div className="bg-white rounded-lg max-w-md w-full p-6 shadow-2xl animate-slideUp transition-all duration-300">
-            <div className="flex items-start justify-between mb-4">
-              <h3 className="text-xl font-bold text-red-600">Urgent Announcement</h3>
-              <button 
-                onClick={closeUrgentModal}
-                className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
-              >
-                <X size={20} />
-              </button>
+          <div className="bg-white rounded-xl max-w-lg w-full shadow-2xl animate-slideUp transition-all duration-300 overflow-hidden">
+            {/* Announcement Image */}
+            {urgentAnnouncement.image_url && (
+              <div className="relative w-full h-48 bg-gray-100">
+                <img 
+                  src={urgentAnnouncement.image_url} 
+                  alt={urgentAnnouncement.title}
+                  className="w-full h-full object-cover"
+                  onError={(e) => e.target.style.display = 'none'}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                  {urgentAnnouncement.event_id ? 'Event' : 'Announcement'}
+                </span>
+              </div>
+            )}
+            
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-3">
+                <h3 className="text-xl font-bold text-gray-900 pr-4">{urgentAnnouncement.title}</h3>
+                <button 
+                  onClick={closeUrgentModal}
+                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200 flex-shrink-0"
+                >
+                  <X size={22} />
+                </button>
+              </div>
+              
+              <p className="text-gray-600 mb-4 leading-relaxed">{urgentAnnouncement.content}</p>
+              
+              {/* Event Details - Location and Time */}
+              {(urgentAnnouncement.location || urgentAnnouncement.event_time) && (
+                <div className="bg-gray-50 rounded-lg p-4 mb-4 space-y-2">
+                  {urgentAnnouncement.location && (
+                    <div className="flex items-center text-gray-700">
+                      <MapPin size={18} className="mr-2 text-red-500 flex-shrink-0" />
+                      <span className="text-sm">{urgentAnnouncement.location}</span>
+                    </div>
+                  )}
+                  {urgentAnnouncement.event_time && (
+                    <div className="flex items-center text-gray-700">
+                      <Clock size={18} className="mr-2 text-red-500 flex-shrink-0" />
+                      <span className="text-sm">{urgentAnnouncement.event_time}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              {/* Event Link Notice */}
+              {urgentAnnouncement.event_id && (
+                <p className="text-sm text-gray-500 mb-4 italic">
+                  Check the Events page for more details and full information.
+                </p>
+              )}
+              
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                {urgentAnnouncement.requires_registration && urgentAnnouncement.event_id ? (
+                  <>
+                    <Button 
+                      onClick={() => {
+                        closeUrgentModal();
+                        navigate('/events');
+                      }}
+                      className="flex-1 bg-red-600 hover:bg-red-700"
+                    >
+                      Register Now
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={closeUrgentModal} 
+                      className="flex-1"
+                    >
+                      Maybe Later
+                    </Button>
+                  </>
+                ) : urgentAnnouncement.event_id ? (
+                  <>
+                    <Button 
+                      onClick={() => {
+                        closeUrgentModal();
+                        navigate('/events');
+                      }}
+                      className="flex-1"
+                    >
+                      View Event Details
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={closeUrgentModal} 
+                      className="flex-1"
+                    >
+                      Got It
+                    </Button>
+                  </>
+                ) : (
+                  <Button onClick={closeUrgentModal} className="w-full">
+                    Got It
+                  </Button>
+                )}
+              </div>
             </div>
-            <h4 className="text-lg font-semibold mb-2">{urgentAnnouncement.title}</h4>
-            <p className="text-gray-700 mb-4">{urgentAnnouncement.content}</p>
-            <Button onClick={closeUrgentModal} className="w-full transition-all duration-300">
-              Got It
-            </Button>
           </div>
         </div>
       )}
