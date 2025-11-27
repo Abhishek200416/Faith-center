@@ -25,35 +25,39 @@ const Header = () => {
   // Updated navigation links - removed Watch Live, added Blogs
   const getNavLinks = () => {
     const baseLinks = [
-      { path: "/", label: "Home" },
-      { path: "/about", label: "About" },
-      { path: "/ministries", label: "Ministries" },
-      { path: "/events", label: "Events" },
-      { path: "/blogs", label: "Blogs" },
-      { path: "/messages", label: "Sermons" },
-      { path: "/giving", label: "Give", highlight: true },
-      { path: "/contact", label: "Contact" },
+      { path: "/", label: "Home", key: "home" },
+      { path: "/about", label: "About", key: "about" },
+      { path: "/ministries", label: "Ministries", key: "ministries" },
+      { path: "/events", label: "Events", key: "events" },
+      { path: "/blogs", label: "Blogs", key: "blogs" },
+      { path: "/messages", label: "Sermons", key: "messages" },
+      { path: "/giving", label: "Give", highlight: true, key: "giving" },
+      { path: "/contact", label: "Contact", key: "contact" },
     ];
 
-    return baseLinks;
+    // Filter out hidden nav links based on brand settings
+    const hiddenLinks = currentBrand?.hidden_nav_links || [];
+    return baseLinks.filter(link => !hiddenLinks.includes(link.key));
   };
 
   const getMobileNavLinks = () => {
     const baseLinks = [
-      { path: "/", label: "Home" },
-      { path: "/about", label: "About" },
-      { path: "/ministries", label: "Ministries" },
-      { path: "/events", label: "Events" },
-      { path: "/blogs", label: "Blogs" },
-      { path: "/messages", label: "Sermons" },
-      { path: "/giving", label: "Give" },
-      { path: "/testimonials", label: "Testimonials" },
-      { path: "/prayer-wall", label: "Prayer" },
-      { path: "/gallery", label: "Gallery" },
-      { path: "/contact", label: "Contact" },
+      { path: "/", label: "Home", key: "home" },
+      { path: "/about", label: "About", key: "about" },
+      { path: "/ministries", label: "Ministries", key: "ministries" },
+      { path: "/events", label: "Events", key: "events" },
+      { path: "/blogs", label: "Blogs", key: "blogs" },
+      { path: "/messages", label: "Sermons", key: "messages" },
+      { path: "/giving", label: "Give", key: "giving" },
+      { path: "/testimonials", label: "Testimonials", key: "testimonials" },
+      { path: "/prayer-wall", label: "Prayer", key: "prayer-wall" },
+      { path: "/gallery", label: "Gallery", key: "gallery" },
+      { path: "/contact", label: "Contact", key: "contact" },
     ];
 
-    return baseLinks;
+    // Filter out hidden nav links based on brand settings
+    const hiddenLinks = currentBrand?.hidden_nav_links || [];
+    return baseLinks.filter(link => !hiddenLinks.includes(link.key));
   };
 
   const navLinks = getNavLinks();
