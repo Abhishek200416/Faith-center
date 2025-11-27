@@ -294,9 +294,14 @@ const BlogManager = () => {
                   {blog.excerpt || blog.content.substring(0, 120) + "..."}
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">
-                    {new Date(blog.created_at).toLocaleDateString()}
-                  </span>
+                  <div className="flex flex-col">
+                    <span className="text-xs text-gray-500">
+                      By {blog.author || "Admin"}
+                    </span>
+                    <span className="text-xs text-gray-400">
+                      {new Date(blog.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
                   <div className="flex gap-2">
                     <Button
                       size="sm"
