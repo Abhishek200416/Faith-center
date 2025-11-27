@@ -63,7 +63,7 @@ const Blogs = () => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       year: "numeric",
-      month: "long",
+      month: "short",
       day: "numeric",
     });
   };
@@ -82,55 +82,35 @@ const Blogs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
-      {/* Hero Section with Background Image */}
-      <div className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 w-full h-full">
-          <img 
-            src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1920" 
-            alt="Blog hero" 
-            className="w-full h-full object-cover" 
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
-        
-        <div className="relative z-10 text-center text-white max-w-4xl px-4 sm:px-6">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-6 shadow-2xl">
-            <BookOpen className="w-10 h-10 text-white" />
+    <div className="min-h-screen bg-gray-50">
+      {/* Clean Header Section */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="container mx-auto px-4 py-12 md:py-16">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-blue-100 rounded-xl mb-5">
+              <BookOpen className="w-7 h-7 text-blue-600" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Our Blog
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Inspiring stories, spiritual insights, and community updates from our ministry.
+            </p>
           </div>
-          <h1 
-            className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6"
-            style={{
-              textShadow: '2px 2px 4px rgba(0,0,0,0.7)',
-              color: '#FFFFFF'
-            }}
-          >
-            Our Blog
-          </h1>
-          <p 
-            className="text-xl sm:text-2xl max-w-3xl mx-auto font-medium"
-            style={{
-              textShadow: '1px 1px 3px rgba(0,0,0,0.6)',
-              color: '#FFFFFF'
-            }}
-          >
-            Inspiring stories, spiritual insights, and community updates
-          </p>
         </div>
       </div>
 
       {/* Search Section */}
-      <div className="sticky top-16 z-40 bg-white shadow-md">
+      <div className="sticky top-16 z-40 bg-white shadow-sm border-b border-gray-100">
         <div className="container mx-auto px-4 py-4">
-          <div className="max-w-2xl mx-auto relative">
+          <div className="max-w-xl mx-auto relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search blogs..."
-              className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none transition-colors"
+              placeholder="Search articles..."
+              className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none transition-all bg-gray-50 focus:bg-white"
             />
             {searchQuery && (
               <button
@@ -142,83 +122,87 @@ const Blogs = () => {
             )}
           </div>
           {searchQuery && (
-            <p className="text-center mt-3 text-gray-600">
-              Found {filteredBlogs.length} {filteredBlogs.length === 1 ? 'blog' : 'blogs'}
+            <p className="text-center mt-3 text-sm text-gray-500">
+              Found {filteredBlogs.length} {filteredBlogs.length === 1 ? 'article' : 'articles'}
             </p>
           )}
         </div>
       </div>
 
       {/* Blogs Grid */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-12">
         {loading ? (
           <div className="flex justify-center items-center py-20">
-            <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
+            <div className="text-center">
+              <Loader2 className="w-10 h-10 animate-spin text-blue-600 mx-auto mb-4" />
+              <p className="text-gray-500">Loading articles...</p>
+            </div>
           </div>
         ) : filteredBlogs.length === 0 ? (
           <div className="text-center py-20">
             <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-gray-700 mb-2">
-              {searchQuery ? "No blogs found" : "No blogs yet"}
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+              {searchQuery ? "No articles found" : "No articles yet"}
             </h3>
             <p className="text-gray-500">
               {searchQuery ? "Try a different search term" : "Check back soon for new content!"}
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {filteredBlogs.map((blog) => (
-              <div
+              <article
                 key={blog.id}
-                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group"
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl hover:border-gray-300 transition-all duration-300 cursor-pointer group"
                 onClick={() => navigate(`/blogs/${blog.id}`)}
               >
                 {/* Blog Image */}
                 {blog.image_url ? (
-                  <div className="relative h-56 overflow-hidden">
+                  <div className="relative h-52 overflow-hidden bg-gray-100">
                     <img
                       src={blog.image_url}
                       alt={blog.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   </div>
                 ) : (
-                  <div className="h-56 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                    <BookOpen className="w-20 h-20 text-white opacity-50" />
+                  <div className="h-52 bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
+                    <BookOpen className="w-16 h-16 text-blue-200" />
                   </div>
                 )}
 
                 {/* Blog Content */}
                 <div className="p-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                  {/* Meta */}
+                  <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
+                    <span className="flex items-center gap-1">
+                      <User className="w-3 h-3" />
+                      {blog.author || "Admin"}
+                    </span>
+                    <span className="text-gray-300">•</span>
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />
+                      {formatDate(blog.created_at)}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
                     {blog.title}
                   </h2>
                   
-                  <p className="text-gray-600 mb-4 line-clamp-3">
-                    {truncateText(blog.excerpt || blog.content)}
+                  {/* Excerpt */}
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+                    {truncateText(blog.excerpt || blog.content, 120)}
                   </p>
 
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                    <div className="flex items-center gap-2">
-                      <User className="w-4 h-4" />
-                      <span>{blog.author}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      <span>{formatDate(blog.created_at)}</span>
-                    </div>
+                  {/* Read More Link */}
+                  <div className="flex items-center text-blue-600 font-medium text-sm group-hover:text-blue-700">
+                    Read Article
+                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                   </div>
-
-                  <Button
-                    variant="ghost"
-                    className="w-full group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors"
-                  >
-                    Read More
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         )}
