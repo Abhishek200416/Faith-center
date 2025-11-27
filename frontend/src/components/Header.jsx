@@ -93,10 +93,13 @@ const Header = () => {
     <>
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled || !isHeroPage
-            ? 'bg-white border-b border-gray-200 shadow-md' 
-            : 'bg-transparent border-b border-transparent'
+          isTransparent
+            ? 'bg-transparent border-b border-transparent' 
+            : 'bg-white border-b border-gray-200 shadow-md'
         }`}
+        data-transparent={isTransparent}
+        data-scrolled={scrolled}
+        data-hero={isHeroPage}
       >
         <div className="container mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20 gap-2 sm:gap-4 lg:gap-6">
@@ -108,7 +111,7 @@ const Header = () => {
                 data-testid="header-logo"
               >
                 <div className={`text-xs sm:text-sm md:text-base lg:text-xl font-bold whitespace-normal sm:whitespace-nowrap leading-tight tracking-tight max-w-[120px] sm:max-w-none transition-colors duration-500 ${
-                  scrolled || !isHeroPage ? 'text-gray-900' : 'text-white drop-shadow-lg'
+                  isTransparent ? 'text-white drop-shadow-lg' : 'text-gray-900'
                 }`}>
                   {currentBrand.name}
                 </div>
@@ -123,13 +126,13 @@ const Header = () => {
                     className={`px-4 py-2 rounded-md font-medium transition-all duration-300 text-sm whitespace-nowrap relative z-50 ${
                       link.highlight
                         ? "bg-[#2D3748] text-white hover:bg-[#1a202c] shadow-sm hover:shadow-md"
-                        : scrolled || !isHeroPage
+                        : isTransparent
                           ? isActive(link.path)
-                            ? "bg-gray-100 text-[#2D3748] font-semibold"
-                            : "text-[#2D3748] hover:bg-gray-50 hover:text-[#1a202c]"
-                          : isActive(link.path)
                             ? "bg-white/20 text-white font-semibold backdrop-blur-sm"
                             : "text-white hover:bg-white/10 hover:text-white drop-shadow-md"
+                          : isActive(link.path)
+                            ? "bg-gray-100 text-[#2D3748] font-semibold"
+                            : "text-[#2D3748] hover:bg-gray-50 hover:text-[#1a202c]"
                     }`}
                   >
                     {link.label}
@@ -146,9 +149,9 @@ const Header = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`hidden md:flex items-center gap-1.5 px-4 py-2 text-xs lg:text-sm font-semibold rounded-md transition-all shadow-sm hover:shadow-md whitespace-nowrap relative z-50 ${
-                  scrolled || !isHeroPage
-                    ? 'text-white bg-[#2D3748] hover:bg-[#1a202c]'
-                    : 'text-white bg-white/20 backdrop-blur-sm hover:bg-white/30 border border-white/30'
+                  isTransparent
+                    ? 'text-white bg-white/20 backdrop-blur-sm hover:bg-white/30 border border-white/30'
+                    : 'text-white bg-[#2D3748] hover:bg-[#1a202c]'
                 }`}
                 title="Visit Nehemiah David Ministries"
               >
@@ -162,9 +165,9 @@ const Header = () => {
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className={`p-2 rounded-md transition-all relative z-50 ${
-                    scrolled || !isHeroPage
-                      ? 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
-                      : 'text-white/90 hover:text-white hover:bg-white/10'
+                    isTransparent
+                      ? 'text-white/90 hover:text-white hover:bg-white/10'
+                      : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
                   }`}
                   aria-label="Facebook"
                 >
@@ -175,9 +178,9 @@ const Header = () => {
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className={`p-2 rounded-md transition-all relative z-50 ${
-                    scrolled || !isHeroPage
-                      ? 'text-slate-600 hover:text-pink-600 hover:bg-slate-50'
-                      : 'text-white/90 hover:text-white hover:bg-white/10'
+                    isTransparent
+                      ? 'text-white/90 hover:text-white hover:bg-white/10'
+                      : 'text-slate-600 hover:text-pink-600 hover:bg-slate-50'
                   }`}
                   aria-label="Instagram"
                 >
@@ -188,9 +191,9 @@ const Header = () => {
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className={`p-2 rounded-md transition-all relative z-50 ${
-                    scrolled || !isHeroPage
-                      ? 'text-slate-600 hover:text-red-600 hover:bg-slate-50'
-                      : 'text-white/90 hover:text-white hover:bg-white/10'
+                    isTransparent
+                      ? 'text-white/90 hover:text-white hover:bg-white/10'
+                      : 'text-slate-600 hover:text-red-600 hover:bg-slate-50'
                   }`}
                   aria-label="YouTube"
                 >
@@ -201,9 +204,9 @@ const Header = () => {
               {/* Hamburger Menu Button */}
               <button
                 className={`lg:hidden p-2 rounded-md transition-all relative z-50 min-h-[40px] min-w-[40px] flex items-center justify-center flex-shrink-0 ${
-                  scrolled || !isHeroPage
-                    ? 'text-slate-700 hover:bg-slate-100'
-                    : 'text-white hover:bg-white/10'
+                  isTransparent
+                    ? 'text-white hover:bg-white/10'
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 data-testid="mobile-menu-toggle"
