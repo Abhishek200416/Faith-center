@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://rich-media-blogs.preview.emergentagent.com
-- Admin Panel: https://rich-media-blogs.preview.emergentagent.com/admin/login
+- Public Site: https://content-blocks-5.preview.emergentagent.com
+- Admin Panel: https://content-blocks-5.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
