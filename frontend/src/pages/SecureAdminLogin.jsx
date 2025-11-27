@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth, API } from "@/App";
+import { useAuth, API, ADMIN_KEY_ENCODED } from "@/App";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -51,7 +51,8 @@ const SecureAdminLogin = () => {
       if (response.data.token) {
         login(response.data.token, response.data.admin);
         toast.success("Login successful!");
-        navigate("/admin/dashboard");
+        // Navigate to secure admin panel with key in URL path
+        navigate(`/panel/${ADMIN_KEY_ENCODED}/dashboard`);
       } else {
         toast.error("Invalid response from server");
       }
