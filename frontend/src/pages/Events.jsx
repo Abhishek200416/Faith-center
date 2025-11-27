@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useBrand, API } from "@/App";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import { Calendar, MapPin, Clock, Loader2, X } from "lucide-react";
+import { Calendar, MapPin, Clock, Loader2, X, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -87,7 +88,7 @@ const Events = () => {
   return (
     <div className="fade-in">
       {/* Header */}
-      <section className="bg-gradient-to-br from-gray-50 to-gray-100 py-12 sm:py-16 md:py-20">
+      <section className="bg-gradient-to-br from-gray-50 to-gray-100 py-12 sm:py-16 md:py-20 relative">
         <div className="container text-center px-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6" data-testid="events-page-title">
             Events
@@ -95,6 +96,16 @@ const Events = () => {
           <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
             Join us for our upcoming events and connect with our community
           </p>
+          
+          {/* Announcements Link - Top Right */}
+          <Link 
+            to="/announcements" 
+            className="absolute top-4 right-4 sm:top-8 sm:right-8 flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
+          >
+            <Bell size={18} className="animate-bounce" />
+            <span className="hidden sm:inline text-sm font-semibold">Announcements</span>
+            <span className="sm:hidden text-sm font-semibold">News</span>
+          </Link>
         </div>
       </section>
 
