@@ -298,6 +298,61 @@ const AnnouncementsManager = () => {
                 />
               </div>
             </div>
+            
+            {/* Event Related Fields */}
+            <div className="border-t pt-4 mt-4">
+              <h3 className="font-medium text-gray-900 mb-3">Event Information (Optional)</h3>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="event_id">Link to Event</Label>
+                  <select
+                    id="event_id"
+                    value={formData.event_id}
+                    onChange={(e) => setFormData({ ...formData, event_id: e.target.value })}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    data-testid="announcement-event-select"
+                  >
+                    <option value="">No event linked</option>
+                    {events.map((event) => (
+                      <option key={event.id} value={event.id}>{event.title}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="location">Location</Label>
+                    <Input
+                      id="location"
+                      placeholder="e.g., Main Sanctuary, Church Hall"
+                      value={formData.location}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                      data-testid="announcement-location-input"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="event_time">Event Time</Label>
+                    <Input
+                      id="event_time"
+                      placeholder="e.g., Dec 3-7, 2025 | 6 PM - 9 PM"
+                      value={formData.event_time}
+                      onChange={(e) => setFormData({ ...formData, event_time: e.target.value })}
+                      data-testid="announcement-event-time-input"
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="requires_registration"
+                    checked={formData.requires_registration}
+                    onChange={(e) => setFormData({ ...formData, requires_registration: e.target.checked })}
+                    data-testid="announcement-registration-checkbox"
+                  />
+                  <Label htmlFor="requires_registration" className="mb-0">Requires Registration (Show Register button)</Label>
+                </div>
+              </div>
+            </div>
+            
             <div className="flex gap-3">
               <Button type="submit" data-testid="announcement-save-btn">{editingAnnouncement ? "Update" : "Create"} Announcement</Button>
               <Button type="button" variant="outline" onClick={resetForm} data-testid="announcement-cancel-btn">Cancel</Button>
@@ -313,6 +368,7 @@ const AnnouncementsManager = () => {
               <th>Image</th>
               <th>Title</th>
               <th>Urgent</th>
+              <th>Event</th>
               <th>Date</th>
               <th>Actions</th>
             </tr>
@@ -333,12 +389,19 @@ const AnnouncementsManager = () => {
                     </div>
                   )}
                 </td>
-                <td className="max-w-md truncate font-medium">{announcement.title}</td>
+                <td className="max-w-xs truncate font-medium">{announcement.title}</td>
                 <td>
                   {announcement.is_urgent ? (
                     <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded font-medium">Yes</span>
                   ) : (
                     <span className="text-gray-500">No</span>
+                  )}
+                </td>
+                <td>
+                  {announcement.event_id ? (
+                    <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded font-medium">Linked</span>
+                  ) : (
+                    <span className="text-gray-400">-</span>
                   )}
                 </td>
                 <td className="text-sm text-gray-600">{new Date(announcement.created_at).toLocaleDateString()}</td>
