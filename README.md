@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://adminaccess.preview.emergentagent.com
-- Admin Panel: https://adminaccess.preview.emergentagent.com/admin/login
+- Public Site: https://credential-manager-5.preview.emergentagent.com
+- Admin Panel: https://credential-manager-5.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
