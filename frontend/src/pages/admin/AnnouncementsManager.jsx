@@ -110,6 +110,10 @@ const AnnouncementsManager = () => {
       is_urgent: announcement.is_urgent,
       scheduled_start: announcement.scheduled_start || "",
       scheduled_end: announcement.scheduled_end || "",
+      event_id: announcement.event_id || "",
+      location: announcement.location || "",
+      event_time: announcement.event_time || "",
+      requires_registration: announcement.requires_registration || false,
     });
     setImagePreview(announcement.image_url || "");
     setShowForm(true);
@@ -123,6 +127,10 @@ const AnnouncementsManager = () => {
       is_urgent: false,
       scheduled_start: "",
       scheduled_end: "",
+      event_id: "",
+      location: "",
+      event_time: "",
+      requires_registration: false,
     });
     setImagePreview("");
     setEditingAnnouncement(null);
