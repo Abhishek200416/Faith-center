@@ -22,6 +22,7 @@ const BlogManager = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [excerpt, setExcerpt] = useState("");
+  const [author, setAuthor] = useState("Admin");
   const [imageUrl, setImageUrl] = useState("");
   const [published, setPublished] = useState(true);
   const [contentBlocks, setContentBlocks] = useState([]);
