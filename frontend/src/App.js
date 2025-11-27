@@ -229,6 +229,6 @@ function App() {
 }
 
 export default App;
-export { BrandContext, AuthContext, API, ADMIN_KEY_ENCODED, ADMIN_SECURE_KEY };
+export { BrandContext, AuthContext, API, ADMIN_KEY_PATH, ADMIN_SECURE_KEY };
 export const useBrand = () => useContext(BrandContext);
 export const useAuth = () => useContext(AuthContext);
