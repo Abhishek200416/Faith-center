@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Routes, Route, Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { useAuth, ADMIN_KEY_ENCODED } from "@/App";
+import { useAuth, ADMIN_KEY_PATH } from "@/App";
 import { LayoutDashboard, Calendar, Users, Megaphone, Mail, UserCircle, Settings, LogOut, DollarSign, Video, BookOpen, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -23,7 +23,7 @@ const AdminDashboard = ({ secureKey }) => {
   
   // Use the key from props or get from URL params
   const params = useParams();
-  const urlKey = secureKey || params.secureKey || ADMIN_KEY_ENCODED;
+  const urlKey = secureKey || params.secureKey || ADMIN_KEY_PATH;
   const basePath = `/panel/${urlKey}`;
 
   const handleLogout = () => {
