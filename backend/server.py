@@ -151,6 +151,11 @@ class Announcement(BaseModel):
     is_urgent: bool = False
     scheduled_start: Optional[str] = None
     scheduled_end: Optional[str] = None
+    # New fields for event-related announcements
+    event_id: Optional[str] = None  # Link to specific event
+    location: Optional[str] = None  # Event location
+    event_time: Optional[str] = None  # Event timing info
+    requires_registration: bool = False  # If event needs registration
     brand_id: str
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
@@ -161,6 +166,10 @@ class AnnouncementCreate(BaseModel):
     is_urgent: bool = False
     scheduled_start: Optional[str] = None
     scheduled_end: Optional[str] = None
+    event_id: Optional[str] = None
+    location: Optional[str] = None
+    event_time: Optional[str] = None
+    requires_registration: bool = False
     brand_id: str
 
 class AnnouncementUpdate(BaseModel):
@@ -170,6 +179,10 @@ class AnnouncementUpdate(BaseModel):
     is_urgent: Optional[bool] = None
     scheduled_start: Optional[str] = None
     scheduled_end: Optional[str] = None
+    event_id: Optional[str] = None
+    location: Optional[str] = None
+    event_time: Optional[str] = None
+    requires_registration: Optional[bool] = None
 
 class VolunteerApplication(BaseModel):
     model_config = ConfigDict(extra="ignore")
