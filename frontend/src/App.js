@@ -74,10 +74,9 @@ const ProtectedRoute = ({ children, authToken, admin, loading }) => {
 // Secure Admin Panel Wrapper
 const SecureAdminPanel = ({ authToken, admin, loading }) => {
   const { secureKey } = useParams();
-  const decodedKey = decodeURIComponent(secureKey || "");
   
-  // Validate the key
-  if (decodedKey !== ADMIN_SECURE_KEY) {
+  // Validate the URL-safe key
+  if (secureKey !== ADMIN_KEY_PATH) {
     return <PageNotFound />;
   }
   
