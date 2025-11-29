@@ -173,6 +173,10 @@ fc_events = [
         "image_url": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&q=80",
         "is_free": True,
         "accepts_donations": True,
+        "registration_enabled": True,
+        "registration_fields": {"mobile_number": True, "place": True, "category": True},
+        "category_options": ["General", "VIP", "Volunteer", "Speaker", "Media", "Youth", "Family"],
+        "registration_deadline": None,
         "created_at": datetime.utcnow().isoformat()
     },
     {
