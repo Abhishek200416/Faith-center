@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import ImageInputWithUpload from "@/components/ui/ImageInputWithUpload";
 import { toast } from "sonner";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2, Plus, Image as ImageIcon } from "lucide-react";
 
 const EventsManager = () => {
   const { currentBrand } = useBrand();
@@ -24,6 +25,8 @@ const EventsManager = () => {
     longitude: "",
     is_free: true,
     image_url: "",
+    uploaded_image: "",
+    use_uploaded_image: false,
   });
 
   useEffect(() => {
