@@ -216,19 +216,19 @@ const AttendeesManager = () => {
       ) : viewMode === "grouped" ? (
         <div className="space-y-6">
           {Object.entries(groupedByEvent).map(([eventTitle, eventAttendees]) => (
-            <div key={eventTitle} className="bg-white rounded-lg shadow overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 text-white">
+            <div key={eventTitle} className="bg-white rounded-lg shadow overflow-hidden border border-gray-200">
+              <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Calendar size={24} />
-                    <h3 className="text-xl font-bold">{eventTitle}</h3>
+                    <Calendar size={20} className="text-gray-600" />
+                    <h3 className="text-lg font-semibold text-gray-900">{eventTitle}</h3>
                   </div>
                   <div className="flex items-center gap-6 text-sm">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-gray-600">
                       <User size={16} />
                       <span>{eventAttendees.length} Registrations</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-gray-600">
                       <Users size={16} />
                       <span>{eventAttendees.reduce((sum, a) => sum + (a.guests || 1), 0)} Guests</span>
                     </div>
