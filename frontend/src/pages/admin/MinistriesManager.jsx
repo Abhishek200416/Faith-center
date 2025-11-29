@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import ImageInputWithUpload from "@/components/ui/ImageInputWithUpload";
 import { toast } from "sonner";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2, Plus, Image as ImageIcon } from "lucide-react";
 
 const MinistriesManager = () => {
   const { currentBrand } = useBrand();
@@ -18,6 +19,8 @@ const MinistriesManager = () => {
     title: "",
     description: "",
     image_url: "",
+    uploaded_image: "",
+    use_uploaded_image: false,
   });
 
   useEffect(() => {
@@ -78,6 +81,8 @@ const MinistriesManager = () => {
       title: ministry.title,
       description: ministry.description,
       image_url: ministry.image_url || "",
+      uploaded_image: ministry.uploaded_image || "",
+      use_uploaded_image: ministry.use_uploaded_image || false,
     });
     setShowForm(true);
   };
@@ -87,9 +92,21 @@ const MinistriesManager = () => {
       title: "",
       description: "",
       image_url: "",
+      uploaded_image: "",
+      use_uploaded_image: false,
     });
     setEditingMinistry(null);
     setShowForm(false);
+  };
+
+  // Get the active image source for display
+  const getMinistryImage = (ministry) => {
+    if (ministry.use_uploaded_image && ministry.uploaded_image) {
+      return ministry.uploaded_image.startsWith("http") 
+        ? ministry.uploaded_image 
+        : `${API.replace("/api", "")}${ministry.uploaded_image}`;
+    }
+    return ministry.image_url;
   };
 
   return (
@@ -126,16 +143,19 @@ const MinistriesManager = () => {
                 data-testid="ministry-description-input"
               />
             </div>
-            <div>
-              <Label htmlFor="image_url">Image URL</Label>
-              <Input
-                id="image_url"
-                value={formData.image_url}
-                onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                placeholder="https://example.com/image.jpg"
-                data-testid="ministry-image-input"
-              />
-            </div>
+            
+            {/* Image Input with URL and Upload options */}
+            <ImageInputWithUpload
+              label="Ministry Image"
+              imageUrl={formData.image_url}
+              uploadedImage={formData.uploaded_image}
+              useUploaded={formData.use_uploaded_image}
+              onImageUrlChange={(url) => setFormData({ ...formData, image_url: url })}
+              onUploadedImageChange={(path) => setFormData({ ...formData, uploaded_image: path })}
+              onUseUploadedChange={(use) => setFormData({ ...formData, use_uploaded_image: use })}
+              placeholder="https://example.com/ministry-image.jpg"
+            />
+
             <div className="flex gap-3">
               <Button type="submit" data-testid="ministry-save-btn">{editingMinistry ? "Update" : "Create"} Ministry</Button>
               <Button type="button" variant="outline" onClick={resetForm} data-testid="ministry-cancel-btn">Cancel</Button>
@@ -148,6 +168,7 @@ const MinistriesManager = () => {
         <table className="table">
           <thead>
             <tr>
+              <th>Image</th>
               <th>Title</th>
               <th>Description</th>
               <th>Actions</th>
@@ -156,6 +177,27 @@ const MinistriesManager = () => {
           <tbody>
             {ministries.map((ministry) => (
               <tr key={ministry.id} data-testid={`ministry-row-${ministry.id}`}>
+                <td>
+                  {getMinistryImage(ministry) ? (
+                    <div className="relative">
+                      <img 
+                        src={getMinistryImage(ministry)} 
+                        alt={ministry.title}
+                        className="w-16 h-12 object-cover rounded"
+                        onError={(e) => e.target.style.display = 'none'}
+                      />
+                      <span className={`absolute -top-1 -right-1 w-4 h-4 rounded-full text-[8px] flex items-center justify-center text-white ${
+                        ministry.use_uploaded_image ? 'bg-purple-500' : 'bg-blue-500'
+                      }`}>
+                        {ministry.use_uploaded_image ? 'U' : 'L'}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="w-16 h-12 bg-gray-100 rounded flex items-center justify-center">
+                      <ImageIcon size={16} className="text-gray-400" />
+                    </div>
+                  )}
+                </td>
                 <td>{ministry.title}</td>
                 <td className="max-w-md truncate">{ministry.description}</td>
                 <td>
