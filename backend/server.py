@@ -152,6 +152,15 @@ class EventCreate(BaseModel):
     uploaded_image: Optional[str] = None
     use_uploaded_image: bool = False
     brand_id: str
+    # Registration Configuration Fields
+    registration_enabled: bool = True
+    registration_fields: Optional[dict] = {
+        "mobile_number": True,
+        "place": True,
+        "category": True
+    }
+    category_options: Optional[list] = ["General", "VIP", "Volunteer", "Speaker", "Media", "Youth", "Family"]
+    registration_deadline: Optional[str] = None
 
 class EventAttendee(BaseModel):
     model_config = ConfigDict(extra="ignore")
