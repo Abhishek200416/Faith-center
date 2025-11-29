@@ -451,8 +451,12 @@ class Foundation(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str
     description: str
-    image_url: str
-    gallery_images: List[str] = []
+    image_url: Optional[str] = None
+    uploaded_image: Optional[str] = None  # Path to uploaded image
+    use_uploaded_image: bool = False  # Whether to use uploaded image or URL
+    gallery_images: List[str] = []  # List of image URLs
+    uploaded_gallery_images: List[str] = []  # List of uploaded image paths
+    use_uploaded_gallery: bool = False  # Whether to use uploaded gallery or URLs
     goal_amount: Optional[float] = None
     raised_amount: float = 0.0
     is_active: bool = True
@@ -462,8 +466,12 @@ class Foundation(BaseModel):
 class FoundationCreate(BaseModel):
     title: str
     description: str
-    image_url: str
+    image_url: Optional[str] = None
+    uploaded_image: Optional[str] = None
+    use_uploaded_image: bool = False
     gallery_images: List[str] = []
+    uploaded_gallery_images: List[str] = []
+    use_uploaded_gallery: bool = False
     goal_amount: Optional[float] = None
     brand_id: str
 
