@@ -171,11 +171,10 @@ class EventAttendeeCreate(BaseModel):
     name: str
     email: EmailStr
     phone: Optional[str] = None
-    mobile_number: Optional[str] = None  # PHASE 2: Added mobile number field
-    place: Optional[str] = None  # PHASE 2: Added place/location field
     guests: int = 1
     notes: Optional[str] = None
-    category: Optional[str] = None  # PHASE 3: Category for registration
+    # Dynamic field responses
+    custom_field_responses: Optional[Dict[str, Any]] = {}
     brand_id: str
 
 class Ministry(BaseModel):
