@@ -181,7 +181,7 @@ const AttendeesManager = () => {
                 onClick={() => setViewMode("grouped")}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   viewMode === "grouped"
-                    ? "bg-blue-600 text-white"
+                    ? "bg-gray-900 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
@@ -191,7 +191,7 @@ const AttendeesManager = () => {
                 onClick={() => setViewMode("table")}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   viewMode === "table"
-                    ? "bg-blue-600 text-white"
+                    ? "bg-gray-900 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
