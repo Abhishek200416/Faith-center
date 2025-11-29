@@ -16,6 +16,9 @@ const EventsManager = () => {
   const [events, setEvents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
+  const [attendeesByEvent, setAttendeesByEvent] = useState({});
+  const [showAttendeesModal, setShowAttendeesModal] = useState(false);
+  const [selectedEventForAttendees, setSelectedEventForAttendees] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
