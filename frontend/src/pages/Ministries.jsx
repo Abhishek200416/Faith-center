@@ -36,18 +36,6 @@ const Ministries = () => {
       setLoading(false);
     }
   };
-        phone: "",
-        ministry: "",
-        availability: "",
-        skills: "",
-        message: "",
-      });
-    } catch (error) {
-      toast.error("Failed to submit application. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   if (!currentBrand) {
     return (
