@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import ImageInputWithUpload from "@/components/ui/ImageInputWithUpload";
 import { toast } from "sonner";
-import { Pencil, Trash2, Plus, Image as ImageIcon } from "lucide-react";
+import { Pencil, Trash2, Plus, Image as ImageIcon, Users, Download, Mail, Phone, MapPin, X } from "lucide-react";
+import * as XLSX from 'xlsx';
 
 const EventsManager = () => {
   const { currentBrand } = useBrand();
