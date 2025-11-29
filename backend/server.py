@@ -94,6 +94,25 @@ class BrandCreate(BaseModel):
     hidden_nav_links: Optional[List[str]] = []
     navigation_links: Optional[List[Dict[str, Any]]] = None
 
+# PHASE 1: BrandUpdate model for partial updates (fixes Header Navigation Manager)
+class BrandUpdate(BaseModel):
+    name: Optional[str] = None
+    domain: Optional[str] = None
+    logo_url: Optional[str] = None
+    uploaded_logo: Optional[str] = None
+    use_uploaded_logo: Optional[bool] = None
+    primary_color: Optional[str] = None
+    secondary_color: Optional[str] = None
+    tagline: Optional[str] = None
+    hero_video_url: Optional[str] = None
+    hero_image_url: Optional[str] = None
+    uploaded_hero_image: Optional[str] = None
+    use_uploaded_hero_image: Optional[bool] = None
+    service_times: Optional[str] = None
+    location: Optional[str] = None
+    hidden_nav_links: Optional[List[str]] = None
+    navigation_links: Optional[List[Dict[str, Any]]] = None
+
 class Event(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
