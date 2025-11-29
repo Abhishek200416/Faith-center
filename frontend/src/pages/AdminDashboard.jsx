@@ -8,7 +8,6 @@ import DashboardHome from "./admin/DashboardHome";
 import EventsManager from "./admin/EventsManager";
 import MinistriesManager from "./admin/MinistriesManager";
 import AnnouncementsManager from "./admin/AnnouncementsManager";
-import VolunteersManager from "./admin/VolunteersManager";
 import LiveStreamManager from "./admin/LiveStreamManager";
 import AttendeesManager from "./admin/AttendeesManager";
 import BlogManager from "./admin/BlogManager";
