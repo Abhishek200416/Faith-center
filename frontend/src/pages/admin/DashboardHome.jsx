@@ -95,7 +95,7 @@ const DashboardHome = () => {
           <li>Create and manage events for your community</li>
           <li>Add or update ministry teams and descriptions</li>
           <li>Post announcements and mark urgent items</li>
-          <li>Review and respond to volunteer applications</li>
+          <li>View and manage event registrations and attendees</li>
           <li>Manage brand settings and appearance</li>
         </ul>
       </div>
