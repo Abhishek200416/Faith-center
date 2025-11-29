@@ -184,58 +184,18 @@ const AnnouncementsManager = () => {
               />
             </div>
             
-            <div>
-              <Label htmlFor="image">Featured Image</Label>
-              <div className="mt-2">
-                {imagePreview ? (
-                  <div className="relative inline-block">
-                    <img 
-                      src={imagePreview} 
-                      alt="Preview" 
-                      className="h-40 w-auto rounded-lg object-cover border-2 border-gray-200"
-                    />
-                    <button
-                      type="button"
-                      onClick={removeImage}
-                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                    >
-                      <X size={16} />
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-3">
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      id="image"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                      data-testid="announcement-image-input"
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => fileInputRef.current?.click()}
-                      disabled={uploading}
-                    >
-                      {uploading ? (
-                        <>
-                          <Upload size={18} className="mr-2 animate-spin" />
-                          Uploading...
-                        </>
-                      ) : (
-                        <>
-                          <ImageIcon size={18} className="mr-2" />
-                          Upload Image
-                        </>
-                      )}
-                    </Button>
-                    <span className="text-xs text-gray-500">Max 5MB (JPG, PNG, GIF, WebP)</span>
-                  </div>
-                )}
-              </div>
-            </div>
+            {/* Image Input with URL and Upload options */}
+            <ImageInputWithUpload
+              label="Featured Image"
+              imageUrl={formData.image_url}
+              uploadedImage={formData.uploaded_image}
+              useUploaded={formData.use_uploaded_image}
+              onImageUrlChange={(url) => setFormData({ ...formData, image_url: url })}
+              onUploadedImageChange={(path) => setFormData({ ...formData, uploaded_image: path })}
+              onUseUploadedChange={(use) => setFormData({ ...formData, use_uploaded_image: use })}
+              placeholder="https://example.com/announcement-image.jpg"
+            />
+
             <div className="flex items-center space-x-2">
               <input
                 type="checkbox"
