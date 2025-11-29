@@ -87,7 +87,6 @@ const AdminDashboard = ({ secureKey }) => {
           <Route path="dashboard" element={<DashboardHome />} />
           <Route path="header-navigation" element={<HeaderNavigationManager />} />
           <Route path="events" element={<EventsManager />} />
-          <Route path="attendees" element={<AttendeesManager />} />
           <Route path="ministries" element={<MinistriesManager />} />
           <Route path="blogs" element={<BlogManager />} />
           <Route path="countdowns" element={<CountdownManager />} />
