@@ -698,6 +698,139 @@ blogs = [
 
 db.blogs.insert_many(blogs)
 
+# Create sample event attendees
+print("Creating event attendees...")
+db.event_attendees.delete_many({})
+
+event_attendees = [
+    # Attendees for REVIVE 2025 event
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": ndm_events[0]["id"],  # REVIVE 2025
+        "brand_id": ndm_id,
+        "name": "John Smith",
+        "email": "john.smith@email.com",
+        "phone": "+919876543201",
+        "guests": 2,
+        "created_at": (now - timedelta(days=5)).isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": ndm_events[0]["id"],  # REVIVE 2025
+        "brand_id": ndm_id,
+        "name": "Mary Johnson",
+        "email": "mary.johnson@email.com",
+        "phone": "+919876543202",
+        "guests": 1,
+        "created_at": (now - timedelta(days=4)).isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": ndm_events[0]["id"],  # REVIVE 2025
+        "brand_id": ndm_id,
+        "name": "David Wilson",
+        "email": "david.wilson@email.com",
+        "phone": "+919876543203",
+        "guests": 3,
+        "created_at": (now - timedelta(days=3)).isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": ndm_events[0]["id"],  # REVIVE 2025
+        "brand_id": ndm_id,
+        "name": "Sarah Brown",
+        "email": "sarah.brown@email.com",
+        "phone": "+919876543204",
+        "guests": 2,
+        "created_at": (now - timedelta(days=2)).isoformat()
+    },
+    # Attendees for Youth Conference
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": ndm_events[1]["id"],  # Youth Conference
+        "brand_id": ndm_id,
+        "name": "Michael Davis",
+        "email": "michael.davis@email.com",
+        "phone": "+919876543205",
+        "guests": 1,
+        "created_at": (now - timedelta(days=3)).isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": ndm_events[1]["id"],  # Youth Conference
+        "brand_id": ndm_id,
+        "name": "Emily Taylor",
+        "email": "emily.taylor@email.com",
+        "phone": "+919876543206",
+        "guests": 1,
+        "created_at": (now - timedelta(days=2)).isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": ndm_events[1]["id"],  # Youth Conference
+        "brand_id": ndm_id,
+        "name": "James Anderson",
+        "email": "james.anderson@email.com",
+        "phone": "+919876543207",
+        "guests": 1,
+        "created_at": (now - timedelta(days=1)).isoformat()
+    },
+    # Attendees for Prayer Summit
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": ndm_events[2]["id"],  # Prayer Summit
+        "brand_id": ndm_id,
+        "name": "Linda Martinez",
+        "email": "linda.martinez@email.com",
+        "phone": "+919876543208",
+        "guests": 2,
+        "created_at": (now - timedelta(days=6)).isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": ndm_events[2]["id"],  # Prayer Summit
+        "brand_id": ndm_id,
+        "name": "Robert Garcia",
+        "email": "robert.garcia@email.com",
+        "phone": "+919876543209",
+        "guests": 1,
+        "created_at": (now - timedelta(days=5)).isoformat()
+    },
+    # Attendees for Faith Centre Annual Conference
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": fc_events[0]["id"],  # Annual Faith Conference
+        "brand_id": fc_id,
+        "name": "Jennifer White",
+        "email": "jennifer.white@email.com",
+        "phone": "+919876543210",
+        "guests": 2,
+        "created_at": (now - timedelta(days=4)).isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": fc_events[0]["id"],  # Annual Faith Conference
+        "brand_id": fc_id,
+        "name": "William Harris",
+        "email": "william.harris@email.com",
+        "phone": "+919876543211",
+        "guests": 4,
+        "created_at": (now - timedelta(days=3)).isoformat()
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "event_id": fc_events[0]["id"],  # Annual Faith Conference
+        "brand_id": fc_id,
+        "name": "Patricia Clark",
+        "email": "patricia.clark@email.com",
+        "phone": "+919876543212",
+        "guests": 1,
+        "created_at": (now - timedelta(days=2)).isoformat()
+    }
+]
+
+db.event_attendees.insert_many(event_attendees)
+
 # Create admin users
 print("Creating admin users...")
 from passlib.context import CryptContext
