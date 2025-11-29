@@ -128,14 +128,9 @@ class Event(BaseModel):
     uploaded_image: Optional[str] = None  # Path to uploaded image
     use_uploaded_image: bool = False  # Whether to use uploaded image or URL
     brand_id: str
-    # Registration Configuration Fields
+    # Dynamic Registration Fields Configuration
     registration_enabled: bool = True  # Enable/disable registration for this event
-    registration_fields: Optional[dict] = {  # Which fields to show in registration form
-        "mobile_number": True,
-        "place": True,
-        "category": True
-    }
-    category_options: Optional[list] = ["General", "VIP", "Volunteer", "Speaker", "Media", "Youth", "Family"]  # Category dropdown options
+    custom_registration_fields: Optional[List[Dict[str, Any]]] = []  # Dynamic field configuration
     registration_deadline: Optional[str] = None  # Optional registration deadline date
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
