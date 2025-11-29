@@ -74,7 +74,7 @@ const Events = () => {
       });
       toast.success("Successfully registered for the event!");
       setShowRegistrationModal(false);
-      setRegistrationData({ name: "", email: "", phone: "", guests: 1, notes: "" });
+      setRegistrationData({ name: "", email: "", phone: "", mobile_number: "", place: "", guests: 1, notes: "", category: "" });
     } catch (error) {
       toast.error("Failed to register. Please try again.");
     }
