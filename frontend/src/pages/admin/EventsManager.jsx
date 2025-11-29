@@ -227,16 +227,19 @@ const EventsManager = () => {
                 data-testid="event-description-input"
               />
             </div>
-            <div>
-              <Label htmlFor="image_url">Image URL</Label>
-              <Input
-                id="image_url"
-                value={formData.image_url}
-                onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                placeholder="https://example.com/image.jpg"
-                data-testid="event-image-input"
-              />
-            </div>
+            
+            {/* Image Input with URL and Upload options */}
+            <ImageInputWithUpload
+              label="Event Image"
+              imageUrl={formData.image_url}
+              uploadedImage={formData.uploaded_image}
+              useUploaded={formData.use_uploaded_image}
+              onImageUrlChange={(url) => setFormData({ ...formData, image_url: url })}
+              onUploadedImageChange={(path) => setFormData({ ...formData, uploaded_image: path })}
+              onUseUploadedChange={(use) => setFormData({ ...formData, use_uploaded_image: use })}
+              placeholder="https://example.com/event-image.jpg"
+            />
+
             <div className="flex items-center space-x-2">
               <input
                 type="checkbox"
@@ -259,6 +262,7 @@ const EventsManager = () => {
         <table className="table">
           <thead>
             <tr>
+              <th>Image</th>
               <th>Title</th>
               <th>Date</th>
               <th>Location</th>
@@ -270,6 +274,27 @@ const EventsManager = () => {
           <tbody>
             {events.map((event) => (
               <tr key={event.id} data-testid={`event-row-${event.id}`}>
+                <td>
+                  {getEventImage(event) ? (
+                    <div className="relative">
+                      <img 
+                        src={getEventImage(event)} 
+                        alt={event.title}
+                        className="w-16 h-12 object-cover rounded"
+                        onError={(e) => e.target.style.display = 'none'}
+                      />
+                      <span className={`absolute -top-1 -right-1 w-4 h-4 rounded-full text-[8px] flex items-center justify-center text-white ${
+                        event.use_uploaded_image ? 'bg-purple-500' : 'bg-blue-500'
+                      }`}>
+                        {event.use_uploaded_image ? 'U' : 'L'}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="w-16 h-12 bg-gray-100 rounded flex items-center justify-center">
+                      <ImageIcon size={16} className="text-gray-400" />
+                    </div>
+                  )}
+                </td>
                 <td>{event.title}</td>
                 <td>{new Date(event.date).toLocaleDateString()}</td>
                 <td>{event.location}</td>
