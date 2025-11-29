@@ -2416,6 +2416,176 @@ def test_phase5_api_health_check():
         print(f"   ❌ Failed APIs: {failed_apis}")
         return False
 
+# ========== VOLUNTEER SYSTEM REMOVAL TESTS ==========
+
+def test_volunteer_endpoints_removed():
+    """Test that volunteer endpoints return 404 Not Found"""
+    print("🔍 Testing Volunteer Endpoints Removal...")
+    
+    volunteer_endpoints = [
+        ("GET", f"{BACKEND_URL}/volunteers"),
+        ("POST", f"{BACKEND_URL}/volunteers"),
+        ("PUT", f"{BACKEND_URL}/volunteers/test-id/status")
+    ]
+    
+    all_removed = True
+    
+    for method, url in volunteer_endpoints:
+        try:
+            print(f"   Testing {method} {url.replace(BACKEND_URL, '')}...")
+            
+            if method == "GET":
+                response = requests.get(url, timeout=10)
+            elif method == "POST":
+                response = requests.post(url, json={"test": "data"}, headers={"Content-Type": "application/json"}, timeout=10)
+            elif method == "PUT":
+                response = requests.put(url, json={"status": "active"}, headers={"Content-Type": "application/json"}, timeout=10)
+            
+            print(f"   Status Code: {response.status_code}")
+            
+            if response.status_code == 404:
+                print(f"   ✅ {method} endpoint correctly returns 404 Not Found")
+            else:
+                print(f"   ❌ {method} endpoint should return 404, got {response.status_code}")
+                print(f"   Response: {response.text[:200]}...")
+                all_removed = False
+                
+        except Exception as e:
+            print(f"   ❌ Exception testing {method} endpoint: {str(e)}")
+            all_removed = False
+    
+    if all_removed:
+        print("   ✅ All volunteer endpoints correctly removed (return 404)")
+        return True
+    else:
+        print("   ❌ Some volunteer endpoints still exist")
+        return False
+
+def test_analytics_no_volunteers(admin_token):
+    """Test that analytics endpoint does NOT include volunteers in totals"""
+    print("🔍 Testing Analytics Endpoint - No Volunteers...")
+    
+    try:
+        headers = {
+            "Authorization": f"Bearer {admin_token}",
+            "Content-Type": "application/json"
+        }
+        
+        response = requests.get(
+            f"{BACKEND_URL}/analytics/overview",
+            headers=headers,
+            timeout=10
+        )
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            print(f"   Response Type: {type(result)}")
+            
+            if isinstance(result, dict) and "totals" in result:
+                totals = result["totals"]
+                print(f"   Analytics Totals Keys: {list(totals.keys())}")
+                
+                # Check that volunteers is NOT in totals
+                if "volunteers" in totals:
+                    print(f"   ❌ Analytics still includes 'volunteers' in totals: {totals['volunteers']}")
+                    return False
+                else:
+                    print("   ✅ Analytics does NOT include 'volunteers' in totals")
+                
+                # Check that attendees IS in totals
+                if "attendees" in totals:
+                    print(f"   ✅ Analytics includes 'attendees' in totals: {totals['attendees']}")
+                else:
+                    print("   ❌ Analytics missing 'attendees' in totals")
+                    return False
+                
+                # Check recent activity does not include volunteers
+                if "recent_activity" in result:
+                    recent_activity = result["recent_activity"]
+                    print(f"   Recent Activity Keys: {list(recent_activity.keys())}")
+                    
+                    if "volunteers" in recent_activity:
+                        print(f"   ❌ Recent activity still includes 'volunteers'")
+                        return False
+                    else:
+                        print("   ✅ Recent activity does NOT include 'volunteers'")
+                    
+                    if "attendees" in recent_activity:
+                        print(f"   ✅ Recent activity includes 'attendees': {len(recent_activity['attendees'])} items")
+                    else:
+                        print("   ⚠️  Recent activity missing 'attendees' (may be empty)")
+                
+                print("   ✅ Analytics endpoint correctly updated - no volunteers, includes attendees")
+                return True
+            else:
+                print("   ❌ Response missing 'totals' field")
+                print(f"   Response structure: {list(result.keys()) if isinstance(result, dict) else 'Not a dict'}")
+                return False
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False
+
+def test_attendees_still_working(admin_token, brand_id):
+    """Test that attendees endpoints still work correctly"""
+    print("🔍 Testing Attendees Endpoints Still Working...")
+    
+    try:
+        headers = {
+            "Authorization": f"Bearer {admin_token}",
+            "Content-Type": "application/json"
+        }
+        
+        # Test GET /api/attendees
+        url = f"{BACKEND_URL}/attendees"
+        if brand_id:
+            url += f"?brand_id={brand_id}"
+        
+        response = requests.get(url, headers=headers, timeout=10)
+        print(f"   Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            print(f"   Response Type: {type(result)}")
+            
+            if isinstance(result, list):
+                print(f"   Attendees Count: {len(result)}")
+                
+                if len(result) > 0:
+                    print(f"   Sample Attendee: {result[0].get('name', 'No name')} - {result[0].get('email', 'No email')}")
+                    
+                    # Verify attendee structure
+                    required_fields = ['id', 'event_id', 'name', 'email', 'brand_id', 'created_at']
+                    sample = result[0]
+                    
+                    missing_fields = [field for field in required_fields if field not in sample]
+                    if missing_fields:
+                        print(f"   ❌ Missing fields in attendee: {missing_fields}")
+                        return False
+                    else:
+                        print("   ✅ Attendee has all required fields")
+                else:
+                    print("   ⚠️  No attendees found (may be empty)")
+                
+                print("   ✅ Attendees endpoint working correctly")
+                return True
+            else:
+                print("   ❌ Response is not a list")
+                return False
+        else:
+            print(f"   ❌ Failed with status {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"   ❌ Exception: {str(e)}")
+        return False
+
 def main():
     """Run Phase 5 Backend API Testing focused on review request requirements"""
     print("🚀 Starting Phase 5 Backend API Testing...")
