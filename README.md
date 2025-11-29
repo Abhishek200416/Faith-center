@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://parish-connect-22.preview.emergentagent.com
-- Admin Panel: https://parish-connect-22.preview.emergentagent.com/admin/login
+- Public Site: https://cardsafe.preview.emergentagent.com
+- Admin Panel: https://cardsafe.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
