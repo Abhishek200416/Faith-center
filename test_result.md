@@ -419,6 +419,42 @@ backend:
 
 
 frontend:
+  - task: "AttendeesManager UI Cleanup - Remove Colors and Match Other Tabs"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/admin/AttendeesManager.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ UI CLEANUP COMPLETE: 1) Removed all colorful gradients from stat cards (blue, purple, green -> simple white cards with gray borders), 2) Changed all gradient headers to simple gray backgrounds, 3) Updated all blue buttons to gray-900 for consistency, 4) Removed colored icon backgrounds (blue -> gray), 5) Simplified view mode buttons (blue -> gray-900), 6) Excel export button changed to gray-900, 7) All designs now match the clean, minimal style of other admin tabs (MinistriesManager, EventsManager). Attendees page now has professional, subtle styling without excessive colors."
+
+  - task: "EventsManager - Add Registration Configuration Section"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/admin/EventsManager.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ REGISTRATION CONFIGURATION ADDED: 1) Added 'Registration Settings' section to event creation/editing form, 2) Enable/disable registration checkbox, 3) Configure which fields to show in registration form: mobile_number, place, category (each with individual checkbox), 4) Category options input (comma-separated values), 5) Registration deadline date picker (optional), 6) Form data includes all new fields with proper defaults, 7) handleEdit and resetForm updated to manage new fields, 8) All registration settings saved to backend when creating/editing events. Admin can now fully configure event registration forms."
+
+  - task: "EventsManager - Integrate Attendees View and Export"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/admin/EventsManager.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ ATTENDEES INTEGRATION COMPLETE: 1) Events table now loads attendees data and shows count badge for each event, 2) Added 'Registrations' column replacing 'Coordinates' and 'Free' columns, 3) Each event shows attendee count badge with Users icon, 4) Events with registrations show two action buttons: View Attendees (Users icon) and Export to Excel (Download icon), 5) Created modal popup to view attendees per event with full details table (name, category, contact, place, guests, registration date), 6) Excel export per event includes all attendee data (event, category, name, email, phone, mobile, place, guests, notes, registration date), 7) Removed clutter from table (location moved under title as subtitle), 8) Added category badge colors and proper formatting in modal. Attendees now fully integrated into Events tab with easy access and export."
+
   - task: "CountdownManager admin page for managing live stream countdowns"
     implemented: true
     working: "NA"
