@@ -46,51 +46,6 @@ const CountdownManager = () => {
     }
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith("image/")) {
-        toast.error("Please select an image file");
-        return;
-      }
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error("Image size should be less than 5MB");
-        return;
-      }
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const uploadImage = async () => {
-    if (!imageFile) return null;
-
-    setUploadingImage(true);
-    try {
-      const formData = new FormData();
-      formData.append("file", imageFile);
-
-      const response = await axios.post(`${API}/upload-image`, formData, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "multipart/form-data"
-        }
-      });
-
-      return response.data.image_url;
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      toast.error("Failed to upload image");
-      return null;
-    } finally {
-      setUploadingImage(false);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -102,19 +57,8 @@ const CountdownManager = () => {
     }
 
     try {
-      let banner_image_url = formData.banner_image_url;
-
-      // Upload image if a new file is selected
-      if (imageFile) {
-        const uploadedUrl = await uploadImage();
-        if (uploadedUrl) {
-          banner_image_url = uploadedUrl;
-        }
-      }
-
       const submitData = {
         ...formData,
-        banner_image_url,
         brand_id: currentBrand.id,
         priority: parseInt(formData.priority)
       };
