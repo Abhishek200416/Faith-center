@@ -396,55 +396,17 @@ const CountdownManager = () => {
                   </p>
                 </div>
 
-                {/* Banner Image */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Event Banner
-                  </label>
-                  
-                  {imagePreview && (
-                    <div className="mb-4 relative">
-                      <img
-                        src={imagePreview}
-                        alt="Preview"
-                        className="w-full h-48 object-cover rounded-lg"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setImagePreview(null);
-                          setImageFile(null);
-                          setFormData({ ...formData, banner_image_url: "" });
-                        }}
-                        className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    </div>
-                  )}
-
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-purple-500 transition-colors">
-                    <input
-                      type="file"
-                      id="image-upload"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      className="hidden"
-                    />
-                    <label
-                      htmlFor="image-upload"
-                      className="cursor-pointer flex flex-col items-center"
-                    >
-                      <ImageIcon className="h-12 w-12 text-gray-400 mb-2" />
-                      <span className="text-sm font-medium text-gray-700">
-                        Click to upload banner image
-                      </span>
-                      <span className="text-xs text-gray-500 mt-1">
-                        PNG, JPG, GIF up to 5MB
-                      </span>
-                    </label>
-                  </div>
-                </div>
+                {/* Banner Image with URL and Upload options */}
+                <ImageInputWithUpload
+                  label="Event Banner"
+                  imageUrl={formData.banner_image_url}
+                  uploadedImage={formData.uploaded_banner_image}
+                  useUploaded={formData.use_uploaded_banner}
+                  onImageUrlChange={(url) => setFormData({ ...formData, banner_image_url: url })}
+                  onUploadedImageChange={(path) => setFormData({ ...formData, uploaded_banner_image: path })}
+                  onUseUploadedChange={(use) => setFormData({ ...formData, use_uploaded_banner: use })}
+                  placeholder="https://example.com/event-banner.jpg"
+                />
 
                 {/* Active Status */}
                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
@@ -490,19 +452,9 @@ const CountdownManager = () => {
                 </Button>
                 <Button
                   type="submit"
-                  disabled={uploadingImage}
                   className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
                 >
-                  {uploadingImage ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Uploading...
-                    </>
-                  ) : editingCountdown ? (
-                    "Update Countdown"
-                  ) : (
-                    "Create Countdown"
-                  )}
+                  {editingCountdown ? "Update Countdown" : "Create Countdown"}
                 </Button>
               </div>
             </form>
