@@ -134,6 +134,14 @@ const EventsManager = () => {
       image_url: "",
       uploaded_image: "",
       use_uploaded_image: false,
+      registration_enabled: true,
+      registration_fields: {
+        mobile_number: true,
+        place: true,
+        category: true
+      },
+      category_options: ["General", "VIP", "Volunteer", "Speaker", "Media", "Youth", "Family"],
+      registration_deadline: "",
     });
     setEditingEvent(null);
     setShowForm(false);
