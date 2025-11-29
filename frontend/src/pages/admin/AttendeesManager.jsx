@@ -113,7 +113,7 @@ const AttendeesManager = () => {
         {filteredAttendees.length > 0 && (
           <button
             onClick={exportToExcel}
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium shadow-md transition-colors"
+            className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 rounded-lg font-medium shadow transition-colors"
           >
             <Download size={20} />
             Export to Excel
