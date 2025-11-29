@@ -131,14 +131,6 @@ const Ministries = () => {
                   <div className="card-content">
                     <h3 className="text-lg sm:text-xl font-semibold mb-2 line-clamp-2">{ministry.title}</h3>
                     <p className="text-gray-600 text-sm mb-4 line-clamp-3">{ministry.description}</p>
-                    <Button 
-                      size="sm" 
-                      onClick={() => handleJoinClick(ministry)} 
-                      data-testid={`join-ministry-btn-${ministry.id}`}
-                      className="w-full sm:w-auto transition-all duration-300 hover:scale-105"
-                    >
-                      Join This Ministry
-                    </Button>
                   </div>
                 </div>
               ))}
