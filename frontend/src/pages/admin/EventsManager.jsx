@@ -275,6 +275,93 @@ const EventsManager = () => {
               />
               <Label htmlFor="is_free" className="mb-0">Free Event</Label>
             </div>
+
+            {/* Registration Configuration Section */}
+            <div className="border-t pt-4 mt-4">
+              <h3 className="text-lg font-semibold mb-4">Registration Settings</h3>
+              
+              <div className="flex items-center space-x-2 mb-4">
+                <input
+                  type="checkbox"
+                  id="registration_enabled"
+                  checked={formData.registration_enabled}
+                  onChange={(e) => setFormData({ ...formData, registration_enabled: e.target.checked })}
+                />
+                <Label htmlFor="registration_enabled" className="mb-0">Enable Event Registration</Label>
+              </div>
+
+              {formData.registration_enabled && (
+                <>
+                  <div className="mb-4">
+                    <Label className="mb-2 block">Registration Form Fields</Label>
+                    <div className="space-y-2 pl-4">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="field_mobile"
+                          checked={formData.registration_fields.mobile_number}
+                          onChange={(e) => setFormData({ 
+                            ...formData, 
+                            registration_fields: { ...formData.registration_fields, mobile_number: e.target.checked }
+                          })}
+                        />
+                        <Label htmlFor="field_mobile" className="mb-0 font-normal">Show Mobile Number Field</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="field_place"
+                          checked={formData.registration_fields.place}
+                          onChange={(e) => setFormData({ 
+                            ...formData, 
+                            registration_fields: { ...formData.registration_fields, place: e.target.checked }
+                          })}
+                        />
+                        <Label htmlFor="field_place" className="mb-0 font-normal">Show Place/Location Field</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="field_category"
+                          checked={formData.registration_fields.category}
+                          onChange={(e) => setFormData({ 
+                            ...formData, 
+                            registration_fields: { ...formData.registration_fields, category: e.target.checked }
+                          })}
+                        />
+                        <Label htmlFor="field_category" className="mb-0 font-normal">Show Category Field</Label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {formData.registration_fields.category && (
+                    <div className="mb-4">
+                      <Label htmlFor="category_options">Category Options (comma-separated)</Label>
+                      <Input
+                        id="category_options"
+                        value={formData.category_options.join(", ")}
+                        onChange={(e) => setFormData({ 
+                          ...formData, 
+                          category_options: e.target.value.split(",").map(c => c.trim()).filter(c => c)
+                        })}
+                        placeholder="General, VIP, Volunteer, Speaker"
+                      />
+                    </div>
+                  )}
+
+                  <div>
+                    <Label htmlFor="registration_deadline">Registration Deadline (Optional)</Label>
+                    <Input
+                      id="registration_deadline"
+                      type="date"
+                      value={formData.registration_deadline}
+                      onChange={(e) => setFormData({ ...formData, registration_deadline: e.target.value })}
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+
             <div className="flex gap-3">
               <Button type="submit" data-testid="event-save-btn">{editingEvent ? "Update" : "Create"} Event</Button>
               <Button type="button" variant="outline" onClick={resetForm} data-testid="event-cancel-btn">Cancel</Button>
