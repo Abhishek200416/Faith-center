@@ -163,6 +163,8 @@ class Announcement(BaseModel):
     title: str
     content: str
     image_url: Optional[str] = None  # Featured image for announcement
+    uploaded_image: Optional[str] = None  # Path to uploaded image
+    use_uploaded_image: bool = False  # Whether to use uploaded image or URL
     is_urgent: bool = False
     scheduled_start: Optional[str] = None
     scheduled_end: Optional[str] = None
@@ -178,6 +180,8 @@ class AnnouncementCreate(BaseModel):
     title: str
     content: str
     image_url: Optional[str] = None
+    uploaded_image: Optional[str] = None
+    use_uploaded_image: bool = False
     is_urgent: bool = False
     scheduled_start: Optional[str] = None
     scheduled_end: Optional[str] = None
@@ -191,6 +195,8 @@ class AnnouncementUpdate(BaseModel):
     title: Optional[str] = None
     content: Optional[str] = None
     image_url: Optional[str] = None
+    uploaded_image: Optional[str] = None
+    use_uploaded_image: Optional[bool] = None
     is_urgent: Optional[bool] = None
     scheduled_start: Optional[str] = None
     scheduled_end: Optional[str] = None
