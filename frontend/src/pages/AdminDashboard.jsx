@@ -5,11 +5,10 @@ import { LayoutDashboard, Calendar, Users, Megaphone, Mail, LogOut, Video, BookO
 import { Button } from "@/components/ui/button";
 
 import DashboardHome from "./admin/DashboardHome";
-import EventsManager from "./admin/EventsManager";
+import EventsManager from "./admin/EventsManagerEnhanced";
 import MinistriesManager from "./admin/MinistriesManager";
 import AnnouncementsManager from "./admin/AnnouncementsManager";
 import LiveStreamManager from "./admin/LiveStreamManager";
-import AttendeesManager from "./admin/AttendeesManager";
 import BlogManager from "./admin/BlogManager";
 import CountdownManager from "./admin/CountdownManager";
 import HeaderNavigationManager from "./admin/HeaderNavigationManagerEnhanced";
