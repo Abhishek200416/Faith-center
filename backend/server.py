@@ -717,10 +717,15 @@ async def create_brand(brand_data: BrandCreate, admin = Depends(get_current_admi
     return brand
 
 @api_router.put("/brands/{brand_id}", response_model=Brand)
-async def update_brand(brand_id: str, brand_data: BrandCreate, admin = Depends(get_current_admin)):
+async def update_brand(brand_id: str, brand_data: BrandUpdate, admin = Depends(get_current_admin)):
+    # PHASE 1 FIX: Only update fields that are provided (not None)
+    update_data = {k: v for k, v in brand_data.model_dump().items() if v is not None}
+    if not update_data:
+        raise HTTPException(status_code=400, detail="No fields to update")
+    
     result = await db.brands.update_one(
         {"id": brand_id},
-        {"$set": brand_data.model_dump()}
+        {"$set": update_data}
     )
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Brand not found")
