@@ -245,6 +245,7 @@ const EventsManager = () => {
               <th>Title</th>
               <th>Date</th>
               <th>Location</th>
+              <th>Coordinates</th>
               <th>Free</th>
               <th>Actions</th>
             </tr>
@@ -255,6 +256,15 @@ const EventsManager = () => {
                 <td>{event.title}</td>
                 <td>{new Date(event.date).toLocaleDateString()}</td>
                 <td>{event.location}</td>
+                <td>
+                  {event.latitude && event.longitude ? (
+                    <span className="text-sm text-gray-600">
+                      {event.latitude.toFixed(4)}, {event.longitude.toFixed(4)}
+                    </span>
+                  ) : (
+                    <span className="text-sm text-gray-400">Not set</span>
+                  )}
+                </td>
                 <td>{event.is_free ? "Yes" : "No"}</td>
                 <td>
                   <div className="flex gap-2">
