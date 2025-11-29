@@ -107,6 +107,8 @@ const AnnouncementsManager = () => {
       title: announcement.title,
       content: announcement.content,
       image_url: announcement.image_url || "",
+      uploaded_image: announcement.uploaded_image || "",
+      use_uploaded_image: announcement.use_uploaded_image || false,
       is_urgent: announcement.is_urgent,
       scheduled_start: announcement.scheduled_start || "",
       scheduled_end: announcement.scheduled_end || "",
@@ -115,7 +117,6 @@ const AnnouncementsManager = () => {
       event_time: announcement.event_time || "",
       requires_registration: announcement.requires_registration || false,
     });
-    setImagePreview(announcement.image_url || "");
     setShowForm(true);
   };
 
@@ -124,6 +125,8 @@ const AnnouncementsManager = () => {
       title: "",
       content: "",
       image_url: "",
+      uploaded_image: "",
+      use_uploaded_image: false,
       is_urgent: false,
       scheduled_start: "",
       scheduled_end: "",
@@ -132,51 +135,18 @@ const AnnouncementsManager = () => {
       event_time: "",
       requires_registration: false,
     });
-    setImagePreview("");
     setEditingAnnouncement(null);
     setShowForm(false);
   };
 
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image size should be less than 5MB");
-      return;
+  // Get the active image source for display
+  const getAnnouncementImage = (announcement) => {
+    if (announcement.use_uploaded_image && announcement.uploaded_image) {
+      return announcement.uploaded_image.startsWith("http") 
+        ? announcement.uploaded_image 
+        : `${API.replace("/api", "")}${announcement.uploaded_image}`;
     }
-
-    setUploading(true);
-    try {
-      const formDataUpload = new FormData();
-      formDataUpload.append("file", file);
-
-      const response = await axios.post(`${API}/upload-image`, formDataUpload, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-
-      const imageUrl = `${API}${response.data.image_url}`;
-      setFormData({ ...formData, image_url: imageUrl });
-      setImagePreview(imageUrl);
-      toast.success("Image uploaded successfully!");
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      toast.error("Failed to upload image. Please try again.");
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const removeImage = () => {
-    setFormData({ ...formData, image_url: "" });
-    setImagePreview("");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+    return announcement.image_url;
   };
 
   return (
