@@ -20,6 +20,8 @@ const EventsManager = () => {
     date: "",
     time: "",
     location: "",
+    latitude: "",
+    longitude: "",
     is_free: true,
     image_url: "",
   });
