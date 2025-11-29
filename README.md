@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://event-registration-5.preview.emergentagent.com
-- Admin Panel: https://event-registration-5.preview.emergentagent.com/admin/login
+- Public Site: https://faith-mgmt-1.preview.emergentagent.com
+- Admin Panel: https://faith-mgmt-1.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
