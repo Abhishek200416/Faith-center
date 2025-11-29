@@ -167,16 +167,19 @@ const BrandsManager = () => {
                 data-testid="brand-tagline-input"
               />
             </div>
-            <div>
-              <Label htmlFor="logo_url">Logo URL</Label>
-              <Input
-                id="logo_url"
-                value={formData.logo_url}
-                onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
-                placeholder="https://example.com/logo.png"
-                data-testid="brand-logo-input"
-              />
-            </div>
+            
+            {/* Logo with URL and Upload options */}
+            <ImageInputWithUpload
+              label="Brand Logo"
+              imageUrl={formData.logo_url}
+              uploadedImage={formData.uploaded_logo}
+              useUploaded={formData.use_uploaded_logo}
+              onImageUrlChange={(url) => setFormData({ ...formData, logo_url: url })}
+              onUploadedImageChange={(path) => setFormData({ ...formData, uploaded_logo: path })}
+              onUseUploadedChange={(use) => setFormData({ ...formData, use_uploaded_logo: use })}
+              placeholder="https://example.com/logo.png"
+            />
+
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="primary_color">Primary Color</Label>
@@ -209,16 +212,19 @@ const BrandsManager = () => {
                 data-testid="brand-hero-video-input"
               />
             </div>
-            <div>
-              <Label htmlFor="hero_image_url">Hero Image URL (Fallback)</Label>
-              <Input
-                id="hero_image_url"
-                value={formData.hero_image_url}
-                onChange={(e) => setFormData({ ...formData, hero_image_url: e.target.value })}
-                placeholder="https://example.com/image.jpg"
-                data-testid="brand-hero-image-input"
-              />
-            </div>
+            
+            {/* Hero Image with URL and Upload options */}
+            <ImageInputWithUpload
+              label="Hero Image (Fallback for Video)"
+              imageUrl={formData.hero_image_url}
+              uploadedImage={formData.uploaded_hero_image}
+              useUploaded={formData.use_uploaded_hero_image}
+              onImageUrlChange={(url) => setFormData({ ...formData, hero_image_url: url })}
+              onUploadedImageChange={(path) => setFormData({ ...formData, uploaded_hero_image: path })}
+              onUseUploadedChange={(use) => setFormData({ ...formData, use_uploaded_hero_image: use })}
+              placeholder="https://example.com/hero-image.jpg"
+            />
+
             <div>
               <Label htmlFor="service_times">Service Times</Label>
               <Input
