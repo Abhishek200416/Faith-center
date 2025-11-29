@@ -109,6 +109,14 @@ const EventsManager = () => {
       image_url: event.image_url || "",
       uploaded_image: event.uploaded_image || "",
       use_uploaded_image: event.use_uploaded_image || false,
+      registration_enabled: event.registration_enabled !== undefined ? event.registration_enabled : true,
+      registration_fields: event.registration_fields || {
+        mobile_number: true,
+        place: true,
+        category: true
+      },
+      category_options: event.category_options || ["General", "VIP", "Volunteer", "Speaker", "Media", "Youth", "Family"],
+      registration_deadline: event.registration_deadline || "",
     });
     setShowForm(true);
   };
