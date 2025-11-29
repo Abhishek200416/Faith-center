@@ -125,11 +125,11 @@ const CountdownManager = () => {
       title: countdown.title,
       event_date: countdown.event_date,
       banner_image_url: countdown.banner_image_url || "",
+      uploaded_banner_image: countdown.uploaded_banner_image || "",
+      use_uploaded_banner: countdown.use_uploaded_banner || false,
       is_active: countdown.is_active,
       priority: countdown.priority
     });
-    setImagePreview(countdown.banner_image_url || null);
-    setImageFile(null);
     setShowModal(true);
   };
 
@@ -138,6 +138,22 @@ const CountdownManager = () => {
       title: "",
       event_date: "",
       banner_image_url: "",
+      uploaded_banner_image: "",
+      use_uploaded_banner: false,
+      is_active: true,
+      priority: 0
+    });
+  };
+
+  // Get the active banner image source for display
+  const getCountdownBanner = (countdown) => {
+    if (countdown.use_uploaded_banner && countdown.uploaded_banner_image) {
+      return countdown.uploaded_banner_image.startsWith("http") 
+        ? countdown.uploaded_banner_image 
+        : `${API.replace("/api", "")}${countdown.uploaded_banner_image}`;
+    }
+    return countdown.banner_image_url;
+  };
       is_active: true,
       priority: 0
     });
