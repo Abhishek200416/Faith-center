@@ -316,26 +316,69 @@ const Events = () => {
                     placeholder="john@example.com"
                   />
                 </div>
-                <div>
-                  <Label htmlFor="reg-phone">Phone Number</Label>
-                  <Input
-                    id="reg-phone"
-                    type="tel"
-                    value={registrationData.phone}
-                    onChange={(e) => setRegistrationData({ ...registrationData, phone: e.target.value })}
-                    placeholder="+1 234 567 8900"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="reg-phone">Phone Number</Label>
+                    <Input
+                      id="reg-phone"
+                      type="tel"
+                      value={registrationData.phone}
+                      onChange={(e) => setRegistrationData({ ...registrationData, phone: e.target.value })}
+                      placeholder="+1 234 567 8900"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="reg-mobile">Mobile Number *</Label>
+                    <Input
+                      id="reg-mobile"
+                      type="tel"
+                      value={registrationData.mobile_number}
+                      onChange={(e) => setRegistrationData({ ...registrationData, mobile_number: e.target.value })}
+                      required
+                      placeholder="+91 98765 43210"
+                    />
+                  </div>
                 </div>
                 <div>
-                  <Label htmlFor="reg-guests">Number of Guests</Label>
+                  <Label htmlFor="reg-place">Where are you from? *</Label>
                   <Input
-                    id="reg-guests"
-                    type="number"
-                    min="1"
-                    max="10"
-                    value={registrationData.guests}
-                    onChange={(e) => setRegistrationData({ ...registrationData, guests: parseInt(e.target.value) })}
+                    id="reg-place"
+                    value={registrationData.place}
+                    onChange={(e) => setRegistrationData({ ...registrationData, place: e.target.value })}
+                    required
+                    placeholder="City, State/Country"
                   />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="reg-guests">Number of Guests</Label>
+                    <Input
+                      id="reg-guests"
+                      type="number"
+                      min="1"
+                      max="10"
+                      value={registrationData.guests}
+                      onChange={(e) => setRegistrationData({ ...registrationData, guests: parseInt(e.target.value) })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="reg-category">Registration Category</Label>
+                    <select
+                      id="reg-category"
+                      value={registrationData.category}
+                      onChange={(e) => setRegistrationData({ ...registrationData, category: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                      <option value="">Select Category</option>
+                      <option value="General">General Attendee</option>
+                      <option value="VIP">VIP / Special Guest</option>
+                      <option value="Volunteer">Volunteer</option>
+                      <option value="Speaker">Speaker / Presenter</option>
+                      <option value="Media">Media / Press</option>
+                      <option value="Youth">Youth / Student</option>
+                      <option value="Family">Family Registration</option>
+                    </select>
+                  </div>
                 </div>
                 <div>
                   <Label htmlFor="reg-notes">Additional Notes (Optional)</Label>
