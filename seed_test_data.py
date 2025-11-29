@@ -6,7 +6,7 @@ Seed test data for backend testing
 import requests
 import json
 
-BACKEND_URL = "https://ministry-dash-2.preview.emergentagent.com/api"
+BACKEND_URL = "https://cardential-manager.preview.emergentagent.com/api"
 
 def create_test_brand():
     """Create a test brand"""
