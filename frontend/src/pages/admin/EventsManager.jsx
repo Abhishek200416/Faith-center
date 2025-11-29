@@ -177,6 +177,57 @@ const EventsManager = () => {
     return event.image_url;
   };
 
+  const getAttendeeCount = (eventId) => {
+    return attendeesByEvent[eventId]?.length || 0;
+  };
+
+  const handleShowAttendees = (event) => {
+    setSelectedEventForAttendees(event);
+    setShowAttendeesModal(true);
+  };
+
+  const exportEventAttendees = (event) => {
+    const attendees = attendeesByEvent[event.id] || [];
+    if (attendees.length === 0) {
+      toast.info("No attendees to export for this event.");
+      return;
+    }
+
+    const exportData = attendees.map(attendee => ({
+      'Event': event.title,
+      'Category': attendee.category || 'General',
+      'Name': attendee.name,
+      'Email': attendee.email,
+      'Phone': attendee.phone || 'N/A',
+      'Mobile': attendee.mobile_number || 'N/A',
+      'Place': attendee.place || 'N/A',
+      'Guests': attendee.guests || 1,
+      'Notes': attendee.notes || '',
+      'Registration Date': new Date(attendee.created_at).toLocaleDateString()
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Attendees");
+    
+    const fileName = `${event.title.replace(/[^a-z0-9]/gi, '_')}_Attendees_${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(wb, fileName);
+    toast.success("Attendees exported successfully!");
+  };
+
+  const getCategoryBadgeColor = (category) => {
+    const colors = {
+      'General': 'bg-gray-100 text-gray-800',
+      'VIP': 'bg-purple-100 text-purple-800',
+      'Volunteer': 'bg-green-100 text-green-800',
+      'Speaker': 'bg-blue-100 text-blue-800',
+      'Media': 'bg-yellow-100 text-yellow-800',
+      'Youth': 'bg-pink-100 text-pink-800',
+      'Family': 'bg-orange-100 text-orange-800'
+    };
+    return colors[category] || 'bg-gray-100 text-gray-800';
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
