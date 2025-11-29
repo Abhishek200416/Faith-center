@@ -94,6 +94,8 @@ class Event(BaseModel):
     date: str
     time: Optional[str] = None
     location: str
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
     is_free: bool = True
     image_url: Optional[str] = None
     brand_id: str
