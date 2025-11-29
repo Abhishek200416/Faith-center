@@ -98,6 +98,8 @@ class Event(BaseModel):
     longitude: Optional[float] = None
     is_free: bool = True
     image_url: Optional[str] = None
+    uploaded_image: Optional[str] = None  # Path to uploaded image
+    use_uploaded_image: bool = False  # Whether to use uploaded image or URL
     brand_id: str
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
@@ -111,6 +113,8 @@ class EventCreate(BaseModel):
     longitude: Optional[float] = None
     is_free: bool = True
     image_url: Optional[str] = None
+    uploaded_image: Optional[str] = None
+    use_uploaded_image: bool = False
     brand_id: str
 
 class EventAttendee(BaseModel):
