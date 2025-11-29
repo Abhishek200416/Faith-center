@@ -3007,6 +3007,4 @@ def test_volunteer_system_removal():
     return results['failed'] == 0
 
 if __name__ == "__main__":
-    # Run the volunteer system removal testing
-    success = test_volunteer_system_removal()
-    sys.exit(0 if success else 1)
+    main()
