@@ -252,8 +252,8 @@ const AttendeesManager = () => {
                       <tr key={attendee.id} className="hover:bg-gray-50 transition-colors">
                         <td className="px-4 py-4">
                           <div className="flex items-center">
-                            <div className="bg-blue-100 p-2 rounded-full mr-3">
-                              <User size={16} className="text-blue-600" />
+                            <div className="bg-gray-100 p-2 rounded-full mr-3">
+                              <User size={16} className="text-gray-600" />
                             </div>
                             <span className="font-medium text-gray-900">{attendee.name}</span>
                           </div>
