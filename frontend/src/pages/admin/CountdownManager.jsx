@@ -226,10 +226,10 @@ const CountdownManager = () => {
                 countdown.is_active ? "border-green-200" : "border-gray-200"
               }`}
             >
-              {countdown.banner_image_url && (
+              {getCountdownBanner(countdown) && (
                 <div className="h-48 bg-gray-100 relative">
                   <img
-                    src={countdown.banner_image_url}
+                    src={getCountdownBanner(countdown)}
                     alt={countdown.title}
                     className="w-full h-full object-cover"
                     onError={(e) => {
@@ -246,6 +246,12 @@ const CountdownManager = () => {
                       <EyeOff className="mr-1 h-3 w-3" /> Hidden
                     </div>
                   )}
+                  {/* Image source indicator */}
+                  <span className={`absolute top-2 left-2 px-2 py-1 rounded text-xs font-semibold ${
+                    countdown.use_uploaded_banner ? 'bg-purple-500 text-white' : 'bg-blue-500 text-white'
+                  }`}>
+                    {countdown.use_uploaded_banner ? 'Uploaded' : 'URL'}
+                  </span>
                 </div>
               )}
               <div className="p-6">
