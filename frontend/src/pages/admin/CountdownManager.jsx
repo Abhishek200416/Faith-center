@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { API, useBrand, useAuth } from "@/App";
 import { Button } from "@/components/ui/button";
+import ImageInputWithUpload from "@/components/ui/ImageInputWithUpload";
 import { 
   Loader2, Plus, Edit, Trash2, Clock, Eye, EyeOff, 
-  Calendar, Upload, X, Image as ImageIcon, ArrowUp, ArrowDown 
+  Calendar, X, Image as ImageIcon
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -15,16 +16,15 @@ const CountdownManager = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingCountdown, setEditingCountdown] = useState(null);
-  const [uploadingImage, setUploadingImage] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     event_date: "",
     banner_image_url: "",
+    uploaded_banner_image: "",
+    use_uploaded_banner: false,
     is_active: true,
     priority: 0
   });
-  const [imagePreview, setImagePreview] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
     if (currentBrand) {
