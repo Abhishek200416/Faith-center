@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://preflight-1.preview.emergentagent.com
-- Admin Panel: https://preflight-1.preview.emergentagent.com/admin/login
+- Public Site: https://sacred-connect-16.preview.emergentagent.com
+- Admin Panel: https://sacred-connect-16.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
