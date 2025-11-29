@@ -319,7 +319,7 @@ const AttendeesManager = () => {
                 {filteredAttendees.map((attendee) => (
                   <tr key={attendee.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-4">
-                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                         {getEventTitle(attendee.event_id)}
                       </span>
                     </td>
@@ -330,8 +330,8 @@ const AttendeesManager = () => {
                     </td>
                     <td className="px-4 py-4">
                       <div className="flex items-center">
-                        <div className="bg-blue-100 p-2 rounded-full mr-3">
-                          <User size={16} className="text-blue-600" />
+                        <div className="bg-gray-100 p-2 rounded-full mr-3">
+                          <User size={16} className="text-gray-600" />
                         </div>
                         <span className="font-medium text-gray-900">{attendee.name}</span>
                       </div>
