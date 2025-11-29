@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useBrand, API, useAuth } from "@/App";
 import axios from "axios";
-import { Calendar, User, Mail, Phone, Users, Download, FileSpreadsheet } from "lucide-react";
+import { Calendar, User, Mail, Phone, Users, Download, FileSpreadsheet, MapPin, Tag } from "lucide-react";
 import * as XLSX from 'xlsx';
 
 const AttendeesManager = () => {
