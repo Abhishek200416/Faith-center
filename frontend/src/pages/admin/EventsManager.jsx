@@ -147,6 +147,32 @@ const EventsManager = () => {
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
+                <Label htmlFor="latitude">Latitude</Label>
+                <Input
+                  id="latitude"
+                  type="number"
+                  step="any"
+                  value={formData.latitude}
+                  onChange={(e) => setFormData({ ...formData, latitude: e.target.value })}
+                  placeholder="e.g., 40.7128"
+                  data-testid="event-latitude-input"
+                />
+              </div>
+              <div>
+                <Label htmlFor="longitude">Longitude</Label>
+                <Input
+                  id="longitude"
+                  type="number"
+                  step="any"
+                  value={formData.longitude}
+                  onChange={(e) => setFormData({ ...formData, longitude: e.target.value })}
+                  placeholder="e.g., -74.0060"
+                  data-testid="event-longitude-input"
+                />
+              </div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
                 <Label htmlFor="date">Date *</Label>
                 <Input
                   id="date"
