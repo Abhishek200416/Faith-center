@@ -154,12 +154,6 @@ const CountdownManager = () => {
     }
     return countdown.banner_image_url;
   };
-      is_active: true,
-      priority: 0
-    });
-    setImagePreview(null);
-    setImageFile(null);
-  };
 
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
