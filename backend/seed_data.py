@@ -101,6 +101,10 @@ ndm_events = [
         "image_url": "https://images.unsplash.com/photo-1610070835951-156b6921281d?w=800&q=80",
         "is_free": True,
         "accepts_donations": True,
+        "registration_enabled": True,
+        "registration_fields": {"mobile_number": True, "place": True, "category": True},
+        "category_options": ["General", "VIP", "Volunteer", "Speaker", "Media", "Youth", "Family"],
+        "registration_deadline": None,
         "created_at": datetime.utcnow().isoformat()
     },
     {
