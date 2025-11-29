@@ -47,7 +47,12 @@ const EventsManager = () => {
     e.preventDefault();
     try {
       const config = { headers: { Authorization: `Bearer ${authToken}` } };
-      const data = { ...formData, brand_id: currentBrand.id };
+      const data = { 
+        ...formData, 
+        brand_id: currentBrand.id,
+        latitude: formData.latitude ? parseFloat(formData.latitude) : null,
+        longitude: formData.longitude ? parseFloat(formData.longitude) : null
+      };
 
       if (editingEvent) {
         await axios.put(`${API}/events/${editingEvent.id}`, data, config);
