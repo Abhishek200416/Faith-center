@@ -50,10 +50,26 @@ const EventsManager = () => {
 
   const loadEvents = async () => {
     try {
-      const response = await axios.get(`${API}/events?brand_id=${currentBrand.id}`, {
-        headers: { Authorization: `Bearer ${authToken}` }
+      const [eventsRes, attendeesRes] = await Promise.all([
+        axios.get(`${API}/events?brand_id=${currentBrand.id}`, {
+          headers: { Authorization: `Bearer ${authToken}` }
+        }),
+        axios.get(`${API}/attendees?brand_id=${currentBrand.id}`, {
+          headers: { Authorization: `Bearer ${authToken}` }
+        })
+      ]);
+      
+      setEvents(eventsRes.data.sort((a, b) => new Date(a.date) - new Date(b.date)));
+      
+      // Group attendees by event
+      const grouped = {};
+      attendeesRes.data.forEach(attendee => {
+        if (!grouped[attendee.event_id]) {
+          grouped[attendee.event_id] = [];
+        }
+        grouped[attendee.event_id].push(attendee);
       });
-      setEvents(response.data.sort((a, b) => new Date(a.date) - new Date(b.date)));
+      setAttendeesByEvent(grouped);
     } catch (error) {
       console.error("Error loading events:", error);
     }
