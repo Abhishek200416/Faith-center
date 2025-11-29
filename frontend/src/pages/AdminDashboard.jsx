@@ -39,7 +39,6 @@ const AdminDashboard = ({ secureKey }) => {
     { path: `${basePath}/countdowns`, icon: Clock, label: "Countdowns" },
     { path: `${basePath}/live-streams`, icon: Video, label: "Live Streams" },
     { path: `${basePath}/announcements`, icon: Megaphone, label: "Announcements" },
-    { path: `${basePath}/volunteers`, icon: Mail, label: "Volunteers" },
   ];
 
   const isActive = (path) => location.pathname === path;
