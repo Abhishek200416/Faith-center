@@ -59,11 +59,15 @@ class Brand(BaseModel):
     name: str
     domain: str
     logo_url: Optional[str] = None
+    uploaded_logo: Optional[str] = None  # Path to uploaded logo
+    use_uploaded_logo: bool = False  # Whether to use uploaded logo or URL
     primary_color: str = "#1a1a1a"
     secondary_color: str = "#4a90e2"
     tagline: Optional[str] = None
     hero_video_url: Optional[str] = None
     hero_image_url: Optional[str] = None
+    uploaded_hero_image: Optional[str] = None  # Path to uploaded hero image
+    use_uploaded_hero_image: bool = False  # Whether to use uploaded hero image or URL
     service_times: Optional[str] = None
     location: Optional[str] = None
     # Header navigation settings - list of hidden nav links (deprecated - use navigation_links instead)
@@ -76,11 +80,15 @@ class BrandCreate(BaseModel):
     name: str
     domain: str
     logo_url: Optional[str] = None
+    uploaded_logo: Optional[str] = None
+    use_uploaded_logo: bool = False
     primary_color: str = "#1a1a1a"
     secondary_color: str = "#4a90e2"
     tagline: Optional[str] = None
     hero_video_url: Optional[str] = None
     hero_image_url: Optional[str] = None
+    uploaded_hero_image: Optional[str] = None
+    use_uploaded_hero_image: bool = False
     service_times: Optional[str] = None
     location: Optional[str] = None
     hidden_nav_links: Optional[List[str]] = []
