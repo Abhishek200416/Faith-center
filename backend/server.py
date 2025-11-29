@@ -1366,7 +1366,7 @@ async def get_analytics_overview(brand_id: Optional[str] = None, admin = Depends
     events_count = await db.events.count_documents(query)
     ministries_count = await db.ministries.count_documents(query)
     announcements_count = await db.announcements.count_documents(query)
-    volunteers_count = await db.volunteer_applications.count_documents(query)
+    attendees_count = await db.attendees.count_documents(query)
     subscribers_count = await db.subscribers.count_documents(query)
     prayers_count = await db.prayer_requests.count_documents(query)
     testimonials_count = await db.testimonials.count_documents(query)
@@ -1374,7 +1374,7 @@ async def get_analytics_overview(brand_id: Optional[str] = None, admin = Depends
     contacts_count = await db.contact_messages.count_documents(query)
     
     # Get recent activity
-    recent_volunteers = await db.volunteer_applications.find(query, {"_id": 0}).sort("created_at", -1).limit(5).to_list(5)
+    recent_attendees = await db.attendees.find(query, {"_id": 0}).sort("created_at", -1).limit(5).to_list(5)
     recent_prayers = await db.prayer_requests.find(query, {"_id": 0}).sort("created_at", -1).limit(5).to_list(5)
     
     return {
@@ -1382,7 +1382,7 @@ async def get_analytics_overview(brand_id: Optional[str] = None, admin = Depends
             "events": events_count,
             "ministries": ministries_count,
             "announcements": announcements_count,
-            "volunteers": volunteers_count,
+            "attendees": attendees_count,
             "subscribers": subscribers_count,
             "prayers": prayers_count,
             "testimonials": testimonials_count,
@@ -1390,7 +1390,7 @@ async def get_analytics_overview(brand_id: Optional[str] = None, admin = Depends
             "contacts": contacts_count
         },
         "recent_activity": {
-            "volunteers": recent_volunteers,
+            "attendees": recent_attendees,
             "prayers": recent_prayers
         }
     }
