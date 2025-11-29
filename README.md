@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://cardential-manager.preview.emergentagent.com
-- Admin Panel: https://cardential-manager.preview.emergentagent.com/admin/login
+- Public Site: https://preflight-1.preview.emergentagent.com
+- Admin Panel: https://preflight-1.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
