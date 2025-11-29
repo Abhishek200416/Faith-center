@@ -653,14 +653,12 @@ metadata:
 
 test_plan:
   current_focus:
+    - "Admin Panel UI/UX Improvements - Phase A, B, C"
+    - "Event Registration Configuration in EventsManager"
+    - "Attendees Integration into Events Tab"
     - "Admin Panel Three New Features Testing Complete"
     - "Volunteer System Removal Testing Complete"
     - "Phase 5 Backend API Testing Complete"
-    - "Homepage text visibility and contrast verification"
-    - "Countdown functionality verification"
-    - "Admin login security verification"
-    - "Events page announcements link verification"
-    - "Admin header navigation manager verification"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
