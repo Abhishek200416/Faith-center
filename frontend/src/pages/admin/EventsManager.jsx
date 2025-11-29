@@ -449,8 +449,7 @@ const EventsManager = () => {
               <th>Title</th>
               <th>Date</th>
               <th>Location</th>
-              <th>Coordinates</th>
-              <th>Free</th>
+              <th>Registrations</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -478,9 +477,13 @@ const EventsManager = () => {
                     </div>
                   )}
                 </td>
-                <td>{event.title}</td>
+                <td>
+                  <div>
+                    <div className="font-medium">{event.title}</div>
+                    <div className="text-xs text-gray-500">{event.location}</div>
+                  </div>
+                </td>
                 <td>{new Date(event.date).toLocaleDateString()}</td>
-                <td>{event.location}</td>
                 <td>
                   {event.latitude && event.longitude ? (
                     <span className="text-sm text-gray-600">
@@ -490,7 +493,32 @@ const EventsManager = () => {
                     <span className="text-sm text-gray-400">Not set</span>
                   )}
                 </td>
-                <td>{event.is_free ? "Yes" : "No"}</td>
+                <td>
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 rounded-full text-sm">
+                      <Users size={14} />
+                      {getAttendeeCount(event.id)}
+                    </span>
+                    {getAttendeeCount(event.id) > 0 && (
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() => handleShowAttendees(event)}
+                          className="text-gray-600 hover:text-gray-900 p-1 hover:bg-gray-100 rounded"
+                          title="View Attendees"
+                        >
+                          <Users size={18} />
+                        </button>
+                        <button
+                          onClick={() => exportEventAttendees(event)}
+                          className="text-gray-600 hover:text-gray-900 p-1 hover:bg-gray-100 rounded"
+                          title="Export to Excel"
+                        >
+                          <Download size={18} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </td>
                 <td>
                   <div className="flex gap-2">
                     <button onClick={() => handleEdit(event)} className="text-blue-600 hover:text-blue-800" data-testid={`edit-event-${event.id}`}>
@@ -509,6 +537,104 @@ const EventsManager = () => {
           <div className="text-center py-12 text-gray-500">No events yet. Create your first event!</div>
         )}
       </div>
+
+      {/* Attendees Modal */}
+      {showAttendeesModal && selectedEventForAttendees && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b">
+              <div>
+                <h2 className="text-2xl font-bold">Event Attendees</h2>
+                <p className="text-gray-600 mt-1">{selectedEventForAttendees.title}</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => exportEventAttendees(selectedEventForAttendees)}
+                  className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                  <Download size={18} />
+                  Export
+                </button>
+                <button
+                  onClick={() => setShowAttendeesModal(false)}
+                  className="text-gray-500 hover:text-gray-700 p-2"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+            </div>
+            <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+              {(attendeesByEvent[selectedEventForAttendees.id] || []).length === 0 ? (
+                <div className="text-center py-12 text-gray-500">
+                  <Users size={48} className="mx-auto mb-4 text-gray-300" />
+                  <p>No attendees yet for this event.</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b border-gray-200">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Name</th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Category</th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Contact</th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Place</th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Guests</th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Registered</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {(attendeesByEvent[selectedEventForAttendees.id] || []).map((attendee) => (
+                        <tr key={attendee.id} className="hover:bg-gray-50">
+                          <td className="px-4 py-3">
+                            <span className="font-medium text-gray-900">{attendee.name}</span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCategoryBadgeColor(attendee.category)}`}>
+                              {attendee.category || 'General'}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex flex-col space-y-1">
+                              <div className="flex items-center text-sm text-gray-600">
+                                <Mail size={14} className="mr-2" />
+                                <span className="truncate max-w-[200px]">{attendee.email}</span>
+                              </div>
+                              {(attendee.mobile_number || attendee.phone) && (
+                                <div className="flex items-center text-sm text-gray-600">
+                                  <Phone size={14} className="mr-2" />
+                                  {attendee.mobile_number || attendee.phone}
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            {attendee.place ? (
+                              <div className="flex items-center text-sm text-gray-600">
+                                <MapPin size={14} className="mr-1" />
+                                {attendee.place}
+                              </div>
+                            ) : (
+                              <span className="text-sm text-gray-400">N/A</span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-800">
+                              {attendee.guests || 1}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-600">
+                            {new Date(attendee.created_at).toLocaleDateString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
