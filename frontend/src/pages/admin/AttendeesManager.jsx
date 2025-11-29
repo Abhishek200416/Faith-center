@@ -239,17 +239,18 @@ const AttendeesManager = () => {
                 <table className="w-full">
                   <thead className="bg-gray-50 border-b border-gray-200">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Name</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Email</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Phone</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Guests</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Registered</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Name</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Category</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Contact</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Place</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Guests</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Registered</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
                     {eventAttendees.map((attendee) => (
                       <tr key={attendee.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-6 py-4">
+                        <td className="px-4 py-4">
                           <div className="flex items-center">
                             <div className="bg-blue-100 p-2 rounded-full mr-3">
                               <User size={16} className="text-blue-600" />
@@ -257,23 +258,33 @@ const AttendeesManager = () => {
                             <span className="font-medium text-gray-900">{attendee.name}</span>
                           </div>
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center text-sm text-gray-600">
-                            <Mail size={14} className="mr-2" />
-                            {attendee.email}
+                        <td className="px-4 py-4">
+                          <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCategoryBadgeColor(attendee.category)}`}>
+                            {attendee.category || 'General'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-4">
+                          <div className="flex flex-col space-y-1">
+                            <div className="flex items-center text-sm text-gray-600">
+                              <Mail size={14} className="mr-2 flex-shrink-0" />
+                              <span className="truncate max-w-[150px]">{attendee.email}</span>
+                            </div>
+                            {(attendee.mobile_number || attendee.phone) && (
+                              <div className="flex items-center text-sm text-gray-600">
+                                <Phone size={14} className="mr-2 flex-shrink-0" />
+                                {attendee.mobile_number || attendee.phone}
+                              </div>
+                            )}
                           </div>
                         </td>
-                        <td className="px-6 py-4">
-                          {attendee.phone ? (
-                            <div className="flex items-center text-sm text-gray-600">
-                              <Phone size={14} className="mr-2" />
-                              {attendee.phone}
-                            </div>
+                        <td className="px-4 py-4">
+                          {attendee.place ? (
+                            <span className="text-sm text-gray-600">{attendee.place}</span>
                           ) : (
                             <span className="text-sm text-gray-400">N/A</span>
                           )}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-4 py-4">
                           <span className="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-green-100 text-green-800">
                             {attendee.guests || 1}
                           </span>
