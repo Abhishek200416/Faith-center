@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useBrand, API, useAuth } from "@/App";
 import axios from "axios";
-import { Calendar, Users, Megaphone, Mail } from "lucide-react";
+import { Calendar, Users, Megaphone, UserCheck } from "lucide-react";
 
 const DashboardHome = () => {
   const { currentBrand } = useBrand();
@@ -10,7 +10,7 @@ const DashboardHome = () => {
     events: 0,
     ministries: 0,
     announcements: 0,
-    volunteers: 0,
+    attendees: 0,
     subscribers: 0,
   });
 
@@ -23,11 +23,11 @@ const DashboardHome = () => {
   const loadStats = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${authToken}` } };
-      const [events, ministries, announcements, volunteers, subscribers] = await Promise.all([
+      const [events, ministries, announcements, attendees, subscribers] = await Promise.all([
         axios.get(`${API}/events?brand_id=${currentBrand.id}`, config),
         axios.get(`${API}/ministries?brand_id=${currentBrand.id}`, config),
         axios.get(`${API}/announcements?brand_id=${currentBrand.id}`, config),
-        axios.get(`${API}/volunteers?brand_id=${currentBrand.id}`, config),
+        axios.get(`${API}/attendees?brand_id=${currentBrand.id}`, config),
         axios.get(`${API}/subscribers?brand_id=${currentBrand.id}`, config),
       ]);
 
@@ -35,7 +35,7 @@ const DashboardHome = () => {
         events: events.data.length,
         ministries: ministries.data.length,
         announcements: announcements.data.length,
-        volunteers: volunteers.data.length,
+        attendees: attendees.data.length,
         subscribers: subscribers.data.length,
       });
     } catch (error) {
