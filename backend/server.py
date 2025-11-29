@@ -539,7 +539,9 @@ class Countdown(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str  # e.g., "Sunday Morning Service", "Revival Conference"
     event_date: str  # ISO format datetime
-    banner_image_url: Optional[str] = None  # Event banner/poster
+    banner_image_url: Optional[str] = None  # Event banner/poster URL
+    uploaded_banner_image: Optional[str] = None  # Path to uploaded banner image
+    use_uploaded_banner: bool = False  # Whether to use uploaded banner or URL
     is_active: bool = True  # Show/hide countdown
     priority: int = 0  # Higher priority shows first
     brand_id: str
@@ -550,6 +552,8 @@ class CountdownCreate(BaseModel):
     title: str
     event_date: str
     banner_image_url: Optional[str] = None
+    uploaded_banner_image: Optional[str] = None
+    use_uploaded_banner: bool = False
     is_active: bool = True
     priority: int = 0
     brand_id: str
@@ -558,6 +562,8 @@ class CountdownUpdate(BaseModel):
     title: Optional[str] = None
     event_date: Optional[str] = None
     banner_image_url: Optional[str] = None
+    uploaded_banner_image: Optional[str] = None
+    use_uploaded_banner: Optional[bool] = None
     is_active: Optional[bool] = None
     priority: Optional[int] = None
 
