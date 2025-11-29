@@ -841,30 +841,6 @@ async def delete_announcement(announcement_id: str, admin = Depends(get_current_
         raise HTTPException(status_code=404, detail="Announcement not found")
     return {"message": "Announcement deleted"}
 
-# ========== VOLUNTEER ROUTES ==========
-
-@api_router.post("/volunteers", response_model=VolunteerApplication)
-async def create_volunteer_application(application_data: VolunteerApplicationCreate):
-    application = VolunteerApplication(**application_data.model_dump())
-    await db.volunteer_applications.insert_one(application.model_dump())
-    return application
-
-@api_router.get("/volunteers", response_model=List[VolunteerApplication])
-async def get_volunteer_applications(brand_id: Optional[str] = None, admin = Depends(get_current_admin)):
-    query = {"brand_id": brand_id} if brand_id else {}
-    applications = await db.volunteer_applications.find(query, {"_id": 0}).to_list(1000)
-    return applications
-
-@api_router.put("/volunteers/{application_id}/status")
-async def update_volunteer_status(application_id: str, status: str, admin = Depends(get_current_admin)):
-    result = await db.volunteer_applications.update_one(
-        {"id": application_id},
-        {"$set": {"status": status}}
-    )
-    if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Application not found")
-    return {"message": "Status updated"}
-
 # ========== SUBSCRIBER ROUTES ==========
 
 @api_router.post("/subscribers", response_model=Subscriber)
