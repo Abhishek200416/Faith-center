@@ -307,12 +307,20 @@ const AnnouncementsManager = () => {
             {announcements.map((announcement) => (
               <tr key={announcement.id} data-testid={`announcement-row-${announcement.id}`}>
                 <td>
-                  {announcement.image_url ? (
-                    <img 
-                      src={announcement.image_url} 
-                      alt={announcement.title}
-                      className="h-12 w-16 object-cover rounded"
-                    />
+                  {getAnnouncementImage(announcement) ? (
+                    <div className="relative">
+                      <img 
+                        src={getAnnouncementImage(announcement)} 
+                        alt={announcement.title}
+                        className="h-12 w-16 object-cover rounded"
+                        onError={(e) => e.target.style.display = 'none'}
+                      />
+                      <span className={`absolute -top-1 -right-1 w-4 h-4 rounded-full text-[8px] flex items-center justify-center text-white ${
+                        announcement.use_uploaded_image ? 'bg-purple-500' : 'bg-blue-500'
+                      }`}>
+                        {announcement.use_uploaded_image ? 'U' : 'L'}
+                      </span>
+                    </div>
                   ) : (
                     <div className="h-12 w-16 bg-gray-100 rounded flex items-center justify-center">
                       <ImageIcon size={20} className="text-gray-400" />
