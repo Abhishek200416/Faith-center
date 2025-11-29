@@ -187,30 +187,6 @@ class AnnouncementUpdate(BaseModel):
     event_time: Optional[str] = None
     requires_registration: Optional[bool] = None
 
-class VolunteerApplication(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    name: str
-    email: EmailStr
-    phone: str
-    ministry: str
-    availability: str
-    skills: Optional[str] = None
-    message: Optional[str] = None
-    status: str = "new"
-    brand_id: str
-    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-
-class VolunteerApplicationCreate(BaseModel):
-    name: str
-    email: EmailStr
-    phone: str
-    ministry: str
-    availability: str
-    skills: Optional[str] = None
-    message: Optional[str] = None
-    brand_id: str
-
 class Subscriber(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
