@@ -23,18 +23,6 @@ const Ministries = () => {
   const { currentBrand } = useBrand();
   const [ministries, setMinistries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showJoinForm, setShowJoinForm] = useState(false);
-  const [selectedMinistry, setSelectedMinistry] = useState("");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    ministry: "",
-    availability: "",
-    skills: "",
-    message: "",
-  });
-  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (currentBrand) {
@@ -53,31 +41,6 @@ const Ministries = () => {
       setLoading(false);
     }
   };
-
-  const handleJoinClick = (ministry) => {
-    setSelectedMinistry(ministry.title);
-    setFormData({ ...formData, ministry: ministry.title });
-    setShowJoinForm(true);
-  };
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-
-    try {
-      await axios.post(`${API}/volunteers`, {
-        ...formData,
-        brand_id: currentBrand.id,
-      });
-      toast.success("Application submitted successfully! We'll be in touch soon.");
-      setShowJoinForm(false);
-      setFormData({
-        name: "",
-        email: "",
         phone: "",
         ministry: "",
         availability: "",
