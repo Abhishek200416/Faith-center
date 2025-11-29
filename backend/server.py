@@ -147,14 +147,9 @@ class EventCreate(BaseModel):
     uploaded_image: Optional[str] = None
     use_uploaded_image: bool = False
     brand_id: str
-    # Registration Configuration Fields
+    # Dynamic Registration Fields Configuration
     registration_enabled: bool = True
-    registration_fields: Optional[dict] = {
-        "mobile_number": True,
-        "place": True,
-        "category": True
-    }
-    category_options: Optional[list] = ["General", "VIP", "Volunteer", "Speaker", "Media", "Youth", "Family"]
+    custom_registration_fields: Optional[List[Dict[str, Any]]] = []
     registration_deadline: Optional[str] = None
 
 class EventAttendee(BaseModel):
