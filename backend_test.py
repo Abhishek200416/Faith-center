@@ -2750,6 +2750,79 @@ def main():
     
     print("=" * 80)
 
+def test_volunteer_system_removal():
+    """Run Volunteer System Removal Testing - Phase 1"""
+    print("🚀 Starting Volunteer System Removal Testing - Phase 1...")
+    print("=" * 60)
+    print("Focus: Verify volunteer endpoints removed, analytics updated, attendees working")
+    print("=" * 60)
+    
+    # Track test results
+    results = {
+        "passed": 0,
+        "failed": 0,
+        "total": 0
+    }
+    
+    def run_test(test_name, test_func, *args):
+        results["total"] += 1
+        print(f"\n📋 Test {results['total']}: {test_name}")
+        try:
+            success = test_func(*args)
+            if success:
+                results["passed"] += 1
+                print(f"✅ PASSED: {test_name}")
+            else:
+                results["failed"] += 1
+                print(f"❌ FAILED: {test_name}")
+            return success
+        except Exception as e:
+            results["failed"] += 1
+            print(f"❌ ERROR in {test_name}: {str(e)}")
+            return False
+    
+    # Test 1: Verify volunteer endpoints are removed
+    run_test("Volunteer Endpoints Removed", test_volunteer_endpoints_removed)
+    
+    # Test 2: Get admin token for authenticated tests
+    admin_success, admin_token = test_admin_login()
+    if not admin_success:
+        print("❌ Cannot proceed without admin authentication")
+        return False
+    
+    # Test 3: Verify analytics endpoint updated (no volunteers, includes attendees)
+    run_test("Analytics No Volunteers", test_analytics_no_volunteers, admin_token)
+    
+    # Test 4: Get brand ID for attendees test
+    brands_success, ndm_brand_id, faith_brand_id = test_get_brands()
+    if not brands_success:
+        print("❌ Cannot get brand IDs for attendees test")
+        brand_id = None
+    else:
+        brand_id = ndm_brand_id  # Use Nehemiah David Ministries brand
+    
+    # Test 5: Verify attendees endpoints still work
+    run_test("Attendees Still Working", test_attendees_still_working, admin_token, brand_id)
+    
+    # Print final results
+    print("\n" + "=" * 60)
+    print("🏁 VOLUNTEER SYSTEM REMOVAL TESTING COMPLETE")
+    print("=" * 60)
+    print(f"📊 Results: {results['passed']}/{results['total']} tests passed")
+    
+    if results['failed'] == 0:
+        print("🎉 ALL TESTS PASSED! Volunteer system successfully removed.")
+        print("✅ All volunteer endpoints return 404")
+        print("✅ Analytics updated (no volunteers, includes attendees)")
+        print("✅ Attendees endpoints working correctly")
+    else:
+        print(f"❌ {results['failed']} test(s) failed")
+        if results['passed'] > 0:
+            print(f"✅ {results['passed']} test(s) passed")
+    
+    return results['failed'] == 0
+
 if __name__ == "__main__":
-    exit_code = main()
-    sys.exit(exit_code)
+    # Run the volunteer system removal testing
+    success = test_volunteer_system_removal()
+    sys.exit(0 if success else 1)
