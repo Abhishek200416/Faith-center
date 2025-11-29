@@ -86,6 +86,8 @@ const EventsManager = () => {
       date: event.date,
       time: event.time || "",
       location: event.location,
+      latitude: event.latitude || "",
+      longitude: event.longitude || "",
       is_free: event.is_free,
       image_url: event.image_url || "",
     });
