@@ -98,6 +98,8 @@ const EventsManager = () => {
       longitude: event.longitude || "",
       is_free: event.is_free,
       image_url: event.image_url || "",
+      uploaded_image: event.uploaded_image || "",
+      use_uploaded_image: event.use_uploaded_image || false,
     });
     setShowForm(true);
   };
@@ -113,9 +115,21 @@ const EventsManager = () => {
       longitude: "",
       is_free: true,
       image_url: "",
+      uploaded_image: "",
+      use_uploaded_image: false,
     });
     setEditingEvent(null);
     setShowForm(false);
+  };
+
+  // Get the active image source for display
+  const getEventImage = (event) => {
+    if (event.use_uploaded_image && event.uploaded_image) {
+      return event.uploaded_image.startsWith("http") 
+        ? event.uploaded_image 
+        : `${API.replace("/api", "")}${event.uploaded_image}`;
+    }
+    return event.image_url;
   };
 
   return (
