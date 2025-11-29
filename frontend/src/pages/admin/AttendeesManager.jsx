@@ -121,38 +121,38 @@ const AttendeesManager = () => {
         )}
       </div>
 
-      {/* Stats Cards */}
+      {/* Stats Cards - Simplified Design */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 shadow-lg text-white">
+        <div className="bg-white rounded-lg p-6 shadow border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-100 text-sm font-medium">Total Events</p>
-              <p className="text-4xl font-bold mt-2">{events.length}</p>
+              <p className="text-gray-600 text-sm font-medium">Total Events</p>
+              <p className="text-3xl font-bold mt-2 text-gray-900">{events.length}</p>
             </div>
-            <div className="bg-white/20 p-4 rounded-xl backdrop-blur-sm">
-              <Calendar size={28} />
+            <div className="bg-gray-100 p-3 rounded-lg">
+              <Calendar size={24} className="text-gray-600" />
             </div>
           </div>
         </div>
-        <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-6 shadow-lg text-white">
+        <div className="bg-white rounded-lg p-6 shadow border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-purple-100 text-sm font-medium">Total Registrations</p>
-              <p className="text-4xl font-bold mt-2">{filteredAttendees.length}</p>
+              <p className="text-gray-600 text-sm font-medium">Total Registrations</p>
+              <p className="text-3xl font-bold mt-2 text-gray-900">{filteredAttendees.length}</p>
             </div>
-            <div className="bg-white/20 p-4 rounded-xl backdrop-blur-sm">
-              <User size={28} />
+            <div className="bg-gray-100 p-3 rounded-lg">
+              <User size={24} className="text-gray-600" />
             </div>
           </div>
         </div>
-        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-6 shadow-lg text-white">
+        <div className="bg-white rounded-lg p-6 shadow border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-100 text-sm font-medium">Total Guests</p>
-              <p className="text-4xl font-bold mt-2">{totalGuests}</p>
+              <p className="text-gray-600 text-sm font-medium">Total Guests</p>
+              <p className="text-3xl font-bold mt-2 text-gray-900">{totalGuests}</p>
             </div>
-            <div className="bg-white/20 p-4 rounded-xl backdrop-blur-sm">
-              <Users size={28} />
+            <div className="bg-gray-100 p-3 rounded-lg">
+              <Users size={24} className="text-gray-600" />
             </div>
           </div>
         </div>
