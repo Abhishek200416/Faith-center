@@ -79,12 +79,12 @@ const DashboardHome = () => {
           <h3 className="text-gray-600 font-medium">Announcements</h3>
         </div>
 
-        <div className="bg-white rounded-lg p-6 shadow" data-testid="stat-volunteers">
+        <div className="bg-white rounded-lg p-6 shadow" data-testid="stat-attendees">
           <div className="flex items-center justify-between mb-4">
-            <Mail size={32} className="text-orange-600" />
-            <span className="text-3xl font-bold">{stats.volunteers}</span>
+            <UserCheck size={32} className="text-orange-600" />
+            <span className="text-3xl font-bold">{stats.attendees}</span>
           </div>
-          <h3 className="text-gray-600 font-medium">Volunteer Applications</h3>
+          <h3 className="text-gray-600 font-medium">Event Registrations</h3>
         </div>
       </div>
 
