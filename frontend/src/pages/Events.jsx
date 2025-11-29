@@ -31,8 +31,11 @@ const Events = () => {
     name: "",
     email: "",
     phone: "",
+    mobile_number: "",
+    place: "",
     guests: 1,
-    notes: ""
+    notes: "",
+    category: ""
   });
 
   useEffect(() => {
