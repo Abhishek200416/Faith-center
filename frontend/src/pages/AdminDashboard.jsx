@@ -95,7 +95,6 @@ const AdminDashboard = ({ secureKey }) => {
           <Route path="countdowns" element={<CountdownManager />} />
           <Route path="live-streams" element={<LiveStreamManager />} />
           <Route path="announcements" element={<AnnouncementsManager />} />
-          <Route path="volunteers" element={<VolunteersManager />} />
         </Routes>
       </main>
     </div>
