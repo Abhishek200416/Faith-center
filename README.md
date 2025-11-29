@@ -45,8 +45,8 @@ This creates:
 - Sample events, ministries, and announcements
 
 2. **Access the Application**
-- Public Site: https://church-admin-15.preview.emergentagent.com
-- Admin Panel: https://church-admin-15.preview.emergentagent.com/admin/login
+- Public Site: https://faith-dashboard-11.preview.emergentagent.com
+- Admin Panel: https://faith-dashboard-11.preview.emergentagent.com/admin/login
 
 ## 🔐 Admin Credentials
 
