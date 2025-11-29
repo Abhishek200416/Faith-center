@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import ImageInputWithUpload from "@/components/ui/ImageInputWithUpload";
 import { toast } from "sonner";
 import { Pencil, Plus } from "lucide-react";
 
@@ -17,11 +18,15 @@ const BrandsManager = () => {
     name: "",
     domain: "",
     logo_url: "",
+    uploaded_logo: "",
+    use_uploaded_logo: false,
     primary_color: "#1a1a1a",
     secondary_color: "#4a90e2",
     tagline: "",
     hero_video_url: "",
     hero_image_url: "",
+    uploaded_hero_image: "",
+    use_uploaded_hero_image: false,
     service_times: "",
     location: "",
     hidden_nav_links: [],
