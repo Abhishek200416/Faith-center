@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import ImageInputWithUpload from "@/components/ui/ImageInputWithUpload";
 import { toast } from "sonner";
-import { Pencil, Trash2, Plus, Upload, X, Image as ImageIcon } from "lucide-react";
+import { Pencil, Trash2, Plus, Image as ImageIcon } from "lucide-react";
 
 const AnnouncementsManager = () => {
   const { currentBrand } = useBrand();
@@ -19,6 +20,8 @@ const AnnouncementsManager = () => {
     title: "",
     content: "",
     image_url: "",
+    uploaded_image: "",
+    use_uploaded_image: false,
     is_urgent: false,
     scheduled_start: "",
     scheduled_end: "",
@@ -27,9 +30,6 @@ const AnnouncementsManager = () => {
     event_time: "",
     requires_registration: false,
   });
-  const [uploading, setUploading] = useState(false);
-  const [imagePreview, setImagePreview] = useState("");
-  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (currentBrand && authToken) {
