@@ -479,6 +479,18 @@ frontend:
         agent: "testing"
         comment: "✅ ADMIN PANEL THREE NEW FEATURES TESTING COMPLETE - ALL 5 TESTS PASSED: 1) Admin Authentication: Successfully logged in with credentials promptforge.dev@gmail.com / P9$wX!7rAq#4Lz@M2f, 2) PHASE 1 - Header Navigation Manager Fix: Partial brand update working correctly - updated ONLY hidden_nav_links field while preserving all other critical fields, changes persisted correctly, 3) PHASE 2 - Enhanced Event Registration: Event registration accepts all new fields (mobile_number, place, category) and stores them correctly, 4) PHASE 3 - Attendees API with Category: GET /api/attendees returns all new fields in response structure, test registration found with correct category 'VIP'. All three admin panel features working perfectly."
 
+  - task: "Event Registration Configuration - Backend Model Updates"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py, backend/seed_data.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ BACKEND UPDATES: 1) Added registration configuration fields to Event model: registration_enabled (bool), registration_fields (dict with mobile_number, place, category toggles), category_options (list of category names), registration_deadline (optional date), 2) Updated EventCreate model with same fields, 3) All seed events now include registration configuration with default values. Database reseeded successfully with 8 events containing registration settings. Backend ready for testing."
+
   - task: "Enhanced CSS with fluid typography and responsive design"
     implemented: true
     working: true
